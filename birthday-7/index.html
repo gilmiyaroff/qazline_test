@@ -20,7 +20,35 @@
 .drag-tip{background:#fff8f2;border:1px solid #f4dccd;color:#865333;border-radius:11px;padding:11px 13px;line-height:1.45;font-size:12px;flex:1 1 250px}.drag-tip strong{color:#a34b17}
 @media(max-width:540px){.drag-handle{width:30px;height:30px;font-size:21px;border-radius:8px}.date-actions{gap:3px}.reorder-tools{gap:7px}.drag-tip{flex-basis:100%}.reorder-tools .ghost{flex:1 1 120px}}
 @media print{.drag-handle,.reorder-tools{display:none!important}}
-</style>
+
+/* Fixed date containers, with any number of content cards */
+.day.day-slot{padding:0;display:flex;flex-direction:column;min-height:290px;background:#fff;border:1px solid var(--line);cursor:default}
+.day.day-slot:hover{transform:none;box-shadow:0 6px 18px #1c20400b}
+.day-slot .day-header{display:flex;align-items:center;justify-content:space-between;gap:5px;padding:13px 11px 12px;border-bottom:1px solid #e8ebf3;background:#f9fafd}
+.day-slot .date{font-size:22px;display:flex;flex-direction:column;gap:3px}.day-slot .date small{margin-left:0;font-size:10px}
+.day-count{padding:6px 8px;border-radius:8px;background:#ecedf5;color:#5a6483;font-size:10px;font-weight:800;white-space:nowrap}.day-count.multiple{background:#fff0e6;color:#be581e}
+.content-stack{padding:10px;display:flex;flex-direction:column;gap:9px;flex:1}
+.content-card{border:1px solid #e2e6f0;border-radius:12px;padding:11px 10px 10px;background:#fff;min-height:165px;display:flex;flex-direction:column;position:relative;transition:box-shadow .16s,border-color .16s}
+.content-card:hover{border-color:#bfc6d9;box-shadow:0 5px 15px #30386213}
+.content-card:before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--orange);border-radius:12px 12px 0 0}
+.content-card.carousel-format:before{background:var(--purple)}.content-card.carousel-format .format{background:#e9eaf5;color:#4e558b}
+.content-card-top{display:flex;align-items:center;justify-content:space-between;gap:6px;margin:0 0 10px}
+.content-card h3{font-size:13px;line-height:1.31;margin:0 0 7px}.content-card .value{font-size:10px;line-height:1.42;margin:0 0 7px}
+.content-card .people{margin-top:auto;padding-top:5px}.content-card .day-bottom{margin-top:11px;gap:5px;display:flex;align-items:end;flex-wrap:wrap}
+.content-card .deadline{font-size:10px}.content-card .open-day{padding:6px 8px;font-size:10px;margin-left:auto}
+.content-card .drag-handle{width:29px;height:29px;min-height:29px;font-size:21px}
+.empty-slot{border:1px dashed #cbd3e4;background:#f9fafd;border-radius:10px;margin:10px;padding:18px 8px;color:#929cb1;font-size:11px;text-align:center;min-height:94px;display:flex;align-items:center;justify-content:center}
+.filtered-slot{font-size:10px;color:#9aa1b2;padding:0 11px 12px}
+.day-slot.drop-target{outline:3px dashed var(--orange);outline-offset:-4px;background:#fff6ef;box-shadow:0 6px 20px #ef630e24}.day-slot.drop-target .day-header{background:#fff2e9}
+.content-card.drag-source{opacity:.35;filter:grayscale(.15)}
+.content-card.drag-ghost{width:220px!important;height:175px!important;min-height:175px!important;max-height:175px!important;overflow:hidden}
+.content-card.drag-ghost .open-day,.content-card.drag-ghost .drag-handle{display:none}
+@media(max-width:540px){
+ .day.day-slot{min-height:260px}.day-slot .day-header{padding:10px 7px}.day-count{font-size:9px;padding:5px}
+ .content-stack{padding:6px;gap:6px}.content-card{padding:8px 7px;min-height:155px}.content-card h3{font-size:12px}.content-card .value{font-size:10px}.content-card-top{margin-bottom:7px}
+ .content-card .drag-handle{width:26px;height:26px;min-height:26px}.content-card .day-bottom{display:flex}.content-card .open-day{width:100%;margin:4px 0 0}
+ .empty-slot{margin:7px;padding:10px 5px;min-height:90px}
+}</style>
 </head>
 <body>
 <header class="hero"><div class="wrap">
@@ -32,10 +60,10 @@
 <nav class="topbar"><div class="wrap headrow"><div class="tabs" role="tablist" aria-label="Разделы"><button class="tab active" data-view="calendar" role="tab" aria-selected="true">▦ Календарь</button><button class="tab" data-view="team" role="tab" aria-selected="false">♙ По участникам</button><button class="tab" data-view="assets" role="tab" aria-selected="false">☷ Материалы и сроки</button></div><div class="navright"><button class="printbtn" id="printBtn" title="Версия для печати">⎙ Печать</button></div></div></nav>
 <main class="wrap main">
 <div class="toolbar" id="filterbar"><div class="filters"><select id="personFilter" class="control" aria-label="Фильтр по участнику"><option value="all">Все участники</option></select><select id="formatFilter" class="control" aria-label="Фильтр по формату"><option value="all">Все форматы</option><option value="Reels">Reels</option><option value="Карусель">Карусели</option></select><input class="search" id="search" placeholder="Поиск по темам и задачам…" aria-label="Поиск"/></div><button id="resetFilters" class="ghost">↺ Сбросить фильтры</button></div>
-<section id="calendar" class="view active"><div class="callout"><strong>Как пользоваться:</strong> нажмите на карточку даты — откроется задача с участниками, сценарием, материалами и сроками. Фильтруйте по имени или откройте вкладку «По участникам», чтобы увидеть личный план съёмок.</div><div class="reorder-tools"><div class="drag-tip">⠿ <strong>Перетаскивание:</strong> потяните карточку за значок и отпустите над другой датой. Публикации поменяются местами. Изменения сохраняются в этом браузере.</div><button class="ghost" id="shareLayout" title="Передать новый порядок команде">↗ Поделиться порядком</button><button class="ghost" id="resetLayout" title="Вернуть начальные даты">↺ Исходный порядок</button></div><div id="calendarMount"></div><div class="legend"><span><i></i> Reels</span><span><i class="car"></i> Карусель</span><span>После переноса срок передачи материалов пересчитывается относительно новой даты публикации; дедлайны предварительные</span></div></section>
+<section id="calendar" class="view active"><div class="callout"><strong>Как пользоваться:</strong> нажмите на карточку даты — откроется задача с участниками, сценарием, материалами и сроками. Фильтруйте по имени или откройте вкладку «По участникам», чтобы увидеть личный план съёмок.</div><div class="reorder-tools"><div class="drag-tip">⠿ <strong>Перетаскивание:</strong> потяните материал за значок и отпустите в нужном дне. Он добавится туда отдельной карточкой, другие останутся на месте. Изменения сохраняются в браузере.</div><button class="ghost" id="shareLayout" title="Передать новый порядок команде">↗ Поделиться порядком</button><button class="ghost" id="resetLayout" title="Вернуть начальные даты">↺ Исходный порядок</button></div><div id="calendarMount"></div><div class="legend"><span><i></i> Reels</span><span><i class="car"></i> Карусель</span><span>После переноса срок передачи материалов пересчитывается относительно новой даты публикации; дедлайны предварительные</span></div></section>
 <section id="team" class="view"><div class="section-top"><div><h2>Задачи по участникам</h2><p>Список выходов и конкретных материалов каждого человека</p></div><button id="copyPerson" class="ghost">↗ Скопировать личную ссылку</button></div><div class="team-layout"><aside class="sidebar" id="personList"></aside><div class="persona" id="personDetail"></div></div><div class="note">Новый порядок карточек сохраняется только в вашем браузере. Чтобы другие увидели то же расписание, используйте кнопку «Поделиться порядком». Общей синхронизации между участниками здесь нет.</div></section>
 <section id="assets" class="view"><div class="section-top"><div><h2>Что нужно собрать и к какому сроку</h2><p>Общий производственный список по публикациям</p></div><button class="ghost" id="downloadIcs">↓ Календарь .ics</button></div><div class="section-hint">Срок «Материалы до» обозначает предложенную дату передачи исходников монтажёру, а не дату выхода публикации. У всех выпусков есть отдельные требования и участники.</div><div class="tasks-list" id="assetsMount"></div></section>
-<footer class="footnote">Qazline · Юбилейный контент-план v1.1 · 16.11.2026. Фактические цифры и утверждения перед публикацией проверяются ответственными. Акция −15% на все курсы: 23.11–06.12; возможное продление до 13.12 не подтверждено. В видеокреативах не указываем дату окончания. Перетаскивание сохраняется в браузере, а новый порядок передаётся ссылкой.</footer>
+<footer class="footnote">Qazline · Юбилейный контент-план v1.2 · 16.11.2026. Фактические цифры и утверждения перед публикацией проверяются ответственными. Акция −15% на все курсы: 23.11–06.12; возможное продление до 13.12 не подтверждено. В видеокреативах не указываем дату окончания. Материалы можно переносить между днями и объединять в один день. Переносы сохраняются в браузере и передаются ссылкой.</footer>
 </main>
 <dialog class="modal" id="detailModal" aria-labelledby="modalTitle"><div id="modalContent"></div></dialog><div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
@@ -83,7 +111,35 @@ const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"
 function matches(item){const p=filterPerson==="all"||item.people[filterPerson];const f=filterFormat==="all"||item.format===filterFormat;const q=!search||[item.title,item.short,item.detail,...Object.values(item.people),...item.assets].join(" ").toLowerCase().includes(search);return p&&f&&q}
 function showToast(s){const t=byId("toast");t.textContent=s;t.classList.add("show");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove("show"),2700)}
 function switchView(to){view=to;document.querySelectorAll(".tab").forEach(e=>{const act=e.dataset.view===to;e.classList.toggle("active",act);e.setAttribute("aria-selected",act)});document.querySelectorAll(".view").forEach(e=>e.classList.toggle("active",e.id===to));byId("filterbar").style.display=to==="calendar"?"flex":"none";if(to==="team")renderTeam();if(to==="assets")renderAssets();}
-function renderCalendar(){let out="";WEEKS.forEach((week,w)=>{const arr=ITEMS.slice(w*7,w*7+7);out+='<div class="section-top"><div><h2>'+week.name+'</h2><p>'+week.subtitle+'</p></div><span class="week-badge">'+week.dates+'</span></div>';out+='<div class="cal-head">'+["Пн","Вт","Ср","Чт","Пт","Сб","Вс"].map(x=>"<span>"+x+"</span>").join("")+"</div>";out+='<div class="calendar">';arr.forEach(item=>{const dim=!matches(item);const names=Object.keys(item.people).filter(x=>!["marketing","production"].includes(x));out+='<article class="day '+(item.format==="Карусель"?"carousel-format ":"")+(dim?"dim":"")+'" data-card="'+item.id+'"><div class="bar"></div><div class="day-content"><div class="day-top"><div class="date">'+itemDate(item.date).getDate()+' <small>'+weekDay(item.date)+" · "+(item.date.includes("-11-")?"ноя":"дек")+'</small></div><div class="date-actions"><span class="format">'+item.format+'</span><button class="drag-handle" data-drag="'+item.id+'" type="button" aria-label="Перенести публикацию на другую дату" title="Потяните и поменяйте дату">⠿</button></div></div><h3>'+esc(item.title)+'</h3><p class="value">'+esc(item.short)+'</p><div class="people">'+names.slice(0,3).map(pid=>'<span class="pill '+(filterPerson===pid?"highlight":"")+'">'+esc(PEOPLE[pid].name)+'</span>').join("")+(names.length>3?'<span class="pill">+'+(names.length-3)+'</span>':"")+'</div><div class="day-bottom"><span class="deadline">Материалы до '+pretty(item.due)+'</span><button class="open-day" data-open="'+item.id+'">Подробнее ↗</button></div></div></article>'});out+="</div>"});byId("calendarMount").innerHTML=out}
+function renderCalendar(){
+ const dates=Array.from({length:14},(_,i)=>new Date(Date.UTC(2026,10,23+i)).toISOString().slice(0,10));
+ let out="";
+ WEEKS.forEach((week,w)=>{
+   out+='<div class="section-top"><div><h2>'+week.name+'</h2><p>'+week.subtitle+'</p></div><span class="week-badge">'+week.dates+'</span></div>';
+   out+='<div class="cal-head">'+["Пн","Вт","Ср","Чт","Пт","Сб","Вс"].map(x=>"<span>"+x+"</span>").join("")+"</div>";
+   out+='<div class="calendar">';
+   dates.slice(w*7,w*7+7).forEach(date=>{
+     const all=ITEMS.filter(it=>it.date===date),visible=all.filter(matches),count=all.length;
+     out+='<section class="day day-slot" data-day="'+date+'" aria-label="'+pretty(date)+', '+count+' публикаций">';
+     out+='<div class="day-header"><div class="date">'+itemDate(date).getDate()+'<small>'+weekDay(date)+' · '+(date.includes("-11-")?"ноя":"дек")+'</small></div><span class="day-count '+(count>1?"multiple":"")+'">'+count+' '+(count===1?"материал":"мат.")+'</span></div>';
+     out+='<div class="content-stack">';
+     visible.forEach(item=>{
+       const names=Object.keys(item.people).filter(id=>!["marketing","production"].includes(id));
+       out+='<article class="content-card '+(item.format==="Карусель"?"carousel-format":"")+'" data-card="'+item.id+'">';
+       out+='<div class="content-card-top"><span class="format">'+item.format+'</span><button class="drag-handle" data-drag="'+item.id+'" type="button" aria-label="Перетащить публикацию в другой день" title="Перенести в другой день">⠿</button></div>';
+       out+='<h3>'+esc(item.title)+'</h3><p class="value">'+esc(item.short)+'</p>';
+       out+='<div class="people">'+names.slice(0,2).map(id=>'<span class="pill '+(filterPerson===id?"highlight":"")+'">'+esc(PEOPLE[id].name)+'</span>').join("")+(names.length>2?'<span class="pill">+'+(names.length-2)+'</span>':"")+'</div>';
+       out+='<div class="day-bottom"><span class="deadline">Материалы до '+pretty(item.due)+'</span><button class="open-day" data-open="'+item.id+'">Подробнее ↗</button></div></article>';
+     });
+     out+='</div>';
+     if(!visible.length)out+='<div class="empty-slot">'+(count?"Скрыто фильтром":"Перетащите сюда контент")+'</div>';
+     else if(count>visible.length)out+='<div class="filtered-slot">Показано '+visible.length+' из '+count+'</div>';
+     out+='</section>';
+   });
+   out+='</div>';
+ });
+ byId("calendarMount").innerHTML=out;
+}
 function peopleCount(pid){return ITEMS.filter(x=>x.people[pid]).length}
 function renderPeopleList(){let out="",previous="";Object.entries(PEOPLE).forEach(([pid,p])=>{if(p.group!==previous){out+='<div class="group-label">'+esc(p.group)+'</div>';previous=p.group}out+='<button class="person-btn '+(selectedPerson===pid?"active":"")+'" data-person="'+pid+'"><span class="avatar">'+esc(p.initial)+'</span><span><strong>'+esc(p.name)+'</strong><small>'+esc(p.role)+'</small></span><span class="count">'+peopleCount(pid)+'</span></button>'});byId("personList").innerHTML=out}
 function renderTeam(){renderPeopleList();const p=PEOPLE[selectedPerson];const assignments=ITEMS.filter(it=>it.people[selectedPerson]);let out='<div class="person-title"><div><h2>'+esc(p.name)+'</h2><p>'+esc(p.role)+'</p></div><span class="week-badge">'+assignments.length+' публикаций с участием</span></div><div class="note">Вы видите все публикации, в подготовке которых участвует этот человек. Срок сдачи материалов указан отдельно от даты публикации.</div>';assignments.forEach(it=>{out+='<article class="assignment"><div class="assignment-head"><span class="mini-tag">'+pretty(it.date)+' · '+it.format+'</span><span class="tagdate">Материалы до '+pretty(it.due)+'</span></div><h3>'+esc(it.title)+'</h3><p>'+esc(it.people[selectedPerson])+'</p><div class="hint"><b>Нужны материалы:</b> '+esc(it.assets.join("; "))+'</div><div style="margin-top:13px"><button data-open="'+it.id+'">Открыть задачу ↗</button></div></article>'});byId("personDetail").innerHTML=out}
