@@ -84,6 +84,13 @@
       if (Object.keys(changes).length) localStorage.setItem(STORE, JSON.stringify(changes));
       else localStorage.removeItem(STORE);
     } catch (err) { showToast("Не удалось сохранить изменения в этом браузере"); }
+    // Keep a previously opened shared link current, rather than reloading stale edits.
+    const params = new URLSearchParams(location.search);
+    const token = Object.keys(changes).length ? encodeEdits(changes) : "";
+    if (token && token.length < 12000) params.set("content",token);
+    else params.delete("content");
+    const query = params.toString();
+    history.replaceState(null,"",location.pathname+(query?"?"+query:"")+(location.hash||""));
   }
   function shareUrl(person, dayId) {
     const base = window.getQazlineBasePersonUrl ? window.getQazlineBasePersonUrl(person) : location.href;
@@ -241,7 +248,19 @@
       if (kind==="edit" && item) {editModal(item);return}
       if (kind==="cancel" && item) {viewModal(item);return}
       if (kind==="shareDay" && item) {shareEdits(null,item.id);return}
-      if (kind==="removeRole") {action.closest(".edit-role")?.remove();return}
+      if (kind==="removeRole") {
+        const row=action.closest(".edit-role");
+        const pid=row?.dataset.roleRow;
+        if (pid && PEOPLE[pid]) {
+          const selector=root.querySelector("#addRoleSelect");
+          if (selector && !selector.querySelector('option[value="'+pid+'"]')) {
+            const option=document.createElement("option");
+            option.value=pid;option.textContent=PEOPLE[pid].name;selector.appendChild(option);
+          }
+        }
+        row?.remove();
+        return;
+      }
       if (kind==="addRole") {
         const select=root.querySelector("#addRoleSelect");
         const pid=select?.value;
