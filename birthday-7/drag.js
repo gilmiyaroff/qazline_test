@@ -3,13 +3,14 @@
 "use strict";
 (function () {
   const originalIds = ITEMS.map(item => item.id);
-  const days = ITEMS.map(item => item.date);
+  const days = Array.from({length:14},(_,i)=>new Date(Date.UTC(2026,10,23+i)).toISOString().slice(0,10));
+  const defaultAssignments=ITEMS.map(item=>[item.id,days.indexOf(item.date)]);
   const dayToIndex = new Map(days.map((date, index) => [date, index]));
   const deadlinesBeforeRelease = Object.fromEntries(ITEMS.map(item => [
     item.id,
     Math.round((Date.parse(item.date + "T00:00:00Z") - Date.parse(item.due + "T00:00:00Z")) / 86400000)
   ]));
-  const storageKey = "qazline-anniversary-7-layout-v2";
+  const storageKey = "qazline-anniversary-7-layout-v3";
   const oldStorageKey = "qazline-anniversary-7-layout-v1";
   let drag = null;
   let ignoreClickUntil = 0;
@@ -92,7 +93,7 @@
   }
 
   function resetLayout() {
-    apply(originalIds.map((id, index) => [id, index]));
+    apply(defaultAssignments);
     try {
       localStorage.removeItem(storageKey);
       localStorage.removeItem(oldStorageKey);
@@ -102,7 +103,7 @@
     const query = params.toString();
     history.replaceState(null, "", location.pathname + (query ? "?" + query : "") + "#calendar");
     redraw();
-    showToast("Восстановлен исходный план — по одной публикации в день");
+    showToast("Восстановлен исходный план команды");
   }
 
   function clearHover() {
@@ -231,12 +232,6 @@
   let initial = parseLayout(params.get("layout"));
   if (!initial) {
     try { initial = parseLayout(localStorage.getItem(storageKey)); } catch (e) {}
-  }
-  if (!initial) {
-    try {
-      const oldIds = JSON.parse(localStorage.getItem(oldStorageKey));
-      if (Array.isArray(oldIds)) initial = parseLayout(oldIds.join("-"));
-    } catch (e) {}
   }
   if (initial) {
     apply(initial);
