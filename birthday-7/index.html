@@ -48,7 +48,50 @@
  .content-stack{padding:6px;gap:6px}.content-card{padding:8px 7px;min-height:155px}.content-card h3{font-size:12px}.content-card .value{font-size:10px}.content-card-top{margin-bottom:7px}
  .content-card .drag-handle{width:26px;height:26px;min-height:26px}.content-card .day-bottom{display:flex}.content-card .open-day{width:100%;margin:4px 0 0}
  .empty-slot{margin:7px;padding:10px 5px;min-height:90px}
-}</style>
+}
+/* Publication content editor, 7-year anniversary */
+.modal{max-height:92dvh;overflow-y:auto;overscroll-behavior:contain}
+.modal-head-controls{position:absolute;right:18px;top:16px;display:flex;align-items:center;gap:9px}
+.modal-head-controls .modal-close{position:static}
+.modal-edit-launch{color:#fff;background:#ffffff20;border:1px solid #ffffff5c;border-radius:10px;min-height:35px;padding:6px 11px;font-size:12px;font-weight:750;white-space:nowrap}
+.modal-edit-launch:hover{background:#ffffff36}
+.modal-head .eyebrow{display:block;padding-right:166px;min-height:22px}
+.modal-body .edit-readable{font-size:13px;line-height:1.65;white-space:pre-wrap}
+.modal-body .role-line span,.modal-body .goal,.modal-body .story{white-space:pre-wrap}
+.modal-body .edit-muted{font-size:11px;color:#818aa0;line-height:1.5;margin:4px 0 8px}
+.edit-field{margin:0 0 17px}
+.edit-field>label,.edit-role-heading label,.edit-section-title{display:block;font-size:13px;font-weight:800;color:#323c60;margin:0 0 7px;line-height:1.35}
+.edit-input{display:block;width:100%;min-width:0;border:1px solid #cdd4e3;border-radius:11px;background:#fff;color:#242b47;padding:12px 13px;outline:none;font:inherit;font-size:14px;line-height:1.55;min-height:44px}
+.edit-input:focus{border-color:#ef630e;box-shadow:0 0 0 3px #ef630e22}
+.edit-area{resize:vertical;min-height:78px;white-space:pre-wrap;overflow-wrap:anywhere}
+.edit-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:12px}
+.edit-static{min-height:44px;border:1px solid #e3e6ef;background:#f6f7fa;color:#6c7690;border-radius:11px;padding:12px;font-size:12px;display:flex;align-items:center}
+.edit-role{padding:12px;background:#f8f9fc;border:1px solid #e7eaf2;border-radius:11px;margin:0 0 9px}
+.edit-role-heading{display:flex;align-items:center;justify-content:space-between;gap:9px}
+.edit-role-heading label{margin-bottom:8px}
+.remove-role{color:#aa5642;background:#ffeae6;border-radius:8px;padding:6px 9px;font-size:11px;font-weight:750}
+.remove-role:hover{background:#ffdbd4}
+.add-role-controls{display:flex;gap:8px;align-items:center;margin-top:10px}
+.add-role-controls select{flex:1 1 250px}
+.add-role-controls button{min-height:44px}
+.edit-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap;position:sticky;bottom:0;background:#fff;border-top:1px solid #e9ecf4;margin:20px -27px 0;padding:14px 27px;z-index:1;box-shadow:0 -7px 18px #141c380a}
+.edit-actions button{min-height:43px}
+.edit-saving-hint{margin:10px 0 0!important}
+.visually-hidden-file{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;overflow:hidden}
+@media(max-width:540px){
+ .modal-head-controls{right:13px;top:12px;gap:7px}
+ .modal-head .eyebrow{padding-right:0;margin-top:43px}
+ .modal-head h2{font-size:23px;margin-top:10px}
+ .modal-edit-launch{font-size:11px;min-height:33px;padding:5px 8px}
+ .edit-grid{grid-template-columns:1fr;gap:0}
+ .edit-input{font-size:16px}
+ .edit-actions{margin:20px -18px 0;padding:12px 18px}
+ .edit-actions .orangebtn{flex:1}
+ .add-role-controls{flex-wrap:wrap}
+ .add-role-controls button{width:100%}
+}
+@media print{.modal-edit-launch,.edit-actions,.add-role-controls,.remove-role{display:none!important}}
+</style>
 </head>
 <body>
 <header class="hero"><div class="wrap">
@@ -61,9 +104,9 @@
 <main class="wrap main">
 <div class="toolbar" id="filterbar"><div class="filters"><select id="personFilter" class="control" aria-label="Фильтр по участнику"><option value="all">Все участники</option></select><select id="formatFilter" class="control" aria-label="Фильтр по формату"><option value="all">Все форматы</option><option value="Reels">Reels</option><option value="Карусель">Карусели</option></select><input class="search" id="search" placeholder="Поиск по темам и задачам…" aria-label="Поиск"/></div><button id="resetFilters" class="ghost">↺ Сбросить фильтры</button></div>
 <section id="calendar" class="view active"><div class="callout"><strong>Как пользоваться:</strong> нажмите на карточку даты — откроется задача с участниками, сценарием, материалами и сроками. Фильтруйте по имени или откройте вкладку «По участникам», чтобы увидеть личный план съёмок.</div><div class="reorder-tools"><div class="drag-tip">⠿ <strong>Перетаскивание:</strong> потяните материал за значок и отпустите в нужном дне. Он добавится туда отдельной карточкой, другие останутся на месте. Изменения сохраняются в браузере.</div><button class="ghost" id="shareLayout" title="Передать новый порядок команде">↗ Поделиться порядком</button><button class="ghost" id="resetLayout" title="Вернуть начальные даты">↺ Исходный порядок</button></div><div id="calendarMount"></div><div class="legend"><span><i></i> Reels</span><span><i class="car"></i> Карусель</span><span>После переноса срок передачи материалов пересчитывается относительно новой даты публикации; дедлайны предварительные</span></div></section>
-<section id="team" class="view"><div class="section-top"><div><h2>Задачи по участникам</h2><p>Список выходов и конкретных материалов каждого человека</p></div><button id="copyPerson" class="ghost">↗ Скопировать личную ссылку</button></div><div class="team-layout"><aside class="sidebar" id="personList"></aside><div class="persona" id="personDetail"></div></div><div class="note">Новый порядок карточек сохраняется только в вашем браузере. Чтобы другие увидели то же расписание, используйте кнопку «Поделиться порядком». Общей синхронизации между участниками здесь нет.</div></section>
+<section id="team" class="view"><div class="section-top"><div><h2>Задачи по участникам</h2><p>Список выходов и конкретных материалов каждого человека</p></div><button id="copyPerson" class="ghost">↗ Скопировать личную ссылку</button></div><div class="team-layout"><aside class="sidebar" id="personList"></aside><div class="persona" id="personDetail"></div></div><div class="note">Редактирование публикаций и переносы сохраняются в браузере. Кнопка «Поделиться порядком» создаёт ссылку с текущими датами и текстовыми правками. Общей автоматической синхронизации здесь нет.</div></section>
 <section id="assets" class="view"><div class="section-top"><div><h2>Что нужно собрать и к какому сроку</h2><p>Общий производственный список по публикациям</p></div><button class="ghost" id="downloadIcs">↓ Календарь .ics</button></div><div class="section-hint">Срок «Материалы до» обозначает предложенную дату передачи исходников монтажёру, а не дату выхода публикации. У всех выпусков есть отдельные требования и участники.</div><div class="tasks-list" id="assetsMount"></div></section>
-<footer class="footnote">Qazline · Юбилейный контент-план v1.2 · 16.11.2026. Фактические цифры и утверждения перед публикацией проверяются ответственными. Акция −15% на все курсы: 23.11–06.12; возможное продление до 13.12 не подтверждено. В видеокреативах не указываем дату окончания. Материалы можно переносить между днями и объединять в один день. Переносы сохраняются в браузере и передаются ссылкой.</footer>
+<footer class="footnote">Qazline · Юбилейный контент-план v1.3 · 16.11.2026. Фактические цифры и утверждения перед публикацией проверяются ответственными. Акция −15% на все курсы: 23.11–06.12; возможное продление до 13.12 не подтверждено. В видеокреативах не указываем дату окончания. Материалы можно переносить между днями и объединять в один день. Текстовые правки и переносы сохраняются в браузере; команда получает их по общей ссылке или через экспорт JSON.</footer>
 </main>
 <dialog class="modal" id="detailModal" aria-labelledby="modalTitle"><div id="modalContent"></div></dialog><div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
@@ -163,5 +206,6 @@ byId("detailModal").addEventListener("click",e=>{if(e.target.id==="detailModal")
 init();
 </script>
 <script src="./drag.js" defer></script>
+<script src="./editor.js" defer></script>
 </body>
 </html>
