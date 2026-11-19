@@ -121,6 +121,13 @@
     #ql-game .question-actions .earned b { color:var(--orange); }
     #ql-game .coin-burst { pointer-events:none; position:fixed; z-index:99; color:var(--orange); font-weight:900; font:700 26px Oswald,Arial,sans-serif; animation:coin-pop .95s ease-out forwards; text-shadow:0 2px 12px #ffcfaa; }
     @keyframes coin-pop { 0%{opacity:0;transform:translateY(15px) scale(.65)} 20%{opacity:1;transform:translateY(0) scale(1.25)} 100%{opacity:0;transform:translateY(-75px) scale(1)} }
+    /* Редкие декоративные монетки на стартовом экране. Не перехватывают касания. */
+    #ql-game .flying-coins { position:fixed; inset:0; z-index:5; overflow:hidden; pointer-events:none; }
+    #ql-game:not(.intro-active) .flying-coins { display:none; }
+    #ql-game .flying-coin { position:absolute; top:-62px; width:var(--size,30px); aspect-ratio:1; border-radius:50%; border:3px solid #ffe6a0; background:radial-gradient(circle at 32% 25%,#fff4bc 0%,#ffd569 31%,#f9a932 69%,#dc7814 100%); box-shadow:inset -3px -3px 5px #b96b1855,inset 2px 2px 4px #fff7ca,0 3px 12px #af680e42; display:grid; place-items:center; color:#c1751b; font:800 calc(var(--size,30px) * .54)/1 Oswald,Arial,sans-serif; backface-visibility:visible; animation:coin-fall var(--duration,6s) linear forwards; will-change:transform; }
+    #ql-game .flying-coin::before { content:""; position:absolute; inset:3px; border:1px solid #fff0bd; border-radius:50%; }
+    #ql-game .flying-coin::after { content:"₸"; text-shadow:0 1px #fff4ba; }
+    @keyframes coin-fall { 0%{opacity:0;transform:translate3d(0,-30px,0) rotateY(0deg) rotateZ(-12deg) scale(.8)} 8%{opacity:.85} 85%{opacity:.85} 100%{opacity:0;transform:translate3d(var(--drift,25px),calc(100svh + 110px),0) rotateY(1080deg) rotateZ(40deg) scale(.9)} }
     #ql-game .result { width:min(760px,calc(100% - 40px)); margin:22px auto 0; padding-bottom:40px; }
     #ql-game .result-top { text-align:center; margin:0 0 20px; }
     #ql-game .result-top .display { font-size:clamp(37px,5.7vw,54px); color:var(--navy); margin:10px 0; }
@@ -207,11 +214,53 @@
       #ql-game .choice { min-height:44px; padding:7px 9px; }
       #ql-game .question-actions .btn { min-height:40px; }
     }
-    @media(prefers-reduced-motion:reduce) { #ql-game *, #ql-game *::before, #ql-game *::after{transition:none!important;animation:none!important;scroll-behavior:auto!important;} }
+    /* Первый экран телефона: композиция под портретный экран, без длинной прокрутки. */
+    @media(max-width:640px) {
+      #ql-game.intro-active { min-height:100svh; }
+      #ql-game.intro-active .top { height:54px; }
+      #ql-game.intro-active .brand img { width:119px; }
+      #ql-game.intro-active .tag { font-size:10px; padding:6px 9px; }
+      #ql-game.intro-active .foot { display:none; }
+      #ql-game .intro { display:grid; grid-template-columns:minmax(0,1fr); grid-template-areas:"kicker" "title" "prize" "lead" "facts" "action" "note"; gap:clamp(6px,1.2svh,12px); align-content:space-evenly; min-height:calc(100svh - 54px); padding:8px 0 max(12px,env(safe-area-inset-bottom,12px)); }
+      #ql-game .intro .hero { display:contents; }
+      #ql-game .intro .tiny-kicker { grid-area:kicker; font-size:11px; letter-spacing:.1em; }
+      #ql-game .intro .hero h1 { grid-area:title; font-size:clamp(31px,9.3vw,43px); line-height:1.02; max-width:none; margin:0; text-wrap:balance; }
+      #ql-game .intro .hero h1 span { display:block; }
+      #ql-game .intro .hero-art { grid-area:prize; width:100%; height:auto; min-height:0; max-height:210px; aspect-ratio:16/9; padding:16px; border-radius:22px; display:block; }
+      #ql-game .intro .hero-art:before { width:240px; height:240px; top:-130px; right:-70px; }
+      #ql-game .intro .hero-art:after { width:190px; height:190px; bottom:-125px; left:-60px; }
+      #ql-game .intro .art-top { display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:8px; height:100%; max-width:47%; }
+      #ql-game .intro .art-top b { font-size:clamp(14px,4vw,17px); line-height:1.2; }
+      #ql-game .intro .art-sticker { transform:none; padding:7px 10px; font-size:11px; line-height:1.2; white-space:nowrap; }
+      #ql-game .intro .big-coin { position:absolute; width:clamp(116px,39vw,170px); top:50%; right:14px; left:auto; margin:0; border-width:7px; transform:translateY(-50%) rotate(-8deg); }
+      #ql-game .intro .big-coin:before { inset:10px; }
+      #ql-game .intro .coin-content b { font-size:clamp(27px,8vw,36px); }
+      #ql-game .intro .coin-content small { font-size:9px; }
+      #ql-game .intro .art-bottom { display:none; }
+      #ql-game .intro .intro-lead { grid-area:lead; font-size:14px; line-height:1.38; color:#555e7d; max-width:none; margin:0; }
+      #ql-game .intro .facts { grid-area:facts; gap:5px; margin:0; }
+      #ql-game .intro .fact { font-size:11px; padding:5px 7px; border-radius:8px; }
+      #ql-game .intro .button-line { grid-area:action; display:block; }
+      #ql-game .intro .button-line .btn { min-height:52px; padding:11px 18px; border-radius:13px; }
+      #ql-game .intro .smallprint { grid-area:note; font-size:11px; line-height:1.3; margin:0; color:#757d98; }
+    }
+    @media(max-width:640px) and (max-height:700px) {
+      #ql-game.intro-active .top { height:47px; }
+      #ql-game.intro-active .brand img { width:104px; }
+      #ql-game .intro { min-height:calc(100svh - 47px); gap:5px; padding:5px 0 9px; }
+      #ql-game .intro .hero h1 { font-size:clamp(29px,9vw,38px); }
+      #ql-game .intro .hero-art { max-height:170px; }
+      #ql-game .intro .intro-lead { font-size:13px; line-height:1.32; }
+      #ql-game .intro .fact { padding:4px 6px; font-size:10.5px; }
+      #ql-game .intro .button-line .btn { min-height:46px; }
+      #ql-game .intro .smallprint { font-size:10.5px; }
+    }
+    @media(prefers-reduced-motion:reduce) { #ql-game *, #ql-game *::before, #ql-game *::after{transition:none!important;animation:none!important;scroll-behavior:auto!important;} #ql-game .flying-coins{display:none!important;} }
   </style>
 </head>
 <body style="margin:0">
-<div id="ql-game">
+<div id="ql-game" class="intro-active">
+  <div class="flying-coins" id="flying-coins" aria-hidden="true"></div>
   <div class="container">
     <header class="top">
       <a href="https://www.qazline.kz/" class="brand" aria-label="Qazline — главная"><img src="https://gilmiyaroff.github.io/qazline_test/assets/qazline-logo.png" alt="Qazline" width="177" height="95"></a>
@@ -223,15 +272,15 @@
     <section class="container intro" id="intro-screen" aria-label="Начало игры">
       <div class="hero">
         <div class="tiny-kicker">Казахский для реальной жизни</div>
-        <h1 class="display">ЗНАКОМЬТЕСЬ С КАЗАХСКИМ. <span>КОПИТЕ МОНЕТЫ!</span></h1>
-        <p class="intro-lead">Пройдите 20 простых ситуаций: познакомьтесь с людьми, закажите кофе, купите книгу и поговорите с таксистом. За правильные ответы получите скидку на обучение.</p>
+        <h1 class="display">ИГРАЙ НА КАЗАХСКОМ. <span>КОПИ МОНЕТЫ!</span></h1>
+        <p class="intro-lead">20 простых ситуаций из жизни: отвечайте на казахском, собирайте монеты и получайте скидку на обучение.</p>
         <div class="facts">
           <span class="fact">✦ 20 вопросов</span>
           <span class="fact">◷ 5–7 минут</span>
           <span class="fact">🪙 100 монет = 500 ₸</span>
         </div>
         <div class="button-line"><button class="btn" id="start-btn" type="button">Начать игру</button></div>
-        <p class="smallprint">С первой попытки — 100 монет, со второй — 50. Две ошибки — 0 монет. Подсказки помогут!</p>
+        <p class="smallprint">🪙 +100 монет с первой попытки, +50 со второй. Подсказки помогут!</p>
       </div>
       <div class="hero-art" aria-hidden="true">
         <div class="art-top"><b>ВАША НАГРАДА</b><span class="art-sticker">до 10 000 ₸</span></div>
@@ -352,7 +401,7 @@
   const state = {index:0, coins:0, attempts:0, tried:[], hint:false, resolved:false, finished:false, started:false};
   function persist(){ try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}catch(e){} }
   function restore(){try{const previous=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');if(!previous||!previous.started)return; if(!Number.isInteger(previous.index)||previous.index<0||previous.index>20||!Number.isInteger(previous.coins)||previous.coins<0||previous.coins>20*FIRST_TRY_COINS||previous.coins%SECOND_TRY_COINS!==0||typeof previous.finished!=='boolean')return;Object.assign(state,previous,{tried:Array.isArray(previous.tried)?previous.tried.filter(Number.isInteger):[]});if(state.finished){showResult();}else{showQuiz();}}catch(e){} }
-  function setScreen(name){['intro','quiz','result'].forEach(s=>$(s+'-screen').classList.toggle('hidden',s!==name));$('ql-game').classList.toggle('playing',name==='quiz');}
+  function setScreen(name){['intro','quiz','result'].forEach(s=>$(s+'-screen').classList.toggle('hidden',s!==name));$('ql-game').classList.toggle('playing',name==='quiz');$('ql-game').classList.toggle('intro-active',name==='intro');}
   function updateScore(){ $('coin-top').textContent=coinText(state.coins)+' · '+money(discountFor(state.coins));$('coin-top-mobile').textContent=formatNumber(state.coins)+' · '+money(discountFor(state.coins)); }
   function showQuiz(){state.started=true;setScreen('quiz');renderQuestion();persist();}
   function stageOf(index){return Math.min(4,Math.floor(index/4));}
@@ -420,6 +469,27 @@
   $('hint-btn').addEventListener('click',()=>{state.hint=!state.hint;$('hint-box').classList.toggle('hidden',!state.hint);$('hint-btn').textContent=state.hint?'💡 Скрыть подсказку':'💡 Нужна подсказка?';persist();});
   $('restart-btn').addEventListener('click',()=>{Object.assign(state,{index:0,coins:0,attempts:0,tried:[],hint:false,resolved:false,finished:false,started:true});showQuiz();window.scrollTo({top:0,behavior:'smooth'});});
   document.addEventListener('keydown',e=>{if($('quiz-screen').classList.contains('hidden')||e.altKey||e.ctrlKey||e.metaKey||e.repeat)return;const i=Number(e.key)-1;if(i>=0&&i<4&&!state.resolved){const b=$('choices').querySelector('[data-answer="'+i+'"]');if(b&&!b.disabled)b.click();}else if(e.key==='Enter'&&state.resolved&&document.activeElement.tagName!=='BUTTON')next();});
+  // Монетки появляются по одной, редко и только на первом экране.
+  function spawnFlyingCoin(){
+    if(document.hidden||!$('ql-game').classList.contains('intro-active')||$('flying-coins').childElementCount>0)return;
+    const coin=document.createElement('span');
+    const leftLane=Math.random()<.5;
+    const x=leftLane?5+Math.random()*17:78+Math.random()*16;
+    const duration=4800+Math.random()*1700;
+    coin.className='flying-coin';
+    coin.style.left=x+'%';
+    coin.style.setProperty('--size',Math.round(22+Math.random()*12)+'px');
+    coin.style.setProperty('--drift',Math.round((Math.random()-.5)*75)+'px');
+    coin.style.setProperty('--duration',duration+'ms');
+    coin.addEventListener('animationend',()=>coin.remove(),{once:true});
+    $('flying-coins').appendChild(coin);
+    setTimeout(()=>coin.remove(),duration+150);
+  }
+  function scheduleFlyingCoin(){
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    setTimeout(()=>{spawnFlyingCoin();scheduleFlyingCoin();},4800+Math.random()*4200);
+  }
+  scheduleFlyingCoin();
   restore();
 })();
 </script>
