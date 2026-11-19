@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    #ql-game { --navy:#2C3360; --navy-dark:#1C2040; --orange:#EF630E; --orange-dark:#D95105; --cream:#FFF1E6; --light:#F4F6FA; --muted:#6D7390; --line:#E5E6EA; --white:#fff; --good:#177C55; --bad:#B54B3B; box-sizing:border-box; min-height:100vh; color:var(--navy-dark); background:radial-gradient(ellipse at 95% -5%,#ffe4cf 0,transparent 36%),radial-gradient(ellipse at 0 90%,#e8ecff 0,transparent 33%),#F7F8FC; font:500 16px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif; isolation:isolate; }
+    #ql-game { --navy:#2C3360; --navy-dark:#1C2040; --orange:#EF630E; --orange-dark:#D95105; --cream:#FFF1E6; --light:#F4F6FA; --muted:#6D7390; --line:#E5E6EA; --white:#fff; --good:#177C55; --bad:#B54B3B; --font-body:Inter,sans-serif; --font-display:Oswald,sans-serif; box-sizing:border-box; min-height:100vh; color:var(--navy-dark); background:radial-gradient(ellipse at 95% -5%,#ffe4cf 0,transparent 36%),radial-gradient(ellipse at 0 90%,#e8ecff 0,transparent 33%),#F7F8FC; font:500 16px/1.5 var(--font-body); isolation:isolate; }
     #ql-game *, #ql-game *::before, #ql-game *::after { box-sizing:border-box; }
     #ql-game button, #ql-game a { -webkit-tap-highlight-color:transparent; }
     #ql-game button { font:inherit; cursor:pointer; }
@@ -26,7 +26,7 @@
     #ql-game .brand img { width:177px; height:auto; display:block; mix-blend-mode:multiply; }
     #ql-game .tag { color:var(--navy); border:1px solid #d5d9eb; background:#fff; border-radius:999px; padding:8px 13px; font-size:12px; font-weight:800; white-space:nowrap; letter-spacing:.035em; }
     #ql-game .tiny-kicker { color:var(--orange); font-size:12px; letter-spacing:.13em; font-weight:900; text-transform:uppercase; }
-    #ql-game .display { font-family:Oswald,"Arial Narrow",Inter,sans-serif; font-weight:600; letter-spacing:-.018em; line-height:1.08; text-transform:uppercase; }
+    #ql-game .display { font-family:var(--font-display); font-weight:600; letter-spacing:-.018em; line-height:1.08; text-transform:uppercase; }
     #ql-game .btn { display:inline-flex; align-items:center; justify-content:center; gap:9px; min-height:56px; padding:15px 24px; border-radius:14px; border:0; background:var(--orange); color:#fff; font-weight:850; font-size:16px; text-align:center; box-shadow:0 9px 24px rgba(239,99,14,.22); transition:transform .15s,background .15s,box-shadow .15s; }
     #ql-game .btn:hover:not(:disabled) { background:var(--orange-dark); transform:translateY(-2px); box-shadow:0 12px 27px rgba(239,99,14,.28); }
     #ql-game .btn:active:not(:disabled) { transform:translateY(0); }
@@ -62,7 +62,7 @@
     #ql-game .mobile-question-counter { display:none; }
     #ql-game .score-mobile { display:none; }
     #ql-game .score-box { display:flex; align-items:center; gap:10px; background:#fff; border:1px solid #e4e5ee; border-radius:13px; padding:10px 15px; font-weight:900; white-space:nowrap; color:var(--navy); box-shadow:0 4px 12px #1c204009; }
-    #ql-game .mini-coin { display:inline-grid; place-items:center; width:27px; height:27px; flex:none; border-radius:50%; color:#fff; background:linear-gradient(135deg,#ffa95e,#ef630e); border:3px solid #ffdbac; box-shadow:0 2px 4px #ef630e40; font:800 14px Oswald,Arial,sans-serif; }
+    #ql-game .mini-coin { display:inline-grid; place-items:center; width:27px; height:27px; flex:none; border-radius:50%; color:#fff; background:linear-gradient(135deg,#ffa95e,#ef630e); border:3px solid #ffdbac; box-shadow:0 2px 4px #ef630e40; font:800 14px var(--font-display); }
     #ql-game .game-wrap { display:grid; grid-template-columns:245px minmax(0,1fr); align-items:start; gap:20px; }
     #ql-game .journey { padding:27px 20px; background:#fff; border:1px solid #e5e6ef; border-radius:25px; box-shadow:0 8px 25px #2c33600b; }
     #ql-game .journey h3 { font-size:12px; font-weight:900; letter-spacing:.09em; text-transform:uppercase; color:#9095aa; margin-bottom:22px; }
@@ -110,15 +110,15 @@
     #ql-game .question-actions { display:flex; align-items:center; justify-content:space-between; gap:15px; padding-top:16px; }
     #ql-game .question-actions .earned { font-size:13px; font-weight:750; color:#8d91a7; }
     #ql-game .question-actions .earned b { color:var(--orange); }
-    #ql-game .coin-burst { pointer-events:none; position:fixed; z-index:99; color:var(--orange); font-weight:900; font:700 26px Oswald,Arial,sans-serif; animation:coin-pop .95s ease-out forwards; text-shadow:0 2px 12px #ffcfaa; }
-    #ql-game .gold-coin { display:inline-grid; place-items:center; width:1.2em; height:1.2em; flex:none; border-radius:50%; border:.09em solid #ffe99d; background:radial-gradient(circle at 30% 22%,#fff6c7 0%,#ffe16e 29%,#f6b92d 66%,#c67d10 100%); color:#a76b0c; box-shadow:inset -.08em -.08em .12em #a96c1155,inset .07em .07em .12em #fff9d9,0 .07em .16em #a8762433; font:800 .9em/1 Oswald,Arial,sans-serif; vertical-align:-.15em; }
+    #ql-game .coin-burst { pointer-events:none; position:fixed; z-index:99; color:var(--orange); font-weight:900; font:700 26px var(--font-display); animation:coin-pop .95s ease-out forwards; text-shadow:0 2px 12px #ffcfaa; }
+    #ql-game .gold-coin { display:inline-grid; place-items:center; width:1.2em; height:1.2em; flex:none; border-radius:50%; border:.09em solid #ffe99d; background:radial-gradient(circle at 30% 22%,#fff6c7 0%,#ffe16e 29%,#f6b92d 66%,#c67d10 100%); color:#a76b0c; box-shadow:inset -.08em -.08em .12em #a96c1155,inset .07em .07em .12em #fff9d9,0 .07em .16em #a8762433; font:800 .9em/1 var(--font-display); vertical-align:-.15em; }
     #ql-game .gold-coin::after { content:"₸"; text-shadow:0 1px #fff1b4; }
     #ql-game .coin-burst .gold-coin { font-size:21px; vertical-align:-.12em; }
     @keyframes coin-pop { 0%{opacity:0;transform:translateY(15px) scale(.65)} 20%{opacity:1;transform:translateY(0) scale(1.25)} 100%{opacity:0;transform:translateY(-75px) scale(1)} }
     /* Редкие декоративные монетки на стартовом экране. Не перехватывают касания. */
     #ql-game .flying-coins { position:fixed; inset:0; z-index:5; overflow:hidden; pointer-events:none; }
     #ql-game:not(.intro-active) .flying-coins { display:none; }
-    #ql-game .flying-coin { position:absolute; top:-62px; width:var(--size,30px); aspect-ratio:1; border-radius:50%; border:3px solid #ffe6a0; background:radial-gradient(circle at 32% 25%,#fff4bc 0%,#ffd569 31%,#f9a932 69%,#dc7814 100%); box-shadow:inset -3px -3px 5px #b96b1855,inset 2px 2px 4px #fff7ca,0 3px 12px #af680e42; display:grid; place-items:center; color:#c1751b; font:800 calc(var(--size,30px) * .54)/1 Oswald,Arial,sans-serif; backface-visibility:visible; animation:coin-fall var(--duration,6s) linear forwards; will-change:transform; }
+    #ql-game .flying-coin { position:absolute; top:-62px; width:var(--size,30px); aspect-ratio:1; border-radius:50%; border:3px solid #ffe6a0; background:radial-gradient(circle at 32% 25%,#fff4bc 0%,#ffd569 31%,#f9a932 69%,#dc7814 100%); box-shadow:inset -3px -3px 5px #b96b1855,inset 2px 2px 4px #fff7ca,0 3px 12px #af680e42; display:grid; place-items:center; color:#c1751b; font:800 calc(var(--size,30px) * .54)/1 var(--font-display); backface-visibility:visible; animation:coin-fall var(--duration,6s) linear forwards; will-change:transform; }
     #ql-game .flying-coin::before { content:""; position:absolute; inset:3px; border:1px solid #fff0bd; border-radius:50%; }
     #ql-game .flying-coin::after { content:"₸"; text-shadow:0 1px #fff4ba; }
     @keyframes coin-fall { 0%{opacity:0;transform:translate3d(0,-30px,0) rotateY(0deg) rotateZ(-12deg) scale(.8)} 8%{opacity:.85} 85%{opacity:.85} 100%{opacity:0;transform:translate3d(var(--drift,25px),calc(100svh + 110px),0) rotateY(1080deg) rotateZ(40deg) scale(.9)} }
@@ -129,14 +129,14 @@
     #ql-game .certificate { background:linear-gradient(145deg,#fff,#fffdfa 60%,#fff1e6); border:2px solid #ffdbbd; border-radius:27px; padding:30px clamp(20px,5vw,42px); box-shadow:0 18px 60px #2c336017; overflow:hidden; position:relative; text-align:center; }
     #ql-game .certificate:before { content:""; position:absolute; width:265px; height:265px; right:-155px; top:-140px; border:45px solid #fff1e6; border-radius:50%; }
     #ql-game .certificate-logo { width:175px; display:block; margin:0 auto 20px; mix-blend-mode:multiply; position:relative; }
-    #ql-game .congrats { color:var(--navy); font:600 clamp(30px,5.5vw,43px)/1.1 Oswald,Arial,sans-serif; text-transform:uppercase; position:relative; }
+    #ql-game .congrats { color:var(--navy); font:600 clamp(30px,5.5vw,43px)/1.1 var(--font-display); text-transform:uppercase; position:relative; }
     #ql-game .congrats-sub { color:#777e98; margin-top:8px; font-size:14px; font-weight:650; }
     #ql-game .reward-block { margin:24px auto 18px; padding:22px 12px 18px; max-width:445px; color:#fff; border-radius:21px; background:linear-gradient(125deg,#343d75,#1c2040); position:relative; }
     #ql-game .reward-caption { color:#e2e3f7; font-weight:800; font-size:12px; letter-spacing:.1em; text-transform:uppercase; }
-    #ql-game .coins-number { font:700 clamp(41px,7vw,62px)/1.13 Oswald,Arial,sans-serif; margin:4px 0 1px; }
+    #ql-game .coins-number { font:700 clamp(41px,7vw,62px)/1.13 var(--font-display); margin:4px 0 1px; }
     #ql-game .coins-number .coin-inline { font-size:.65em; vertical-align:.03em; }
     #ql-game .reward-divider { height:1px; background:#ffffff29; margin:13px auto 14px; width:75%; }
-    #ql-game .discount { color:#ffac68; font:700 clamp(48px,8vw,75px)/1.12 Oswald,Arial,sans-serif; letter-spacing:-.015em; }
+    #ql-game .discount { color:#ffac68; font:700 clamp(48px,8vw,75px)/1.12 var(--font-display); letter-spacing:-.015em; }
     #ql-game .discount-note { color:#e0e2f0; font-size:13px; font-weight:700; margin-top:2px; }
     #ql-game .result-instruction { color:#333c64; font-weight:850; line-height:1.45; font-size:16px; max-width:500px; margin:0 auto; }
     #ql-game .result-instruction span { color:var(--orange); }
