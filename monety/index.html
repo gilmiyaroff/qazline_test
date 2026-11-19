@@ -106,11 +106,6 @@
     #ql-game .choice.wrong { background:#fff0eb; color:#a54130; border-color:#e8a18c; }
     #ql-game .choice.wrong .letter { color:#fff; background:#c65d48; }
     #ql-game .choice:disabled { cursor:default; }
-    #ql-game .hint-row { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:18px; min-height:23px; }
-    #ql-game .hint-btn { border:0; background:transparent; color:#8a6680; padding:5px 0; font-weight:750; font-size:13px; text-align:left; }
-    #ql-game .hint-btn:hover { color:var(--orange); }
-    #ql-game .attempt-note { font-size:12px; color:#9398aa; text-align:right; }
-    #ql-game .hint-box { background:#fff7ec; color:#8d4b1e; padding:12px 15px; border:1px solid #ffdfbb; border-radius:12px; font-size:13px; font-weight:600; margin-top:7px; }
     #ql-game .feedback { border-radius:13px; padding:16px; border:1px solid #d5ecdf; background:#effbf3; margin-top:15px; color:#20754b; line-height:1.55; font-size:14px; }
     #ql-game .feedback strong { display:block; margin-bottom:4px; font-size:16px; }
     #ql-game .feedback.try { border-color:#f9d5b4; background:#fff7ee; color:#935020; }
@@ -184,10 +179,6 @@
       #ql-game .choices { gap:7px; }
       #ql-game .choice { min-height:50px; padding:9px 10px; font-size:14px; border-radius:11px; gap:10px; }
       #ql-game .choice .letter { width:27px; height:27px; }
-      #ql-game .hint-row { margin-top:5px; min-height:19px; }
-      #ql-game .hint-btn { font-size:12px; padding:1px 0; }
-      #ql-game .attempt-note { display:none; }
-      #ql-game .hint-box { margin-top:5px; padding:8px 10px; font-size:12px; line-height:1.3; }
       #ql-game .feedback { margin-top:7px; padding:7px 10px; font-size:12px; }
       #ql-game .feedback strong { display:inline; margin:0; font-size:13px; }
       #ql-game .feedback span { display:none; }
@@ -280,7 +271,7 @@
           <span class="fact">🪙 100 монет = 500 ₸</span>
         </div>
         <div class="button-line"><button class="btn" id="start-btn" type="button">Начать игру</button></div>
-        <p class="smallprint">🪙 +100 монет с первой попытки, +50 со второй. Подсказки помогут!</p>
+        <p class="smallprint">🪙 +100 монет с первой попытки, +50 со второй. На каждый вопрос — две попытки.</p>
       </div>
       <div class="hero-art" aria-hidden="true">
         <div class="art-top"><b>ВАША НАГРАДА</b><span class="art-sticker">до 10 000 ₸</span></div>
@@ -311,8 +302,6 @@
           </div>
           <div class="question-body">
             <div class="choices" id="choices" role="group" aria-label="Варианты ответа"></div>
-            <div class="hint-row" id="hint-row"><button class="hint-btn" type="button" id="hint-btn">💡 Нужна подсказка?</button><span class="attempt-note" id="attempt-note">Выберите один вариант</span></div>
-            <div class="hint-box hidden" id="hint-box"></div>
             <div id="feedback" aria-live="polite"></div>
             <div class="question-actions"><div class="earned" id="earned-note">С первой попытки <b>+100 монет</b></div><button class="btn hidden" id="next-btn" type="button">Продолжить</button></div>
           </div>
@@ -366,30 +355,30 @@
   ];
   // Все 20 ситуаций рассчитаны на новичков. Примеры и объяснения проверяются методистом до коммерческого запуска.
   const questions = [
-    {emoji:'👋',place:'На улице',context:'Вы встречаете нового знакомого. Он улыбается и говорит:',speech:'Сәлем!',prompt:'Как ответите на приветствие?',options:['Рақмет!','Сәлем!','Қайырлы түн!','Сау бол!'],correct:1,hint:'В ответ на «Привет!» можно сказать то же самое.',explain:'«Сәлем!» — дружеское «Привет!». Можно просто ответить так же.'},
-    {emoji:'🙂',place:'Первая встреча',context:'Знакомый интересуется, как у вас дела:',speech:'Қалың қалай? · Как дела?',prompt:'Какой ответ подойдёт?',options:['Сау бол!','Менің атым Дана.','Жақсы, рақмет!','Мен Астанада тұрамын.'],correct:2,hint:'«Жақсы» означает «хорошо», а «рақмет» — «спасибо».',explain:'«Жақсы, рақмет!» — «Хорошо, спасибо!». Очень полезный ответ на каждый день.'},
-    {emoji:'🤝',place:'Давайте знакомиться',context:'Собеседник спрашивает ваше имя:',speech:'Атың кім? · Как тебя зовут?',prompt:'Что скажете, если вас зовут Дана?',options:['Менің атым Дана.','Мен Астанада тұрамын.','Мен Алматыдан келдім.','Мен студентпін.'],correct:0,hint:'«Менің атым» — «Меня зовут».',explain:'«Менің атым Дана» — «Меня зовут Дана». Подставьте своё имя — фраза готова.'},
-    {emoji:'🙌',place:'До встречи!',context:'Вы уходите после приятного разговора.',speech:'',prompt:'Как попрощаетесь с другом на казахском?',options:['Қайырлы таң!','Кешіріңіз!','Сәлем!','Сау бол!'],correct:3,hint:'«Сәлем» говорят при встрече, а «Сау бол» — на прощание.',explain:'«Сау бол!» — «Пока!». Вежливый вариант — «Сау болыңыз!».'},
+    {emoji:'👋',place:'На улице',context:'Вы встречаете нового знакомого. Он улыбается и говорит:',speech:'Сәлем!',prompt:'Как ответите на приветствие?',options:['Рақмет!','Сәлем!','Қайырлы түн!','Сау бол!'],correct:1,explain:'«Сәлем!» — дружеское «Привет!». Можно просто ответить так же.'},
+    {emoji:'🙂',place:'Первая встреча',context:'Знакомый интересуется, как у вас дела:',speech:'Қалың қалай? · Как дела?',prompt:'Какой ответ подойдёт?',options:['Сау бол!','Менің атым Дана.','Жақсы, рақмет!','Мен Астанада тұрамын.'],correct:2,explain:'«Жақсы, рақмет!» — «Хорошо, спасибо!». Очень полезный ответ на каждый день.'},
+    {emoji:'🤝',place:'Давайте знакомиться',context:'Собеседник спрашивает ваше имя:',speech:'Атың кім? · Как тебя зовут?',prompt:'Что скажете, если вас зовут Дана?',options:['Менің атым Дана.','Мен Астанада тұрамын.','Мен Алматыдан келдім.','Мен студентпін.'],correct:0,explain:'«Менің атым Дана» — «Меня зовут Дана». Подставьте своё имя — фраза готова.'},
+    {emoji:'🙌',place:'До встречи!',context:'Вы уходите после приятного разговора.',speech:'',prompt:'Как попрощаетесь с другом на казахском?',options:['Қайырлы таң!','Кешіріңіз!','Сәлем!','Сау бол!'],correct:3,explain:'«Сау бол!» — «Пока!». Вежливый вариант — «Сау болыңыз!».'},
 
-    {emoji:'☕',place:'Кофейня',context:'Бариста предлагает вам чай и спрашивает:',speech:'Шай ішесіз бе? · Будете чай?',prompt:'Как согласиться?',options:['Жоқ, шай ішпеймін.','Иә, ішемін!','Маған кофе керек.','Су ішемін.'],correct:1,hint:'«Иә» — «да». «Ішемін» — «буду пить».',explain:'«Иә, ішемін!» — «Да, буду!». «Шай» — чай, «кофе» по-казахски тоже «кофе».'},
-    {emoji:'🥐',place:'У кассы',context:'Бариста принёс ваш заказ.',speech:'',prompt:'Как поблагодарите его?',options:['Сау болыңыз!','Кешіріңіз!','Рақмет!','Сәлеметсіз бе!'],correct:2,hint:'Это одно из самых знакомых казахских слов.',explain:'«Рақмет!» — «Спасибо!». Коротко, просто и всегда к месту.'},
-    {emoji:'🥤',place:'Ещё один заказ',context:'Вы в кофейне и хотите пить.',speech:'',prompt:'Как сказать: «Дайте мне воды, пожалуйста»?',options:['Маған су беріңізші.','Су бар ма?','Судың бағасы қанша?','Маған шай беріңізші.'],correct:0,hint:'«Су» — вода, «беріңізші» — вежливое «дайте, пожалуйста».',explain:'«Маған су беріңізші» — «Дайте мне воды, пожалуйста». Так можно попросить и другие вещи.'},
-    {emoji:'🧁',place:'Всё заказали',context:'Бариста спрашивает, нужно ли что-то ещё:',speech:'Тағы бірдеңе керек пе? · Что-нибудь ещё?',prompt:'Вы больше ничего не хотите. Что ответите?',options:['Тағы бір кофе беріңізші.','Маған десерт беріңізші.','Иә, тағы шай аламын.','Жоқ, рақмет!'],correct:3,hint:'«Жоқ» — «нет». Добавьте «спасибо».',explain:'«Жоқ, рақмет!» — «Нет, спасибо!». Это вежливый и естественный ответ.'},
+    {emoji:'☕',place:'Кофейня',context:'Бариста предлагает вам чай и спрашивает:',speech:'Шай ішесіз бе? · Будете чай?',prompt:'Как согласиться?',options:['Жоқ, шай ішпеймін.','Иә, ішемін!','Маған кофе керек.','Су ішемін.'],correct:1,explain:'«Иә, ішемін!» — «Да, буду!». «Шай» — чай, «кофе» по-казахски тоже «кофе».'},
+    {emoji:'🥐',place:'У кассы',context:'Бариста принёс ваш заказ.',speech:'',prompt:'Как поблагодарите его?',options:['Сау болыңыз!','Кешіріңіз!','Рақмет!','Сәлеметсіз бе!'],correct:2,explain:'«Рақмет!» — «Спасибо!». Коротко, просто и всегда к месту.'},
+    {emoji:'🥤',place:'Ещё один заказ',context:'Вы в кофейне и хотите пить.',speech:'',prompt:'Как сказать: «Дайте мне воды, пожалуйста»?',options:['Маған су беріңізші.','Су бар ма?','Судың бағасы қанша?','Маған шай беріңізші.'],correct:0,explain:'«Маған су беріңізші» — «Дайте мне воды, пожалуйста». Так можно попросить и другие вещи.'},
+    {emoji:'🧁',place:'Всё заказали',context:'Бариста спрашивает, нужно ли что-то ещё:',speech:'Тағы бірдеңе керек пе? · Что-нибудь ещё?',prompt:'Вы больше ничего не хотите. Что ответите?',options:['Тағы бір кофе беріңізші.','Маған десерт беріңізші.','Иә, тағы шай аламын.','Жоқ, рақмет!'],correct:3,explain:'«Жоқ, рақмет!» — «Нет, спасибо!». Это вежливый и естественный ответ.'},
 
-    {emoji:'📚',place:'Книжный магазин',context:'Вы рассматриваете интересную книгу.',speech:'',prompt:'Как спросить: «Сколько стоит эта книга?»',options:['Бұл кітап қайда?','Бұл кітап қанша тұрады?','Бұл кітап бар ма?','Бұл кітап жақсы ма?'],correct:1,hint:'«Бұл кітап» — «эта книга», а «қанша тұрады?» — «сколько стоит?».',explain:'«Бұл кітап қанша тұрады?» — «Сколько стоит эта книга?». «Қанша тұрады?» пригодится в любом магазине.'},
-    {emoji:'💳',place:'Узнаём цену',context:'Продавец отвечает на ваш вопрос о цене:',speech:'Екі мың теңге.',prompt:'Сколько стоит покупка?',options:['200 ₸','20 000 ₸','2 000 ₸','12 000 ₸'],correct:2,hint:'«Екі» — два, «мың» — тысяча.',explain:'«Екі мың теңге» — две тысячи тенге. Вы уже умеете понимать цены!' },
-    {emoji:'🎟️',place:'У билетной кассы',context:'Вы пришли в кино с другом.',speech:'',prompt:'Как попросите два билета?',options:['Екі билет беріңізші.','Бір билет беріңізші.','Екі билет қанша тұрады?','Екі билет бар ма?'],correct:0,hint:'«Екі» — два, «беріңізші» — «дайте, пожалуйста».',explain:'«Екі билет беріңізші» — «Два билета, пожалуйста». «Бір» — один, «екі» — два.'},
-    {emoji:'🛍️',place:'На кассе магазина',context:'Продавец спрашивает, хотите ли вы что-то ещё:',speech:'Тағы не керек? · Что ещё нужно?',prompt:'Как сказать, что больше ничего не нужно?',options:['Маған пакет беріңізші.','Тағы бір нан аламын.','Су бар ма?','Болды, рақмет!'],correct:3,hint:'«Болды» в этой ситуации означает «Всё, достаточно».',explain:'«Болды, рақмет!» — «Всё, спасибо!». В магазине это очень удобная фраза.'},
+    {emoji:'📚',place:'Книжный магазин',context:'Вы рассматриваете интересную книгу.',speech:'',prompt:'Как спросить: «Сколько стоит эта книга?»',options:['Бұл кітап қайда?','Бұл кітап қанша тұрады?','Бұл кітап бар ма?','Бұл кітап жақсы ма?'],correct:1,explain:'«Бұл кітап қанша тұрады?» — «Сколько стоит эта книга?». «Қанша тұрады?» пригодится в любом магазине.'},
+    {emoji:'💳',place:'Узнаём цену',context:'Продавец отвечает на ваш вопрос о цене:',speech:'Екі мың теңге.',prompt:'Сколько стоит покупка?',options:['200 ₸','20 000 ₸','2 000 ₸','12 000 ₸'],correct:2,explain:'«Екі мың теңге» — две тысячи тенге. Вы уже умеете понимать цены!' },
+    {emoji:'🎟️',place:'У билетной кассы',context:'Вы пришли в кино с другом.',speech:'',prompt:'Как попросите два билета?',options:['Екі билет беріңізші.','Бір билет беріңізші.','Екі билет қанша тұрады?','Екі билет бар ма?'],correct:0,explain:'«Екі билет беріңізші» — «Два билета, пожалуйста». «Бір» — один, «екі» — два.'},
+    {emoji:'🛍️',place:'На кассе магазина',context:'Продавец спрашивает, хотите ли вы что-то ещё:',speech:'Тағы не керек? · Что ещё нужно?',prompt:'Как сказать, что больше ничего не нужно?',options:['Маған пакет беріңізші.','Тағы бір нан аламын.','Су бар ма?','Болды, рақмет!'],correct:3,explain:'«Болды, рақмет!» — «Всё, спасибо!». В магазине это очень удобная фраза.'},
 
-    {emoji:'🚕',place:'В такси',context:'Такси подъехало к нужному месту.',speech:'',prompt:'Как попросить водителя остановиться здесь?',options:['Оңға бұрылыңызшы.','Осы жерде тоқтаңызшы.','Солға бұрылыңызшы.','Тура жүріңізші.'],correct:1,hint:'«Осы жерде» — «в этом месте», «тоқтаңызшы» — «остановитесь, пожалуйста».',explain:'«Осы жерде тоқтаңызшы» — «Остановитесь здесь, пожалуйста». В такси пригодится постоянно.'},
-    {emoji:'🛫',place:'Едем в аэропорт',context:'Водитель задаёт вопрос:',speech:'Қайда барасыз? · Куда едете?',prompt:'Как коротко ответить: «В аэропорт»?',options:['Үйге.','Вокзалға.','Әуежайға.','Мектепке.'],correct:2,hint:'«Әуежай» — аэропорт. Окончание «-ға» показывает направление.',explain:'«Әуежайға» — «В аэропорт». Короткий ответ тоже может быть полноценным.'},
-    {emoji:'🏥',place:'Нужна помощь',context:'Вы ищете аптеку в незнакомом районе.',speech:'',prompt:'Как спросить: «Где аптека?»',options:['Дәріхана қайда?','Дәріхана ашық па?','Дәріхана нешеде ашылады?','Бұл дәріхана ма?'],correct:0,hint:'«Дәріхана» — аптека, «қайда?» — «где?».',explain:'«Дәріхана қайда?» — «Где аптека?». Замените слово — и сможете найти что угодно.'},
-    {emoji:'🕒',place:'Возле остановки',context:'Кто-то спрашивает время:',speech:'Қазір сағат неше? · Который час?',prompt:'Как ответить: «Три часа»?',options:['Сағат екі.','Сағат төрт.','Сағат бес.','Сағат үш.'],correct:3,hint:'«Үш» — три. Начните со слова «сағат».',explain:'«Сағат үш» — «Три часа». Вы узнали ещё одно полезное число!' },
+    {emoji:'🚕',place:'В такси',context:'Такси подъехало к нужному месту.',speech:'',prompt:'Как попросить водителя остановиться здесь?',options:['Оңға бұрылыңызшы.','Осы жерде тоқтаңызшы.','Солға бұрылыңызшы.','Тура жүріңізші.'],correct:1,explain:'«Осы жерде тоқтаңызшы» — «Остановитесь здесь, пожалуйста». В такси пригодится постоянно.'},
+    {emoji:'🛫',place:'Едем в аэропорт',context:'Водитель задаёт вопрос:',speech:'Қайда барасыз? · Куда едете?',prompt:'Как коротко ответить: «В аэропорт»?',options:['Үйге.','Вокзалға.','Әуежайға.','Мектепке.'],correct:2,explain:'«Әуежайға» — «В аэропорт». Короткий ответ тоже может быть полноценным.'},
+    {emoji:'🏥',place:'Нужна помощь',context:'Вы ищете аптеку в незнакомом районе.',speech:'',prompt:'Как спросить: «Где аптека?»',options:['Дәріхана қайда?','Дәріхана ашық па?','Дәріхана нешеде ашылады?','Бұл дәріхана ма?'],correct:0,explain:'«Дәріхана қайда?» — «Где аптека?». Замените слово — и сможете найти что угодно.'},
+    {emoji:'🕒',place:'Возле остановки',context:'Кто-то спрашивает время:',speech:'Қазір сағат неше? · Который час?',prompt:'Как ответить: «Три часа»?',options:['Сағат екі.','Сағат төрт.','Сағат бес.','Сағат үш.'],correct:3,explain:'«Сағат үш» — «Три часа». Вы узнали ещё одно полезное число!' },
 
-    {emoji:'📱',place:'Переписка с другом',context:'На телефон приходит сообщение:',speech:'Бүгін боссың ба? · Сегодня свободен?',prompt:'Как ответить: «Да, я свободен»?',options:['Бүгін жұмысым көп.','Иә, боспын!','Бүгін уақытым жоқ.','Ертең бос боламын.'],correct:1,hint:'«Иә» — «да», «боспын» — «я свободен».',explain:'«Иә, боспын!» — «Да, я свободен!». Теперь можно договариваться о встрече.'},
-    {emoji:'🌆',place:'Планы на вечер',context:'Друг предлагает встретиться:',speech:'Кешке кездесеміз бе? · Встретимся вечером?',prompt:'Как согласиться на встречу?',options:['Жоқ, бүгін қолым тимейді.','Ертең кездесеміз бе?','Иә, кездесеміз!','Кешке үйде боламын.'],correct:2,hint:'«Кездесеміз» — «встретимся». Добавьте «да».',explain:'«Иә, кездесеміз!» — «Да, встретимся!». Вы поддержали разговор на казахском.'},
-    {emoji:'💳',place:'Покупка в магазине',context:'Вы стоите у кассы магазина.',speech:'',prompt:'Как спросить, можно ли оплатить картой?',options:['Картамен төлеуге бола ма?','Қолма-қол төлеуге бола ма?','Картамен төлеймін.','Төлемді қалай жасаймын?'],correct:0,hint:'«Картамен» — «картой», «төлеуге бола ма?» — «можно оплатить?».',explain:'«Картамен төлеуге бола ма?» — «Можно оплатить картой?». Суперполезная фраза для покупок.'},
-    {emoji:'🏆',place:'Финальный диалог',context:'Вы общаетесь с продавцом в книжном магазине.',speech:'',prompt:'Какой диалог поможет узнать стоимость книги?',options:['Сәлеметсіз бе! Бұл кітапты көре аламын ба? Рақмет!','Сәлеметсіз бе! Бұл кітап бар ма? Рақмет!','Сәлеметсіз бе! Бұл кітап қайда тұр? Рақмет!','Сәлеметсіз бе! Бұл кітап қанша тұрады? Рақмет!'],correct:3,hint:'Нужны три части: «Здравствуйте» + «Сколько стоит эта книга?» + «Спасибо».',explain:'Отлично! «Сәлеметсіз бе!» — здравствуйте, «Бұл кітап қанша тұрады?» — сколько стоит эта книга, «Рақмет!» — спасибо.'}
+    {emoji:'📱',place:'Переписка с другом',context:'На телефон приходит сообщение:',speech:'Бүгін боссың ба? · Сегодня свободен?',prompt:'Как ответить: «Да, я свободен»?',options:['Бүгін жұмысым көп.','Иә, боспын!','Бүгін уақытым жоқ.','Ертең бос боламын.'],correct:1,explain:'«Иә, боспын!» — «Да, я свободен!». Теперь можно договариваться о встрече.'},
+    {emoji:'🌆',place:'Планы на вечер',context:'Друг предлагает встретиться:',speech:'Кешке кездесеміз бе? · Встретимся вечером?',prompt:'Как согласиться на встречу?',options:['Жоқ, бүгін қолым тимейді.','Ертең кездесеміз бе?','Иә, кездесеміз!','Кешке үйде боламын.'],correct:2,explain:'«Иә, кездесеміз!» — «Да, встретимся!». Вы поддержали разговор на казахском.'},
+    {emoji:'💳',place:'Покупка в магазине',context:'Вы стоите у кассы магазина.',speech:'',prompt:'Как спросить, можно ли оплатить картой?',options:['Картамен төлеуге бола ма?','Қолма-қол төлеуге бола ма?','Картамен төлеймін.','Төлемді қалай жасаймын?'],correct:0,explain:'«Картамен төлеуге бола ма?» — «Можно оплатить картой?». Суперполезная фраза для покупок.'},
+    {emoji:'🏆',place:'Финальный диалог',context:'Вы общаетесь с продавцом в книжном магазине.',speech:'',prompt:'Какой диалог поможет узнать стоимость книги?',options:['Сәлеметсіз бе! Бұл кітапты көре аламын ба? Рақмет!','Сәлеметсіз бе! Бұл кітап бар ма? Рақмет!','Сәлеметсіз бе! Бұл кітап қайда тұр? Рақмет!','Сәлеметсіз бе! Бұл кітап қанша тұрады? Рақмет!'],correct:3,explain:'Отлично! «Сәлеметсіз бе!» — здравствуйте, «Бұл кітап қанша тұрады?» — сколько стоит эта книга, «Рақмет!» — спасибо.'}
   ];
   const $ = id => document.getElementById(id);
   const formatNumber = n => new Intl.NumberFormat('ru-RU').format(n);
@@ -397,7 +386,7 @@
   const coinText = n => { const rem = n % 10, tens = n % 100; return formatNumber(n) + ' ' + (tens >= 11 && tens <= 14 ? 'монет' : rem === 1 ? 'монета' : rem >= 2 && rem <= 4 ? 'монеты' : 'монет'); };
   const discountFor = coins => Math.min(MAX_DISCOUNT, coins * PRICE_PER_COIN);
   const rewardFor = attempt => attempt === 1 ? FIRST_TRY_COINS : attempt === 2 ? SECOND_TRY_COINS : 0;
-  const state = {index:0, coins:0, attempts:0, tried:[], hint:false, resolved:false, finished:false, started:false};
+  const state = {index:0, coins:0, attempts:0, tried:[], resolved:false, finished:false, started:false};
   function persist(){ try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}catch(e){} }
   function restore(){try{const previous=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');if(!previous||!previous.started)return; if(!Number.isInteger(previous.index)||previous.index<0||previous.index>20||!Number.isInteger(previous.coins)||previous.coins<0||previous.coins>20*FIRST_TRY_COINS||previous.coins%SECOND_TRY_COINS!==0||typeof previous.finished!=='boolean')return;Object.assign(state,previous,{tried:Array.isArray(previous.tried)?previous.tried.filter(Number.isInteger):[]});if(state.finished){showResult();}else{showQuiz();}}catch(e){} }
   function setScreen(name){['intro','quiz','result'].forEach(s=>$(s+'-screen').classList.toggle('hidden',s!==name));$('ql-game').classList.toggle('playing',name==='quiz');$('ql-game').classList.toggle('intro-active',name==='intro');}
@@ -427,12 +416,6 @@
       b.addEventListener('click',()=>choose(i));
       $('choices').appendChild(b);
     });
-    $('hint-box').textContent=q.hint;
-    $('hint-box').classList.toggle('hidden',!state.hint||state.resolved);
-    $('hint-row').classList.toggle('hidden',state.resolved);
-    $('hint-btn').classList.toggle('hidden',state.resolved);
-    $('hint-btn').textContent=state.hint?'💡 Скрыть подсказку':'💡 Нужна подсказка?';
-    $('attempt-note').textContent=state.attempts===1&&!state.resolved?'Осталась 1 попытка':'Выберите один вариант';
     $('feedback').innerHTML='';
     $('next-btn').classList.toggle('hidden',!state.resolved);
     $('next-btn').disabled=!state.resolved;
@@ -449,25 +432,22 @@
     details.addEventListener('click',()=>{const open=panel.classList.toggle('expanded');details.textContent=open?'Скрыть':'Почему?';});
     panel.append(strong,explanation,details);$('feedback').replaceChildren(panel);
   }
-  function renderRetry(){markAnswers();feedback('try','Почти! Давайте ещё раз 💪','Попробуйте ответить правильно и получите 50 монет! Подсказка уже открыта.');$('earned-note').innerHTML='Со второй попытки <b>+50 монет</b>';$('hint-box').classList.remove('hidden');$('hint-btn').textContent='💡 Скрыть подсказку';$('attempt-note').textContent='Осталась 1 попытка';}
+  function renderRetry(){markAnswers();feedback('try','Почти! Попробуйте ещё раз 💪','Осталась одна попытка. За правильный ответ получите 50 монет.');$('earned-note').innerHTML='Ещё одна попытка: <b>+50 монет</b>';}
   function renderResolved(){
     const q=questions[state.index];markAnswers();
-    $('hint-row').classList.add('hidden');$('hint-box').classList.add('hidden');
-    $('hint-btn').classList.add('hidden');$('next-btn').classList.remove('hidden');$('next-btn').disabled=false;
+    $('next-btn').classList.remove('hidden');$('next-btn').disabled=false;
     const success=state.tried[state.tried.length-1]===q.correct;
     const reward=success?rewardFor(state.attempts):0;
     $('earned-note').innerHTML=success?'<b>+'+reward+' монет</b> в копилку!':'<b>0 монет</b> · идём дальше';
     feedback(success?'':'no',success?'Правильно! +'+reward+' монет 🪙':'Ничего страшного — вы учитесь!',q.explain);
-    $('attempt-note').textContent=success?'Монеты заработаны':'Впереди ещё вопросы';
   }
   function burst(reward){if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;const rect=$('coin-top').getBoundingClientRect();const el=document.createElement('div');el.className='coin-burst';el.textContent='+'+reward+' 🪙';el.style.left=Math.max(8,rect.left+rect.width/2-38)+'px';el.style.top=Math.max(68,rect.top+15)+'px';$('ql-game').appendChild(el);setTimeout(()=>el.remove(),1100);}
-  function choose(id){if(state.resolved||state.tried.includes(id))return;const q=questions[state.index];state.tried.push(id);state.attempts++;if(id===q.correct){const reward=rewardFor(state.attempts);state.coins+=reward;state.resolved=true;burst(reward);updateScore();renderResolved();}else if(state.attempts===1){state.hint=true;renderRetry();}else{state.resolved=true;renderResolved();}persist();}
-  function next(){if(!state.resolved)return;if(state.index===19){state.finished=true;showResult();persist();return;}state.index++;state.attempts=0;state.tried=[];state.hint=false;state.resolved=false;renderQuestion();persist();const top=$('quiz-screen').getBoundingClientRect().top+window.scrollY-8;window.scrollTo({top,behavior:'smooth'});}
+  function choose(id){if(state.resolved||state.tried.includes(id))return;const q=questions[state.index];state.tried.push(id);state.attempts++;if(id===q.correct){const reward=rewardFor(state.attempts);state.coins+=reward;state.resolved=true;burst(reward);updateScore();renderResolved();}else if(state.attempts===1){renderRetry();}else{state.resolved=true;renderResolved();}persist();}
+  function next(){if(!state.resolved)return;if(state.index===19){state.finished=true;showResult();persist();return;}state.index++;state.attempts=0;state.tried=[];state.resolved=false;renderQuestion();persist();const top=$('quiz-screen').getBoundingClientRect().top+window.scrollY-8;window.scrollTo({top,behavior:'smooth'});}
   function showResult(){state.finished=true;setScreen('result');$('result-coins').textContent=formatNumber(state.coins);$('result-discount').textContent=money(discountFor(state.coins));const message='Здравствуйте! Я прошёл(ла) интерактивную игру Qazline «Собери монеты» и набрал(а) '+coinText(state.coins)+'. Моя скидка — '+money(discountFor(state.coins))+'. Прикрепляю скриншот результата. Подскажите, как воспользоваться скидкой на обучение?';$('whatsapp-link').href='https://wa.me/'+WHATSAPP_NUMBER+'?text='+encodeURIComponent(message);window.scrollTo({top:0,behavior:'instant'});}
   $('start-btn').addEventListener('click',()=>{showQuiz();});
   $('next-btn').addEventListener('click',next);
-  $('hint-btn').addEventListener('click',()=>{state.hint=!state.hint;$('hint-box').classList.toggle('hidden',!state.hint);$('hint-btn').textContent=state.hint?'💡 Скрыть подсказку':'💡 Нужна подсказка?';persist();});
-  $('restart-btn').addEventListener('click',()=>{Object.assign(state,{index:0,coins:0,attempts:0,tried:[],hint:false,resolved:false,finished:false,started:true});showQuiz();window.scrollTo({top:0,behavior:'smooth'});});
+  $('restart-btn').addEventListener('click',()=>{Object.assign(state,{index:0,coins:0,attempts:0,tried:[],resolved:false,finished:false,started:true});showQuiz();window.scrollTo({top:0,behavior:'smooth'});});
   document.addEventListener('keydown',e=>{if($('quiz-screen').classList.contains('hidden')||e.altKey||e.ctrlKey||e.metaKey||e.repeat)return;const i=Number(e.key)-1;if(i>=0&&i<4&&!state.resolved){const b=$('choices').querySelector('[data-answer="'+i+'"]');if(b&&!b.disabled)b.click();}else if(e.key==='Enter'&&state.resolved&&document.activeElement.tagName!=='BUTTON')next();});
   // Монетки появляются по одной, редко и только на первом экране.
   function spawnFlyingCoin(){
