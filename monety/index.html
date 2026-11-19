@@ -64,6 +64,7 @@
     #ql-game .game-top { display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:22px; }
     #ql-game .game-title { color:var(--navy); font-weight:900; letter-spacing:-.02em; font-size:18px; }
     #ql-game .mobile-question-counter { display:none; }
+    #ql-game .score-mobile { display:none; }
     #ql-game .score-box { display:flex; align-items:center; gap:10px; background:#fff; border:1px solid #e4e5ee; border-radius:13px; padding:10px 15px; font-weight:900; white-space:nowrap; color:var(--navy); box-shadow:0 4px 12px #1c204009; }
     #ql-game .mini-coin { display:inline-grid; place-items:center; width:27px; height:27px; flex:none; border-radius:50%; color:#fff; background:linear-gradient(135deg,#ffa95e,#ef630e); border:3px solid #ffdbac; box-shadow:0 2px 4px #ef630e40; font:800 14px Oswald,Arial,sans-serif; }
     #ql-game .game-wrap { display:grid; grid-template-columns:245px minmax(0,1fr); align-items:start; gap:20px; }
@@ -157,6 +158,8 @@
       #ql-game .game-top { margin-bottom:6px; min-height:35px; }
       #ql-game .game-title .desktop-label { display:none; }
       #ql-game .mobile-question-counter { display:inline; font-size:14px; }
+      #ql-game .score-desktop { display:none; }
+      #ql-game .score-mobile { display:inline; }
       #ql-game .score-box { padding:5px 9px; font-size:12px; gap:7px; border-radius:10px; }
       #ql-game .mini-coin { width:23px; height:23px; font-size:12px; border-width:2px; }
       #ql-game .question-panel { border-radius:16px; }
@@ -225,10 +228,10 @@
         <div class="facts">
           <span class="fact">✦ 20 вопросов</span>
           <span class="fact">◷ 5–7 минут</span>
-          <span class="fact">🪙 1 монета = 500 ₸</span>
+          <span class="fact">🪙 100 монет = 500 ₸</span>
         </div>
         <div class="button-line"><button class="btn" id="start-btn" type="button">Начать игру</button></div>
-        <p class="smallprint">Никаких оценок и стресса. Подсказки доступны на каждом шаге.</p>
+        <p class="smallprint">С первой попытки — 100 монет, со второй — 50. Две ошибки — 0 монет. Подсказки помогут!</p>
       </div>
       <div class="hero-art" aria-hidden="true">
         <div class="art-top"><b>ВАША НАГРАДА</b><span class="art-sticker">до 10 000 ₸</span></div>
@@ -240,13 +243,13 @@
     <section class="container play hidden" id="quiz-screen" aria-label="Вопросы">
       <div class="game-top">
         <div class="game-title"><span class="desktop-label">QAZLINE <span style="font-weight:500;color:#9399ac">/ Игра на скидку</span></span><span class="mobile-question-counter" id="mobile-question-counter">ВОПРОС 1 / 20</span></div>
-        <div class="score-box" aria-live="polite"><span class="mini-coin">₸</span><span id="coin-top">0 монет · 0 ₸</span></div>
+        <div class="score-box" aria-live="polite"><span class="mini-coin">₸</span><span class="score-desktop" id="coin-top">0 монет · 0 ₸</span><span class="score-mobile" id="coin-top-mobile">0 · 0 ₸</span></div>
       </div>
       <div class="game-wrap">
         <aside class="journey" aria-label="Этапы игры">
           <h3>ВАШ МАРШРУТ</h3>
           <div id="stage-list"></div>
-          <p class="journey-note">Каждый правильный ответ — это монета. Даже после ошибки можно попробовать ещё раз.</p>
+          <p class="journey-note">Правильно с первого раза — 100 монет (500 ₸), со второго — 50 монет (250 ₸). За две ошибки монеты не начисляются.</p>
         </aside>
         <div class="question-panel">
           <div class="question-head">
@@ -263,7 +266,7 @@
             <div class="hint-row" id="hint-row"><button class="hint-btn" type="button" id="hint-btn">💡 Нужна подсказка?</button><span class="attempt-note" id="attempt-note">Выберите один вариант</span></div>
             <div class="hint-box hidden" id="hint-box"></div>
             <div id="feedback" aria-live="polite"></div>
-            <div class="question-actions"><div class="earned" id="earned-note">За верный ответ <b>+500 ₸</b></div><button class="btn hidden" id="next-btn" type="button">Продолжить</button></div>
+            <div class="question-actions"><div class="earned" id="earned-note">С первой попытки <b>+100 монет</b></div><button class="btn hidden" id="next-btn" type="button">Продолжить</button></div>
           </div>
         </div>
       </div>
@@ -298,9 +301,14 @@
 <script>
 (function(){
   'use strict';
-  const PRICE_PER_COIN = 500;
+  const PRICE_PER_COIN = 5;
+  const FIRST_TRY_COINS = 100;
+  const SECOND_TRY_COINS = 50;
+  const MAX_DISCOUNT = 10000;
   const WHATSAPP_NUMBER = '77082397128'; // Номер взят из опубликованного мини-урока Qazline.
-  const STORAGE_KEY = 'qazline-miniquiz-coins-v1';
+  // Новая версия хранилища: предыдущие результаты нельзя достоверно пересчитать
+  // (раньше и первая, и вторая попытки приносили по одной монете).
+  const STORAGE_KEY = 'qazline-miniquiz-coins-v2';
   const stages = [
     {name:'Знакомство',label:'Первые фразы'},
     {name:'Заходим в кафе',label:'Вежливые просьбы'},
@@ -336,13 +344,16 @@
     {emoji:'🏆',place:'Финальный диалог',context:'Вы пришли за книгой. Хотите поздороваться, узнать цену и поблагодарить.',speech:'Финальная миссия 📚',prompt:'Какой диалог поможет узнать стоимость книги?',options:['Сәлеметсіз бе! Бұл кітапты көре аламын ба? Рақмет!','Сәлеметсіз бе! Бұл кітап бар ма? Рақмет!','Сәлеметсіз бе! Бұл кітап қайда тұр? Рақмет!','Сәлеметсіз бе! Бұл кітап қанша тұрады? Рақмет!'],correct:3,hint:'Нужны три части: «Здравствуйте» + «Сколько стоит эта книга?» + «Спасибо».',explain:'Отлично! «Сәлеметсіз бе!» — здравствуйте, «Бұл кітап қанша тұрады?» — сколько стоит эта книга, «Рақмет!» — спасибо.'}
   ];
   const $ = id => document.getElementById(id);
-  const money = n => new Intl.NumberFormat('ru-RU').format(n) + ' ₸';
-  const coinText = n => { const rem = n % 10, tens = n % 100; return n + ' ' + (tens >= 11 && tens <= 14 ? 'монет' : rem === 1 ? 'монета' : rem >= 2 && rem <= 4 ? 'монеты' : 'монет'); };
+  const formatNumber = n => new Intl.NumberFormat('ru-RU').format(n);
+  const money = n => formatNumber(n) + ' ₸';
+  const coinText = n => { const rem = n % 10, tens = n % 100; return formatNumber(n) + ' ' + (tens >= 11 && tens <= 14 ? 'монет' : rem === 1 ? 'монета' : rem >= 2 && rem <= 4 ? 'монеты' : 'монет'); };
+  const discountFor = coins => Math.min(MAX_DISCOUNT, coins * PRICE_PER_COIN);
+  const rewardFor = attempt => attempt === 1 ? FIRST_TRY_COINS : attempt === 2 ? SECOND_TRY_COINS : 0;
   const state = {index:0, coins:0, attempts:0, tried:[], hint:false, resolved:false, finished:false, started:false};
   function persist(){ try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}catch(e){} }
-  function restore(){try{const previous=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');if(!previous||!previous.started)return; if(!Number.isInteger(previous.index)||previous.index<0||previous.index>20||!Number.isInteger(previous.coins)||previous.coins<0||previous.coins>20||typeof previous.finished!=='boolean')return;Object.assign(state,previous,{tried:Array.isArray(previous.tried)?previous.tried.filter(Number.isInteger):[]});if(state.finished){showResult();}else{showQuiz();}}catch(e){} }
+  function restore(){try{const previous=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');if(!previous||!previous.started)return; if(!Number.isInteger(previous.index)||previous.index<0||previous.index>20||!Number.isInteger(previous.coins)||previous.coins<0||previous.coins>20*FIRST_TRY_COINS||previous.coins%SECOND_TRY_COINS!==0||typeof previous.finished!=='boolean')return;Object.assign(state,previous,{tried:Array.isArray(previous.tried)?previous.tried.filter(Number.isInteger):[]});if(state.finished){showResult();}else{showQuiz();}}catch(e){} }
   function setScreen(name){['intro','quiz','result'].forEach(s=>$(s+'-screen').classList.toggle('hidden',s!==name));$('ql-game').classList.toggle('playing',name==='quiz');}
-  function updateScore(){ $('coin-top').textContent=coinText(state.coins)+' · '+money(state.coins*PRICE_PER_COIN); }
+  function updateScore(){ $('coin-top').textContent=coinText(state.coins)+' · '+money(discountFor(state.coins));$('coin-top-mobile').textContent=formatNumber(state.coins)+' · '+money(discountFor(state.coins)); }
   function showQuiz(){state.started=true;setScreen('quiz');renderQuestion();persist();}
   function stageOf(index){return Math.min(4,Math.floor(index/4));}
   function renderStages(){const current=stageOf(state.index);$('stage-list').innerHTML=stages.map((s,i)=>'<div class="journey-step '+(i<current?'done':i===current?'active':'')+'"><span class="journey-number">'+(i<current?'✓':i+1)+'</span><span><strong>'+s.name+'</strong><small>'+s.label+'</small></span></div>').join('');}
@@ -377,7 +388,7 @@
     $('next-btn').classList.toggle('hidden',!state.resolved);
     $('next-btn').disabled=!state.resolved;
     $('next-btn').textContent=state.index===19?'Забрать награду':'Продолжить';
-    $('earned-note').innerHTML='За верный ответ <b>+500 ₸</b>';
+    $('earned-note').innerHTML='С первой попытки <b>+100 монет</b>';
     if(state.resolved){renderResolved();}else if(state.attempts===1){renderRetry();}
   }
   function markAnswers(){const q=questions[state.index];$('choices').querySelectorAll('.choice').forEach(b=>{const id=Number(b.dataset.answer);const isCorrect=id===q.correct;const isWrong=state.tried.includes(id)&&!isCorrect;b.classList.toggle('correct',state.resolved&&isCorrect);b.classList.toggle('wrong',isWrong);b.disabled=state.resolved||state.tried.includes(id);});}
@@ -389,20 +400,21 @@
     details.addEventListener('click',()=>{const open=panel.classList.toggle('expanded');details.textContent=open?'Скрыть':'Почему?';});
     panel.append(strong,explanation,details);$('feedback').replaceChildren(panel);
   }
-  function renderRetry(){markAnswers();feedback('try','Почти! Давайте ещё раз 💪','У вас есть ещё одна попытка. Подсказка уже открыта.');$('hint-box').classList.remove('hidden');$('hint-btn').textContent='💡 Скрыть подсказку';$('attempt-note').textContent='Осталась 1 попытка';}
+  function renderRetry(){markAnswers();feedback('try','Почти! Давайте ещё раз 💪','Попробуйте ответить правильно и получите 50 монет! Подсказка уже открыта.');$('earned-note').innerHTML='Со второй попытки <b>+50 монет</b>';$('hint-box').classList.remove('hidden');$('hint-btn').textContent='💡 Скрыть подсказку';$('attempt-note').textContent='Осталась 1 попытка';}
   function renderResolved(){
     const q=questions[state.index];markAnswers();
     $('hint-row').classList.add('hidden');$('hint-box').classList.add('hidden');
     $('hint-btn').classList.add('hidden');$('next-btn').classList.remove('hidden');$('next-btn').disabled=false;
-    $('earned-note').innerHTML=state.tried[state.tried.length-1]===q.correct?'<b>+500 ₸</b> в копилку!':'Правильный ответ подсвечен зелёным';
     const success=state.tried[state.tried.length-1]===q.correct;
-    feedback(success?'':'no',success?'Правильно! +1 монета 🪙':'Ничего страшного — вы учитесь!',q.explain);
-    $('attempt-note').textContent=success?'Монета заработана':'Впереди ещё вопросы';
+    const reward=success?rewardFor(state.attempts):0;
+    $('earned-note').innerHTML=success?'<b>+'+reward+' монет</b> в копилку!':'<b>0 монет</b> · идём дальше';
+    feedback(success?'':'no',success?'Правильно! +'+reward+' монет 🪙':'Ничего страшного — вы учитесь!',q.explain);
+    $('attempt-note').textContent=success?'Монеты заработаны':'Впереди ещё вопросы';
   }
-  function burst(){if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;const rect=$('coin-top').getBoundingClientRect();const el=document.createElement('div');el.className='coin-burst';el.textContent='+500 ₸';el.style.left=Math.max(8,rect.left+rect.width/2-38)+'px';el.style.top=Math.max(68,rect.top+15)+'px';$('ql-game').appendChild(el);setTimeout(()=>el.remove(),1100);}
-  function choose(id){if(state.resolved||state.tried.includes(id))return;const q=questions[state.index];state.tried.push(id);state.attempts++;if(id===q.correct){state.coins++;state.resolved=true;burst();updateScore();renderResolved();}else if(state.attempts===1){state.hint=true;renderRetry();}else{state.resolved=true;renderResolved();}persist();}
+  function burst(reward){if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;const rect=$('coin-top').getBoundingClientRect();const el=document.createElement('div');el.className='coin-burst';el.textContent='+'+reward+' 🪙';el.style.left=Math.max(8,rect.left+rect.width/2-38)+'px';el.style.top=Math.max(68,rect.top+15)+'px';$('ql-game').appendChild(el);setTimeout(()=>el.remove(),1100);}
+  function choose(id){if(state.resolved||state.tried.includes(id))return;const q=questions[state.index];state.tried.push(id);state.attempts++;if(id===q.correct){const reward=rewardFor(state.attempts);state.coins+=reward;state.resolved=true;burst(reward);updateScore();renderResolved();}else if(state.attempts===1){state.hint=true;renderRetry();}else{state.resolved=true;renderResolved();}persist();}
   function next(){if(!state.resolved)return;if(state.index===19){state.finished=true;showResult();persist();return;}state.index++;state.attempts=0;state.tried=[];state.hint=false;state.resolved=false;renderQuestion();persist();const top=$('quiz-screen').getBoundingClientRect().top+window.scrollY-8;window.scrollTo({top,behavior:'smooth'});}
-  function showResult(){state.finished=true;setScreen('result');$('result-coins').textContent=state.coins;$('result-discount').textContent=money(state.coins*PRICE_PER_COIN);const message='Здравствуйте! Я прошёл(ла) интерактивную игру Qazline «Собери монеты» и набрал(а) '+coinText(state.coins)+'. Моя скидка — '+money(state.coins*PRICE_PER_COIN)+'. Прикрепляю скриншот результата. Подскажите, как воспользоваться скидкой на обучение?';$('whatsapp-link').href='https://wa.me/'+WHATSAPP_NUMBER+'?text='+encodeURIComponent(message);window.scrollTo({top:0,behavior:'instant'});}
+  function showResult(){state.finished=true;setScreen('result');$('result-coins').textContent=formatNumber(state.coins);$('result-discount').textContent=money(discountFor(state.coins));const message='Здравствуйте! Я прошёл(ла) интерактивную игру Qazline «Собери монеты» и набрал(а) '+coinText(state.coins)+'. Моя скидка — '+money(discountFor(state.coins))+'. Прикрепляю скриншот результата. Подскажите, как воспользоваться скидкой на обучение?';$('whatsapp-link').href='https://wa.me/'+WHATSAPP_NUMBER+'?text='+encodeURIComponent(message);window.scrollTo({top:0,behavior:'instant'});}
   $('start-btn').addEventListener('click',()=>{showQuiz();});
   $('next-btn').addEventListener('click',next);
   $('hint-btn').addEventListener('click',()=>{state.hint=!state.hint;$('hint-box').classList.toggle('hidden',!state.hint);$('hint-btn').textContent=state.hint?'💡 Скрыть подсказку':'💡 Нужна подсказка?';persist();});
