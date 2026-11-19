@@ -45,14 +45,11 @@
     #ql-game .hero-art { min-height:455px; padding:28px; border:1px solid #e3e5ef; border-radius:32px; background:linear-gradient(160deg,#fff,#f1f3fd); position:relative; overflow:hidden; box-shadow:0 22px 55px rgba(44,51,96,.10); display:flex; flex-direction:column; justify-content:space-between; }
     #ql-game .hero-art:before { content:""; position:absolute; width:350px; height:350px; border-radius:50%; background:#ffeadb; top:-130px; right:-120px; }
     #ql-game .hero-art:after { content:""; position:absolute; width:315px; height:315px; border:2px dashed rgba(239,99,14,.15); border-radius:50%; bottom:-175px; left:-110px; }
-    #ql-game .art-top { position:relative; z-index:1; display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
-    #ql-game .art-top b { font-size:13px; color:var(--navy); letter-spacing:.035em; }
-    #ql-game .art-sticker { border-radius:999px; padding:7px 12px; background:var(--navy); color:#fff; font-size:12px; font-weight:900; transform:rotate(6deg); }
-    #ql-game .big-coin { display:grid; place-items:center; position:relative; z-index:1; align-self:center; width:min(285px,76%); aspect-ratio:1; margin:2px 0; border-radius:50%; background:linear-gradient(140deg,#FFBB6B 0%,#F58A3B 44%,#EF630E 100%); border:12px solid #ffe0b5; box-shadow:inset 0 0 0 4px #f8a255,0 24px 35px rgba(239,99,14,.24); transform:rotate(-8deg); }
-    #ql-game .big-coin:before { content:""; position:absolute; inset:17px; border:2px dashed #fff5dcad; border-radius:50%; }
-    #ql-game .big-coin .coin-content { text-align:center; color:#fff; text-shadow:0 3px 6px #ba4b1270; }
-    #ql-game .coin-content b { font:700 clamp(37px,5vw,58px)/1 Oswald,Arial,sans-serif; display:block; }
-    #ql-game .coin-content small { font-weight:850; font-size:13px; letter-spacing:.1em; }
+    #ql-game .art-top { position:relative; z-index:1; align-self:flex-start; width:min(100%,390px); background:var(--navy); color:#fff; border-radius:24px; padding:16px 20px; font-size:clamp(14px,1.5vw,18px); font-weight:900; letter-spacing:.015em; line-height:1.3; text-transform:uppercase; }
+    #ql-game .art-top strong { display:block; color:#ffdc84; font-size:1.22em; white-space:nowrap; }
+    #ql-game .big-coin { position:relative; z-index:1; align-self:center; width:min(305px,80%); aspect-ratio:1; margin:0; transform:rotate(-8deg); }
+    #ql-game .coin-art { display:block; width:100%; height:100%; object-fit:contain; }
+    #ql-game .coin-brand { position:absolute; width:67%; height:auto; max-width:none; left:50%; top:47.7%; transform:translate(-50%,-50%); mix-blend-mode:multiply; }
     #ql-game .art-bottom { position:relative; z-index:1; display:grid; grid-template-columns:1fr 1fr; gap:10px; }
     #ql-game .art-card { border:1px solid #ecedf2; box-shadow:0 4px 15px #202b6020; background:#fff; border-radius:15px; padding:15px; display:flex; gap:10px; align-items:center; }
     #ql-game .art-card .emoji { font-size:27px; }
@@ -221,13 +218,9 @@
       #ql-game .intro .hero-art { grid-area:prize; width:100%; height:auto; min-height:0; max-height:210px; aspect-ratio:16/9; padding:16px; border-radius:22px; display:block; }
       #ql-game .intro .hero-art:before { width:240px; height:240px; top:-130px; right:-70px; }
       #ql-game .intro .hero-art:after { width:190px; height:190px; bottom:-125px; left:-60px; }
-      #ql-game .intro .art-top { display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:8px; height:100%; max-width:47%; }
-      #ql-game .intro .art-top b { font-size:clamp(14px,4vw,17px); line-height:1.2; }
-      #ql-game .intro .art-sticker { transform:none; padding:7px 10px; font-size:11px; line-height:1.2; white-space:normal; }
-      #ql-game .intro .big-coin { position:absolute; width:clamp(116px,39vw,170px); top:50%; right:14px; left:auto; margin:0; border-width:7px; transform:translateY(-50%) rotate(-8deg); }
-      #ql-game .intro .big-coin:before { inset:10px; }
-      #ql-game .intro .coin-content b { font-size:clamp(27px,8vw,36px); }
-      #ql-game .intro .coin-content small { font-size:9px; }
+      #ql-game .intro .art-top { display:flex; flex-direction:column; justify-content:center; width:48%; max-width:48%; height:100%; padding:11px 10px; border-radius:16px; font-size:clamp(11px,2.9vw,14px); line-height:1.25; letter-spacing:0; }
+      #ql-game .intro .art-top strong { white-space:normal; margin-top:4px; font-size:1.18em; }
+      #ql-game .intro .big-coin { position:absolute; width:clamp(116px,41vw,180px); top:50%; right:3px; left:auto; margin:0; transform:translateY(-50%) rotate(-8deg); }
       #ql-game .intro .art-bottom { display:none; }
       #ql-game .intro .intro-lead { grid-area:lead; font-size:14px; line-height:1.38; color:#555e7d; max-width:none; margin:0; }
       #ql-game .intro .facts { grid-area:facts; gap:5px; margin:0; }
@@ -288,8 +281,8 @@
         <p class="smallprint"><span class="gold-coin" aria-hidden="true"></span> +100 монет с первой попытки, +50 со второй. На каждый вопрос — две попытки.</p>
       </div>
       <div class="hero-art" aria-hidden="true">
-        <div class="art-top"><b>ЗАРАБОТАЙТЕ МОНЕТЫ</b><span class="art-sticker">И ПОЛУЧИТЕ СКИДКУ ДО 10 000 ₸</span></div>
-        <div class="big-coin"><div class="coin-content"><b>10 000 ₸</b><small>СКИДКА НА ОБУЧЕНИЕ</small></div></div>
+        <div class="art-top">Заработайте монеты и получите скидку до <strong>10 000 ₸</strong></div>
+        <div class="big-coin"><img class="coin-art" src="./assets/qazline-gold-coin.svg" alt=""><img class="coin-brand" src="../assets/qazline-logo.png" alt=""></div>
         <div class="art-bottom"><div class="art-card"><span class="emoji">☕</span><div><strong>Маған кофе беріңізші!</strong><small>Живые ситуации</small></div></div><div class="art-card"><span class="emoji">📚</span><div><strong>Қанша тұрады?</strong><small>Понятные фразы</small></div></div></div>
       </div>
     </section>
