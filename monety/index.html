@@ -418,6 +418,16 @@
     {emoji:'💳',place:'Покупка в магазине',context:'Вы стоите у кассы магазина.',speech:'',prompt:'Как спросить, можно ли оплатить картой?',options:['Картамен төлеуге бола ма?','Қолма-қол төлеуге бола ма?','Картамен төлеймін.','Төлемді қалай жасаймын?'],correct:0,explain:'«Картамен төлеуге бола ма?» — «Можно оплатить картой?». Суперполезная фраза для покупок.'},
     {emoji:'🏆',place:'Финальный диалог',context:'Вы общаетесь с продавцом в книжном магазине.',speech:'',prompt:'Какой диалог поможет узнать стоимость книги?',options:['Сәлеметсіз бе! Бұл кітапты көре аламын ба? Рақмет!','Сәлеметсіз бе! Бұл кітап бар ма? Рақмет!','Сәлеметсіз бе! Бұл кітап қайда тұр? Рақмет!','Сәлеметсіз бе! Бұл кітап қанша тұрады? Рақмет!'],correct:3,explain:'Отлично! «Сәлеметсіз бе!» — здравствуйте, «Бұл кітап қанша тұрады?» — сколько стоит эта книга, «Рақмет!» — спасибо.'}
   ];
+  // Порядок вариантов на экране (индексы исходных options).
+  // За 20 вопросов правильный вариант: A — 4 раза, B — 5, C — 5, D — 6.
+  // Порядок фиксирован, чтобы ответы не менялись при повторной попытке и перезагрузке.
+  const ANSWER_ORDERS = [
+    [2,0,1,3], [0,2,3,1], [0,3,1,2], [2,1,0,3],
+    [2,3,0,1], [0,2,1,3], [0,2,1,3], [0,2,3,1],
+    [3,0,2,1], [3,2,1,0], [2,3,0,1], [0,1,2,3],
+    [1,2,0,3], [0,2,3,1], [2,3,1,0], [2,1,3,0],
+    [1,2,0,3], [0,1,3,2], [3,0,1,2], [0,2,3,1]
+  ];
   const $ = id => document.getElementById(id);
   const formatNumber = n => new Intl.NumberFormat('ru-RU').format(n);
   const money = n => formatNumber(n) + ' ₸';
@@ -452,11 +462,11 @@
     $('scene-speech').classList.toggle('hidden',!q.speech);
     $('question-title').textContent=q.prompt;
     $('choices').innerHTML='';
-    q.options.forEach((answer,i)=>{
-      const b=document.createElement('button');b.type='button';b.className='choice';b.dataset.answer=i;
-      b.innerHTML='<span class="letter">'+String.fromCharCode(65+i)+'</span><span class="choice-copy"></span>';
-      b.querySelector('.choice-copy').textContent=answer;
-      b.addEventListener('click',()=>choose(i));
+    ANSWER_ORDERS[state.index].forEach((originalIndex,position)=>{
+      const b=document.createElement('button');b.type='button';b.className='choice';b.dataset.answer=originalIndex;
+      b.innerHTML='<span class="letter">'+String.fromCharCode(65+position)+'</span><span class="choice-copy"></span>';
+      b.querySelector('.choice-copy').textContent=q.options[originalIndex];
+      b.addEventListener('click',()=>choose(originalIndex));
       $('choices').appendChild(b);
     });
     $('feedback').innerHTML='';
