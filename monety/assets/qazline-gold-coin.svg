@@ -17,14 +17,11 @@
       <stop offset="0" stop-color="#fffaf0"/>
       <stop offset="1" stop-color="#ffe9b4"/>
     </linearGradient>
-    <filter id="shadow" x="-25%" y="-25%" width="150%" height="160%">
-      <feDropShadow dx="0" dy="15" stdDeviation="14" flood-color="#85521a" flood-opacity=".3"/>
-    </filter>
     <pattern id="notches" width="17.5" height="17.5" patternUnits="userSpaceOnUse">
       <path d="M0 0V9" stroke="#fff4c1" stroke-width="3" opacity=".65"/>
     </pattern>
   </defs>
-  <g filter="url(#shadow)">
+  <g>
     <circle cx="300" cy="286" r="266" fill="url(#rim)" stroke="#fff2ae" stroke-width="8"/>
     <circle cx="300" cy="286" r="248" fill="none" stroke="#a96515" stroke-opacity=".5" stroke-width="10"/>
     <circle cx="300" cy="286" r="232" fill="url(#face)" stroke="#ffe89a" stroke-width="7"/>
