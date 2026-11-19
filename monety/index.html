@@ -115,6 +115,9 @@
     #ql-game .question-actions .earned { font-size:13px; font-weight:750; color:#8d91a7; }
     #ql-game .question-actions .earned b { color:var(--orange); }
     #ql-game .coin-burst { pointer-events:none; position:fixed; z-index:99; color:var(--orange); font-weight:900; font:700 26px Oswald,Arial,sans-serif; animation:coin-pop .95s ease-out forwards; text-shadow:0 2px 12px #ffcfaa; }
+    #ql-game .gold-coin { display:inline-grid; place-items:center; width:1.2em; height:1.2em; flex:none; border-radius:50%; border:.09em solid #ffe99d; background:radial-gradient(circle at 30% 22%,#fff6c7 0%,#ffe16e 29%,#f6b92d 66%,#c67d10 100%); color:#a76b0c; box-shadow:inset -.08em -.08em .12em #a96c1155,inset .07em .07em .12em #fff9d9,0 .07em .16em #a8762433; font:800 .9em/1 Oswald,Arial,sans-serif; vertical-align:-.15em; }
+    #ql-game .gold-coin::after { content:"₸"; text-shadow:0 1px #fff1b4; }
+    #ql-game .coin-burst .gold-coin { font-size:21px; vertical-align:-.12em; }
     @keyframes coin-pop { 0%{opacity:0;transform:translateY(15px) scale(.65)} 20%{opacity:1;transform:translateY(0) scale(1.25)} 100%{opacity:0;transform:translateY(-75px) scale(1)} }
     /* Редкие декоративные монетки на стартовом экране. Не перехватывают касания. */
     #ql-game .flying-coins { position:fixed; inset:0; z-index:5; overflow:hidden; pointer-events:none; }
@@ -135,7 +138,7 @@
     #ql-game .reward-block { margin:24px auto 18px; padding:22px 12px 18px; max-width:445px; color:#fff; border-radius:21px; background:linear-gradient(125deg,#343d75,#1c2040); position:relative; }
     #ql-game .reward-caption { color:#e2e3f7; font-weight:800; font-size:12px; letter-spacing:.1em; text-transform:uppercase; }
     #ql-game .coins-number { font:700 clamp(41px,7vw,62px)/1.13 Oswald,Arial,sans-serif; margin:4px 0 1px; }
-    #ql-game .coins-number .coin-inline { font-size:.8em; vertical-align:8%; }
+    #ql-game .coins-number .coin-inline { font-size:.65em; vertical-align:.03em; }
     #ql-game .reward-divider { height:1px; background:#ffffff29; margin:13px auto 14px; width:75%; }
     #ql-game .discount { color:#ffac68; font:700 clamp(48px,8vw,75px)/1.12 Oswald,Arial,sans-serif; letter-spacing:-.015em; }
     #ql-game .discount-note { color:#e0e2f0; font-size:13px; font-weight:700; margin-top:2px; }
@@ -146,8 +149,6 @@
     #ql-game .wa-button { width:100%; max-width:515px; min-height:62px; background:#188653; box-shadow:0 10px 25px #1886532c; }
     #ql-game .wa-button:hover { background:#116d43; box-shadow:0 12px 27px #18865344; }
     #ql-game .wa-icon { width:23px; height:23px; fill:currentColor; }
-    #ql-game .restart { border:0; background:none; padding:10px; color:#898da6; font-weight:800; font-size:13px; }
-    #ql-game .restart:hover { color:var(--orange); }
     #ql-game .result-disclaimer { font-size:12px; text-align:center; color:#a0a4b3; max-width:490px; margin:12px auto 0; }
     @media(max-width:890px) { #ql-game .intro{gap:20px} #ql-game .hero-art{min-height:400px} #ql-game .art-card:nth-child(2){display:none} #ql-game .art-bottom{grid-template-columns:1fr} #ql-game .game-wrap{grid-template-columns:1fr} #ql-game .journey{display:none} #ql-game .play{max-width:760px;margin:0 auto} }
     @media(max-width:640px) { #ql-game .container{width:calc(100% - 28px)} #ql-game .top{height:78px} #ql-game .brand img{width:144px} #ql-game .tag{font-size:10px;padding:7px 10px} #ql-game .intro{display:flex;flex-direction:column;align-items:stretch;padding:34px 0 50px;gap:28px} #ql-game .hero h1{font-size:clamp(44px,10.2vw,62px);margin:13px 0 15px} #ql-game .intro-lead{font-size:16px;margin-bottom:19px} #ql-game .facts{margin-bottom:22px} #ql-game .fact{font-size:12px;padding:8px 10px} #ql-game .button-line .btn{width:100%} #ql-game .hero-art{min-height:290px;padding:18px;border-radius:24px} #ql-game .big-coin{width:165px;border-width:8px;position:absolute;left:calc(50% - 82px);top:63px} #ql-game .big-coin:before{inset:10px} #ql-game .coin-content b{font-size:33px} #ql-game .coin-content small{font-size:10px} #ql-game .art-bottom{align-self:flex-end;width:51%} #ql-game .art-card{padding:9px;border-radius:11px} #ql-game .art-card .emoji{font-size:21px} #ql-game .art-card strong{font-size:11px} #ql-game .art-card small{font-size:10px} #ql-game .play{padding-top:8px} #ql-game .game-top{margin-bottom:14px} #ql-game .game-title{font-size:14px} #ql-game .score-box{font-size:13px;padding:8px 11px} #ql-game .question-panel{border-radius:21px} #ql-game .question-head{padding:20px 18px 0} #ql-game .scene{margin:19px 15px 0;padding:20px 18px;min-height:190px;border-radius:16px} #ql-game .scene-flex{gap:12px;margin-top:13px} #ql-game .scene-icon{width:50px;height:50px;font-size:28px;border-radius:12px} #ql-game .scene-copy p{font-size:13px} #ql-game .speech{font-size:17px;padding:9px 11px} #ql-game .question-body{padding:19px 15px 20px} #ql-game .question-title{font-size:22px;margin-bottom:15px} #ql-game .choices{grid-template-columns:1fr;gap:9px} #ql-game .choice{min-height:56px;padding:11px 12px;font-size:14px} #ql-game .choice .letter{width:28px;height:28px} #ql-game .question-actions .btn{padding-inline:18px;min-height:50px} #ql-game .attempt-note{font-size:11px} #ql-game .result{width:calc(100% - 26px);margin-top:6px} #ql-game .result-top .display{font-size:34px} #ql-game .result-top p{font-size:13px} #ql-game .certificate{padding:23px 16px;border-radius:20px} #ql-game .certificate-logo{width:145px;margin-bottom:14px} #ql-game .congrats{font-size:31px} #ql-game .reward-block{margin:19px auto 15px;padding:19px 10px 16px} #ql-game .coins-number{font-size:46px} #ql-game .discount{font-size:56px} #ql-game .result-instruction{font-size:14px} #ql-game .screenshot-note{font-size:11px} }
@@ -281,10 +282,10 @@
         <div class="facts">
           <span class="fact">✦ 20 вопросов</span>
           <span class="fact">◷ 5–7 минут</span>
-          <span class="fact">🪙 100 монет = 500 ₸</span>
+          <span class="fact"><span class="gold-coin" aria-hidden="true"></span> 100 монет = 500 ₸</span>
         </div>
         <div class="button-line"><button class="btn" id="start-btn" type="button">Начать игру</button></div>
-        <p class="smallprint">🪙 +100 монет с первой попытки, +50 со второй. На каждый вопрос — две попытки.</p>
+        <p class="smallprint"><span class="gold-coin" aria-hidden="true"></span> +100 монет с первой попытки, +50 со второй. На каждый вопрос — две попытки.</p>
       </div>
       <div class="hero-art" aria-hidden="true">
         <div class="art-top"><b>ВАША НАГРАДА</b><span class="art-sticker">до 10 000 ₸</span></div>
@@ -330,7 +331,7 @@
         <p class="congrats-sub">Вы прошли игру «Собери монеты»</p>
         <div class="reward-block">
           <div class="reward-caption">Вы накопили</div>
-          <div class="coins-number"><span class="coin-inline">🪙</span> <span id="result-coins">0</span> монет</div>
+          <div class="coins-number"><span class="coin-inline gold-coin" aria-hidden="true"></span> <span id="result-coins">0</span> монет</div>
           <div class="reward-divider"></div>
           <div class="reward-caption">Ваша скидка на обучение</div>
           <div class="discount" id="result-discount">0 ₸</div>
@@ -341,7 +342,6 @@
       </div>
       <div class="result-actions">
         <a class="btn wa-button" id="whatsapp-link" target="_blank" rel="noopener noreferrer" href="https://wa.me/77082397128"><svg class="wa-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.47A11.75 11.75 0 0 0 12.1 0C5.63 0 .34 5.28.34 11.76c0 2.07.54 4.1 1.57 5.89L.24 24l6.5-1.7a11.72 11.72 0 0 0 5.35 1.29h.01c6.47 0 11.75-5.27 11.75-11.75a11.67 11.67 0 0 0-3.33-8.37ZM12.1 21.6c-1.74 0-3.45-.47-4.95-1.35l-.36-.21-3.86 1.01 1.03-3.76-.24-.39a9.78 9.78 0 0 1-1.49-5.14c0-5.43 4.43-9.85 9.87-9.85a9.78 9.78 0 0 1 6.99 2.9 9.8 9.8 0 0 1 2.88 7.02c0 5.44-4.43 9.87-9.87 9.87Zm5.41-7.4c-.3-.15-1.75-.86-2.02-.96-.27-.1-.46-.15-.66.15-.19.3-.76.96-.93 1.16-.17.2-.35.22-.65.07-.3-.15-1.25-.46-2.38-1.47a8.88 8.88 0 0 1-1.65-2.06c-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.66-1.58-.91-2.16-.24-.57-.49-.49-.67-.5h-.57c-.2 0-.52.07-.79.37s-1.04 1.02-1.04 2.48 1.06 2.87 1.2 3.06c.15.2 2.07 3.16 5.02 4.43.7.3 1.25.48 1.68.61.7.22 1.33.19 1.83.11.56-.08 1.75-.72 2-1.42.25-.7.25-1.3.17-1.42-.08-.12-.27-.2-.57-.35Z"/></svg> Сделал(а) скриншот — открыть WhatsApp</a>
-        <button class="restart" id="restart-btn" type="button">Пройти игру ещё раз</button>
       </div>
       <p class="result-disclaimer">Скидка действует на обучение в Qazline. Возможность её применения и условия уточняйте у менеджера.</p>
     </section>
@@ -492,15 +492,14 @@
     const success=state.tried[state.tried.length-1]===q.correct;
     const reward=success?rewardFor(state.attempts):0;
     $('earned-note').innerHTML=success?'<b>+'+reward+' монет</b> в копилку!':'<b>0 монет</b> · идём дальше';
-    feedback(success?'':'no',success?'Правильно! +'+reward+' монет 🪙':'Ничего страшного — вы учитесь!',q.explain);
+    feedback(success?'':'no',success?'Правильно! +'+reward+' монет':'Ничего страшного — вы учитесь!',q.explain);
   }
-  function burst(reward){if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;const rect=$('coin-top').getBoundingClientRect();const el=document.createElement('div');el.className='coin-burst';el.textContent='+'+reward+' 🪙';el.style.left=Math.max(8,rect.left+rect.width/2-38)+'px';el.style.top=Math.max(68,rect.top+15)+'px';$('ql-game').appendChild(el);setTimeout(()=>el.remove(),1100);}
+  function burst(reward){if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;const rect=$('coin-top').getBoundingClientRect();const el=document.createElement('div');el.className='coin-burst';el.innerHTML='+'+reward+' <span class="gold-coin" aria-hidden="true"></span>';el.style.left=Math.max(8,rect.left+rect.width/2-38)+'px';el.style.top=Math.max(68,rect.top+15)+'px';$('ql-game').appendChild(el);setTimeout(()=>el.remove(),1100);}
   function choose(id){if(state.resolved||state.tried.includes(id))return;const q=questions[state.index];state.tried.push(id);state.attempts++;if(id===q.correct){const reward=rewardFor(state.attempts);state.coins+=reward;state.resolved=true;burst(reward);updateScore();renderResolved();}else if(state.attempts===1){renderRetry();}else{state.resolved=true;renderResolved();}persist();}
   function next(){if(!state.resolved)return;if(state.index===19){state.finished=true;showResult();persist();return;}state.index++;state.attempts=0;state.tried=[];state.resolved=false;renderQuestion();persist();const top=$('quiz-screen').getBoundingClientRect().top+window.scrollY-8;window.scrollTo({top,behavior:'smooth'});}
   function showResult(){state.finished=true;setScreen('result');$('result-coins').textContent=formatNumber(state.coins);$('result-discount').textContent=money(discountFor(state.coins));const message='Здравствуйте! Я прошёл(ла) интерактивную игру Qazline «Собери монеты» и набрал(а) '+coinText(state.coins)+'. Моя скидка — '+money(discountFor(state.coins))+'. Прикрепляю скриншот результата. Подскажите, как воспользоваться скидкой на обучение?';$('whatsapp-link').href='https://wa.me/'+WHATSAPP_NUMBER+'?text='+encodeURIComponent(message);window.scrollTo({top:0,behavior:'instant'});}
   $('start-btn').addEventListener('click',()=>{showQuiz();});
   $('next-btn').addEventListener('click',next);
-  $('restart-btn').addEventListener('click',()=>{Object.assign(state,{index:0,coins:0,attempts:0,tried:[],resolved:false,finished:false,started:true});showQuiz();window.scrollTo({top:0,behavior:'smooth'});});
   document.addEventListener('keydown',e=>{if($('quiz-screen').classList.contains('hidden')||e.altKey||e.ctrlKey||e.metaKey||e.repeat)return;const i=Number(e.key)-1;if(i>=0&&i<4&&!state.resolved){const b=$('choices').querySelector('[data-answer="'+i+'"]');if(b&&!b.disabled)b.click();}else if(e.key==='Enter'&&state.resolved&&document.activeElement.tagName!=='BUTTON')next();});
   // Монетки появляются по одной, редко и только на первом экране.
   function spawnFlyingCoin(){
