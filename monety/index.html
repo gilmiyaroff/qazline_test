@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2C3360">
+  <meta name="description" content="20 ситуаций из жизни на казахском языке. Соберите монеты и получите скидку до 10 000 ₸ на обучение в Qazline.">
+  <meta property="og:title" content="Собери 10 000 ₸ на казахский — Qazline">
+  <meta property="og:description" content="Играй, отвечай на вопросы и собирай монеты для скидки на обучение.">
+  <title>Собери 10 000 ₸ на казахский | Qazline</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    #ql-game { --navy:#2C3360; --navy-dark:#1C2040; --orange:#EF630E; --orange-dark:#D95105; --cream:#FFF1E6; --light:#F4F6FA; --muted:#6D7390; --line:#E5E6EA; --white:#fff; --good:#177C55; --bad:#B54B3B; box-sizing:border-box; min-height:100vh; color:var(--navy-dark); background:radial-gradient(ellipse at 95% -5%,#ffe4cf 0,transparent 36%),radial-gradient(ellipse at 0 90%,#e8ecff 0,transparent 33%),#F7F8FC; font:500 16px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif; isolation:isolate; }
+    #ql-game *, #ql-game *::before, #ql-game *::after { box-sizing:border-box; }
+    #ql-game button, #ql-game a { -webkit-tap-highlight-color:transparent; }
+    #ql-game button { font:inherit; cursor:pointer; }
+    #ql-game button:disabled { cursor:default; }
+    #ql-game button:focus-visible, #ql-game a:focus-visible { outline:3px solid #ffb676; outline-offset:3px; }
+    #ql-game a { color:inherit; text-decoration:none; }
+    #ql-game h1, #ql-game h2, #ql-game h3, #ql-game p { margin:0; }
+    #ql-game .container { width:min(1100px,calc(100% - 40px)); margin-inline:auto; }
+    #ql-game .top { height:100px; display:flex; align-items:center; justify-content:space-between; gap:18px; }
+    #ql-game .brand { display:flex; align-items:center; gap:13px; min-width:0; }
+    #ql-game .brand img { width:177px; height:auto; display:block; mix-blend-mode:multiply; }
+    #ql-game .tag { color:var(--navy); border:1px solid #d5d9eb; background:#fff; border-radius:999px; padding:8px 13px; font-size:12px; font-weight:800; white-space:nowrap; letter-spacing:.035em; }
+    #ql-game .tiny-kicker { color:var(--orange); font-size:12px; letter-spacing:.13em; font-weight:900; text-transform:uppercase; }
+    #ql-game .display { font-family:Oswald,"Arial Narrow",Inter,sans-serif; font-weight:600; letter-spacing:-.018em; line-height:1.08; text-transform:uppercase; }
+    #ql-game .btn { display:inline-flex; align-items:center; justify-content:center; gap:9px; min-height:56px; padding:15px 24px; border-radius:14px; border:0; background:var(--orange); color:#fff; font-weight:850; font-size:16px; text-align:center; box-shadow:0 9px 24px rgba(239,99,14,.22); transition:transform .15s,background .15s,box-shadow .15s; }
+    #ql-game .btn:hover:not(:disabled) { background:var(--orange-dark); transform:translateY(-2px); box-shadow:0 12px 27px rgba(239,99,14,.28); }
+    #ql-game .btn:active:not(:disabled) { transform:translateY(0); }
+    #ql-game .btn.secondary { color:var(--navy); background:#fff; border:1px solid #dfe2ef; box-shadow:none; }
+    #ql-game .btn.secondary:hover:not(:disabled) { background:#f8f9ff; box-shadow:none; }
+    #ql-game .btn:disabled { background:#d6d8e0; color:#fff; box-shadow:none; }
+    #ql-game .button-line { display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+    #ql-game .intro { padding:52px 0 82px; display:grid; grid-template-columns:1.1fr .9fr; gap:34px; align-items:center; }
+    #ql-game .hero h1 { font-size:clamp(47px,6.7vw,84px); color:var(--navy); margin:16px 0 22px; max-width:600px; }
+    #ql-game .hero h1 span { display:block; color:var(--orange); }
+    #ql-game .intro-lead { max-width:540px; color:#626985; font-size:18px; line-height:1.65; margin-bottom:25px; }
+    #ql-game .facts { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:30px; }
+    #ql-game .fact { display:inline-flex; align-items:center; gap:8px; padding:9px 12px; border:1px solid #e3e5ef; border-radius:10px; background:#fff; font-size:13px; color:#4d5578; font-weight:750; }
+    #ql-game .fact svg { width:19px; height:19px; }
+    #ql-game .smallprint { font-size:12px; font-weight:600; color:#858aa0; margin-top:14px; }
+    #ql-game .hero-art { min-height:455px; padding:28px; border:1px solid #e3e5ef; border-radius:32px; background:linear-gradient(160deg,#fff,#f1f3fd); position:relative; overflow:hidden; box-shadow:0 22px 55px rgba(44,51,96,.10); display:flex; flex-direction:column; justify-content:space-between; }
+    #ql-game .hero-art:before { content:""; position:absolute; width:350px; height:350px; border-radius:50%; background:#ffeadb; top:-130px; right:-120px; }
+    #ql-game .hero-art:after { content:""; position:absolute; width:315px; height:315px; border:2px dashed rgba(239,99,14,.15); border-radius:50%; bottom:-175px; left:-110px; }
+    #ql-game .art-top { position:relative; z-index:1; display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+    #ql-game .art-top b { font-size:13px; color:var(--navy); letter-spacing:.035em; }
+    #ql-game .art-sticker { border-radius:999px; padding:7px 12px; background:var(--navy); color:#fff; font-size:12px; font-weight:900; transform:rotate(6deg); }
+    #ql-game .big-coin { display:grid; place-items:center; position:relative; z-index:1; align-self:center; width:min(285px,76%); aspect-ratio:1; margin:2px 0; border-radius:50%; background:linear-gradient(140deg,#FFBB6B 0%,#F58A3B 44%,#EF630E 100%); border:12px solid #ffe0b5; box-shadow:inset 0 0 0 4px #f8a255,0 24px 35px rgba(239,99,14,.24); transform:rotate(-8deg); }
+    #ql-game .big-coin:before { content:""; position:absolute; inset:17px; border:2px dashed #fff5dcad; border-radius:50%; }
+    #ql-game .big-coin .coin-content { text-align:center; color:#fff; text-shadow:0 3px 6px #ba4b1270; }
+    #ql-game .coin-content b { font:700 clamp(37px,5vw,58px)/1 Oswald,Arial,sans-serif; display:block; }
+    #ql-game .coin-content small { font-weight:850; font-size:13px; letter-spacing:.1em; }
+    #ql-game .art-bottom { position:relative; z-index:1; display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    #ql-game .art-card { border:1px solid #ecedf2; box-shadow:0 4px 15px #202b6020; background:#fff; border-radius:15px; padding:15px; display:flex; gap:10px; align-items:center; }
+    #ql-game .art-card .emoji { font-size:27px; }
+    #ql-game .art-card strong { font-size:12px; color:var(--navy); display:block; }
+    #ql-game .art-card small { font-size:11px; color:#9298a9; }
+    #ql-game .foot { text-align:center; color:#8c91a3; font-size:12px; padding:18px 0 30px; }
+    #ql-game .hidden { display:none!important; }
+    #ql-game .play { padding:18px 0 46px; }
+    #ql-game .game-top { display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:22px; }
+    #ql-game .game-title { color:var(--navy); font-weight:900; letter-spacing:-.02em; font-size:18px; }
+    #ql-game .score-box { display:flex; align-items:center; gap:10px; background:#fff; border:1px solid #e4e5ee; border-radius:13px; padding:10px 15px; font-weight:900; white-space:nowrap; color:var(--navy); box-shadow:0 4px 12px #1c204009; }
+    #ql-game .mini-coin { display:inline-grid; place-items:center; width:27px; height:27px; flex:none; border-radius:50%; color:#fff; background:linear-gradient(135deg,#ffa95e,#ef630e); border:3px solid #ffdbac; box-shadow:0 2px 4px #ef630e40; font:800 14px Oswald,Arial,sans-serif; }
+    #ql-game .game-wrap { display:grid; grid-template-columns:245px minmax(0,1fr); align-items:start; gap:20px; }
+    #ql-game .journey { padding:27px 20px; background:#fff; border:1px solid #e5e6ef; border-radius:25px; box-shadow:0 8px 25px #2c33600b; }
+    #ql-game .journey h3 { font-size:12px; font-weight:900; letter-spacing:.09em; text-transform:uppercase; color:#9095aa; margin-bottom:22px; }
+    #ql-game .journey-step { display:flex; align-items:center; gap:12px; position:relative; padding:0 0 24px; color:#9da1b3; }
+    #ql-game .journey-step:last-child { padding-bottom:0; }
+    #ql-game .journey-step:not(:last-child):before { content:""; position:absolute; left:17px; top:36px; width:2px; height:calc(100% - 35px); background:#e9ebf1; }
+    #ql-game .journey-number { flex:none; width:36px; height:36px; border-radius:11px; display:grid; place-items:center; color:#8b90a7; background:#f1f2f6; font-weight:900; font-size:14px; }
+    #ql-game .journey-step.active .journey-number { color:#fff; background:var(--orange); }
+    #ql-game .journey-step.done .journey-number { background:#e2f5ea; color:var(--good); }
+    #ql-game .journey-step.active strong { color:var(--navy); }
+    #ql-game .journey-step strong { font-size:13px; display:block; line-height:1.3; }
+    #ql-game .journey-step small { font-size:11px; color:#969cb0; }
+    #ql-game .journey-note { border-top:1px solid #eef0f5; margin-top:27px; padding-top:19px; color:#8990a7; font-size:12px; line-height:1.65; }
+    #ql-game .question-panel { background:#fff; border:1px solid #e5e6ef; border-radius:25px; overflow:hidden; box-shadow:0 13px 40px #2c336012; }
+    #ql-game .question-head { padding:27px 30px 0; }
+    #ql-game .progress-meta { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:10px; color:var(--navy); font-size:13px; font-weight:850; }
+    #ql-game .progress-meta .overline { color:#9a9eb0; font-size:12px; }
+    #ql-game .progress-track { height:9px; border-radius:50px; background:#f0f1f5; overflow:hidden; }
+    #ql-game .progress-fill { display:block; width:0; height:100%; border-radius:50px; background:linear-gradient(90deg,var(--orange),#ffb46b); transition:width .45s ease; }
+    #ql-game .scene { margin:24px 30px 0; background:linear-gradient(130deg,#343D77,#1C2040); color:#fff; border-radius:20px; min-height:208px; position:relative; overflow:hidden; padding:25px 28px; }
+    #ql-game .scene:before { content:""; position:absolute; right:-73px; top:-86px; width:230px; height:230px; border:30px solid #ffffff0d; border-radius:50%; }
+    #ql-game .scene:after { content:""; position:absolute; right:23px; bottom:-79px; width:210px; height:210px; border:2px dashed #ffffff16; border-radius:50%; }
+    #ql-game .scene .scene-label { color:#ffcda8; font-weight:850; font-size:12px; letter-spacing:.09em; text-transform:uppercase; position:relative; z-index:1; }
+    #ql-game .scene-flex { display:flex; align-items:center; gap:18px; margin-top:15px; position:relative; z-index:1; }
+    #ql-game .scene-icon { display:grid; place-items:center; width:75px; height:75px; font-size:42px; border:1px solid #ffffff35; border-radius:18px; background:#ffffff1a; flex:none; }
+    #ql-game .scene-copy { min-width:0; }
+    #ql-game .scene-copy p { font-size:15px; line-height:1.55; color:#f2f0fa; }
+    #ql-game .speech { display:inline-block; background:#fff; color:var(--navy); font-size:clamp(17px,2.3vw,23px); line-height:1.32; font-weight:850; padding:11px 15px; border-radius:13px 13px 13px 2px; margin-top:11px; box-shadow:0 4px 18px #1015381a; }
+    #ql-game .question-body { padding:26px 30px 30px; }
+    #ql-game .question-title { font-size:clamp(22px,3vw,27px); font-weight:900; letter-spacing:-.035em; color:var(--navy); line-height:1.25; margin-bottom:18px; }
+    #ql-game .choices { display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+    #ql-game .choice { display:flex; text-align:left; align-items:center; gap:12px; padding:14px 15px; min-height:77px; border:1.6px solid #e6e7ee; border-radius:14px; background:#fff; color:#333c65; font-size:15px; font-weight:750; line-height:1.35; transition:background .14s,border-color .14s,transform .14s; }
+    #ql-game .choice:hover:not(:disabled) { border-color:#f5a571; background:#fff8f2; transform:translateY(-1px); }
+    #ql-game .choice .letter { display:grid; place-items:center; flex:none; width:31px; height:31px; border-radius:9px; color:#727a98; background:#f2f3f7; font-size:12px; font-weight:900; }
+    #ql-game .choice.correct { background:#edfaf2; color:#12683f; border-color:#8bd3a9; }
+    #ql-game .choice.correct .letter { color:#fff; background:#228c58; }
+    #ql-game .choice.wrong { background:#fff0eb; color:#a54130; border-color:#e8a18c; }
+    #ql-game .choice.wrong .letter { color:#fff; background:#c65d48; }
+    #ql-game .choice:disabled { cursor:default; }
+    #ql-game .hint-row { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:18px; min-height:23px; }
+    #ql-game .hint-btn { border:0; background:transparent; color:#8a6680; padding:5px 0; font-weight:750; font-size:13px; text-align:left; }
+    #ql-game .hint-btn:hover { color:var(--orange); }
+    #ql-game .attempt-note { font-size:12px; color:#9398aa; text-align:right; }
+    #ql-game .hint-box { background:#fff7ec; color:#8d4b1e; padding:12px 15px; border:1px solid #ffdfbb; border-radius:12px; font-size:13px; font-weight:600; margin-top:7px; }
+    #ql-game .feedback { border-radius:13px; padding:16px; border:1px solid #d5ecdf; background:#effbf3; margin-top:15px; color:#20754b; line-height:1.55; font-size:14px; }
+    #ql-game .feedback strong { display:block; margin-bottom:4px; font-size:16px; }
+    #ql-game .feedback.try { border-color:#f9d5b4; background:#fff7ee; color:#935020; }
+    #ql-game .feedback.no { border-color:#eed2ca; background:#fff3ee; color:#945344; }
+    #ql-game .question-actions { display:flex; align-items:center; justify-content:space-between; gap:15px; padding-top:16px; }
+    #ql-game .question-actions .earned { font-size:13px; font-weight:750; color:#8d91a7; }
+    #ql-game .question-actions .earned b { color:var(--orange); }
+    #ql-game .coin-burst { pointer-events:none; position:fixed; z-index:99; color:var(--orange); font-weight:900; font:700 26px Oswald,Arial,sans-serif; animation:coin-pop .95s ease-out forwards; text-shadow:0 2px 12px #ffcfaa; }
+    @keyframes coin-pop { 0%{opacity:0;transform:translateY(15px) scale(.65)} 20%{opacity:1;transform:translateY(0) scale(1.25)} 100%{opacity:0;transform:translateY(-75px) scale(1)} }
+    #ql-game .result { width:min(760px,calc(100% - 40px)); margin:22px auto 0; padding-bottom:40px; }
+    #ql-game .result-top { text-align:center; margin:0 0 20px; }
+    #ql-game .result-top .display { font-size:clamp(37px,5.7vw,54px); color:var(--navy); margin:10px 0; }
+    #ql-game .result-top p { color:#757b94; }
+    #ql-game .certificate { background:linear-gradient(145deg,#fff,#fffdfa 60%,#fff1e6); border:2px solid #ffdbbd; border-radius:27px; padding:30px clamp(20px,5vw,42px); box-shadow:0 18px 60px #2c336017; overflow:hidden; position:relative; text-align:center; }
+    #ql-game .certificate:before { content:""; position:absolute; width:265px; height:265px; right:-155px; top:-140px; border:45px solid #fff1e6; border-radius:50%; }
+    #ql-game .certificate-logo { width:175px; display:block; margin:0 auto 20px; mix-blend-mode:multiply; position:relative; }
+    #ql-game .congrats { color:var(--navy); font:600 clamp(30px,5.5vw,43px)/1.1 Oswald,Arial,sans-serif; text-transform:uppercase; position:relative; }
+    #ql-game .congrats-sub { color:#777e98; margin-top:8px; font-size:14px; font-weight:650; }
+    #ql-game .reward-block { margin:24px auto 18px; padding:22px 12px 18px; max-width:445px; color:#fff; border-radius:21px; background:linear-gradient(125deg,#343d75,#1c2040); position:relative; }
+    #ql-game .reward-caption { color:#e2e3f7; font-weight:800; font-size:12px; letter-spacing:.1em; text-transform:uppercase; }
+    #ql-game .coins-number { font:700 clamp(41px,7vw,62px)/1.13 Oswald,Arial,sans-serif; margin:4px 0 1px; }
+    #ql-game .coins-number .coin-inline { font-size:.8em; vertical-align:8%; }
+    #ql-game .reward-divider { height:1px; background:#ffffff29; margin:13px auto 14px; width:75%; }
+    #ql-game .discount { color:#ffac68; font:700 clamp(48px,8vw,75px)/1.12 Oswald,Arial,sans-serif; letter-spacing:-.015em; }
+    #ql-game .discount-note { color:#e0e2f0; font-size:13px; font-weight:700; margin-top:2px; }
+    #ql-game .result-instruction { color:#333c64; font-weight:850; line-height:1.45; font-size:16px; max-width:500px; margin:0 auto; }
+    #ql-game .result-instruction span { color:var(--orange); }
+    #ql-game .screenshot-note { margin-top:13px; color:#9195a5; font-size:12px; }
+    #ql-game .result-actions { text-align:center; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:12px; margin:22px auto 0; }
+    #ql-game .wa-button { width:100%; max-width:515px; min-height:62px; background:#188653; box-shadow:0 10px 25px #1886532c; }
+    #ql-game .wa-button:hover { background:#116d43; box-shadow:0 12px 27px #18865344; }
+    #ql-game .wa-icon { width:23px; height:23px; fill:currentColor; }
+    #ql-game .restart { border:0; background:none; padding:10px; color:#898da6; font-weight:800; font-size:13px; }
+    #ql-game .restart:hover { color:var(--orange); }
+    #ql-game .result-disclaimer { font-size:12px; text-align:center; color:#a0a4b3; max-width:490px; margin:12px auto 0; }
+    @media(max-width:890px) { #ql-game .intro{gap:20px} #ql-game .hero-art{min-height:400px} #ql-game .art-card:nth-child(2){display:none} #ql-game .art-bottom{grid-template-columns:1fr} #ql-game .game-wrap{grid-template-columns:1fr} #ql-game .journey{display:none} #ql-game .play{max-width:760px;margin:0 auto} }
+    @media(max-width:640px) { #ql-game .container{width:calc(100% - 28px)} #ql-game .top{height:78px} #ql-game .brand img{width:144px} #ql-game .tag{font-size:10px;padding:7px 10px} #ql-game .intro{display:flex;flex-direction:column;align-items:stretch;padding:34px 0 50px;gap:28px} #ql-game .hero h1{font-size:clamp(44px,10.2vw,62px);margin:13px 0 15px} #ql-game .intro-lead{font-size:16px;margin-bottom:19px} #ql-game .facts{margin-bottom:22px} #ql-game .fact{font-size:12px;padding:8px 10px} #ql-game .button-line .btn{width:100%} #ql-game .hero-art{min-height:290px;padding:18px;border-radius:24px} #ql-game .big-coin{width:165px;border-width:8px;position:absolute;left:calc(50% - 82px);top:63px} #ql-game .big-coin:before{inset:10px} #ql-game .coin-content b{font-size:33px} #ql-game .coin-content small{font-size:10px} #ql-game .art-bottom{align-self:flex-end;width:51%} #ql-game .art-card{padding:9px;border-radius:11px} #ql-game .art-card .emoji{font-size:21px} #ql-game .art-card strong{font-size:11px} #ql-game .art-card small{font-size:10px} #ql-game .play{padding-top:8px} #ql-game .game-top{margin-bottom:14px} #ql-game .game-title{font-size:14px} #ql-game .score-box{font-size:13px;padding:8px 11px} #ql-game .question-panel{border-radius:21px} #ql-game .question-head{padding:20px 18px 0} #ql-game .scene{margin:19px 15px 0;padding:20px 18px;min-height:190px;border-radius:16px} #ql-game .scene-flex{gap:12px;margin-top:13px} #ql-game .scene-icon{width:50px;height:50px;font-size:28px;border-radius:12px} #ql-game .scene-copy p{font-size:13px} #ql-game .speech{font-size:17px;padding:9px 11px} #ql-game .question-body{padding:19px 15px 20px} #ql-game .question-title{font-size:22px;margin-bottom:15px} #ql-game .choices{grid-template-columns:1fr;gap:9px} #ql-game .choice{min-height:56px;padding:11px 12px;font-size:14px} #ql-game .choice .letter{width:28px;height:28px} #ql-game .question-actions .btn{padding-inline:18px;min-height:50px} #ql-game .attempt-note{font-size:11px} #ql-game .result{width:calc(100% - 26px);margin-top:6px} #ql-game .result-top .display{font-size:34px} #ql-game .result-top p{font-size:13px} #ql-game .certificate{padding:23px 16px;border-radius:20px} #ql-game .certificate-logo{width:145px;margin-bottom:14px} #ql-game .congrats{font-size:31px} #ql-game .reward-block{margin:19px auto 15px;padding:19px 10px 16px} #ql-game .coins-number{font-size:46px} #ql-game .discount{font-size:56px} #ql-game .result-instruction{font-size:14px} #ql-game .screenshot-note{font-size:11px} }
+    @media(prefers-reduced-motion:reduce) { #ql-game *, #ql-game *::before, #ql-game *::after{transition:none!important;animation:none!important;scroll-behavior:auto!important;} }
+  </style>
+</head>
+<body style="margin:0">
+<div id="ql-game">
+  <div class="container">
+    <header class="top">
+      <a href="https://www.qazline.kz/" class="brand" aria-label="Qazline — главная"><img src="https://gilmiyaroff.github.io/qazline_test/assets/qazline-logo.png" alt="Qazline" width="177" height="95"></a>
+      <div class="tag">МИНИ-ИГРА · QAZLINE</div>
+    </header>
+  </div>
+
+  <main>
+    <section class="container intro" id="intro-screen" aria-label="Начало игры">
+      <div class="hero">
+        <div class="tiny-kicker">Казахский для реальной жизни</div>
+        <h1 class="display">ЗНАКОМЬТЕСЬ С КАЗАХСКИМ. <span>КОПИТЕ МОНЕТЫ!</span></h1>
+        <p class="intro-lead">Пройдите 20 простых ситуаций: познакомьтесь с людьми, закажите кофе, купите книгу и поговорите с таксистом. За правильные ответы получите скидку на обучение.</p>
+        <div class="facts">
+          <span class="fact">✦ 20 вопросов</span>
+          <span class="fact">◷ 5–7 минут</span>
+          <span class="fact">🪙 1 монета = 500 ₸</span>
+        </div>
+        <div class="button-line"><button class="btn" id="start-btn" type="button">Начать игру</button></div>
+        <p class="smallprint">Никаких оценок и стресса. Подсказки доступны на каждом шаге.</p>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="art-top"><b>ВАША НАГРАДА</b><span class="art-sticker">до 10 000 ₸</span></div>
+        <div class="big-coin"><div class="coin-content"><b>10 000 ₸</b><small>МАКСИМУМ</small></div></div>
+        <div class="art-bottom"><div class="art-card"><span class="emoji">☕</span><div><strong>Маған кофе беріңізші!</strong><small>Живые ситуации</small></div></div><div class="art-card"><span class="emoji">📚</span><div><strong>Қанша тұрады?</strong><small>Понятные фразы</small></div></div></div>
+      </div>
+    </section>
+
+    <section class="container play hidden" id="quiz-screen" aria-label="Вопросы">
+      <div class="game-top">
+        <div class="game-title">QAZLINE <span style="font-weight:500;color:#9399ac">/ Игра на скидку</span></div>
+        <div class="score-box" aria-live="polite"><span class="mini-coin">₸</span><span id="coin-top">0 монет · 0 ₸</span></div>
+      </div>
+      <div class="game-wrap">
+        <aside class="journey" aria-label="Этапы игры">
+          <h3>ВАШ МАРШРУТ</h3>
+          <div id="stage-list"></div>
+          <p class="journey-note">Каждый правильный ответ — это монета. Даже после ошибки можно попробовать ещё раз.</p>
+        </aside>
+        <div class="question-panel">
+          <div class="question-head">
+            <div class="progress-meta"><span id="question-counter">ВОПРОС 1 / 20</span><span class="overline" id="stage-counter">Этап 1 из 5</span></div>
+            <div class="progress-track" aria-hidden="true"><span class="progress-fill" id="progress-fill"></span></div>
+          </div>
+          <div class="scene">
+            <div class="scene-label" id="scene-label"></div>
+            <div class="scene-flex"><div class="scene-icon" id="scene-icon" aria-hidden="true"></div><div class="scene-copy"><p id="scene-context"></p><div class="speech" id="scene-speech"></div></div></div>
+          </div>
+          <div class="question-body">
+            <h2 class="question-title" id="question-title"></h2>
+            <div class="choices" id="choices" role="group" aria-label="Варианты ответа"></div>
+            <div class="hint-row"><button class="hint-btn" type="button" id="hint-btn">💡 Нужна подсказка?</button><span class="attempt-note" id="attempt-note">Выберите один вариант</span></div>
+            <div class="hint-box hidden" id="hint-box"></div>
+            <div id="feedback" aria-live="polite"></div>
+            <div class="question-actions"><div class="earned" id="earned-note">За верный ответ <b>+500 ₸</b></div><button class="btn hidden" id="next-btn" type="button">Продолжить</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="result hidden" id="result-screen" aria-label="Ваш результат">
+      <div class="result-top"><div class="tiny-kicker">Игра завершена</div><h1 class="display">КЕРЕМЕТ! У ВАС ПОЛУЧИЛОСЬ!</h1><p>Вы прошли все 20 ситуаций. Первый шаг к разговорному казахскому сделан!</p></div>
+      <div class="certificate" id="result-card">
+        <img class="certificate-logo" src="https://gilmiyaroff.github.io/qazline_test/assets/qazline-logo.png" alt="Qazline">
+        <h2 class="congrats">Поздравляем!</h2>
+        <p class="congrats-sub">Вы прошли игру «Собери монеты»</p>
+        <div class="reward-block">
+          <div class="reward-caption">Вы накопили</div>
+          <div class="coins-number"><span class="coin-inline">🪙</span> <span id="result-coins">0</span> монет</div>
+          <div class="reward-divider"></div>
+          <div class="reward-caption">Ваша скидка на обучение</div>
+          <div class="discount" id="result-discount">0 ₸</div>
+          <div class="discount-note">Получите у менеджера Qazline</div>
+        </div>
+        <p class="result-instruction">📸 Сделайте <span>скриншот этого экрана</span> и отправьте его нам в WhatsApp, чтобы получить вашу скидку!</p>
+        <p class="screenshot-note">Менеджер подскажет, как воспользоваться скидкой на обучение.</p>
+      </div>
+      <div class="result-actions">
+        <a class="btn wa-button" id="whatsapp-link" target="_blank" rel="noopener noreferrer" href="https://wa.me/77082397128"><svg class="wa-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.47A11.75 11.75 0 0 0 12.1 0C5.63 0 .34 5.28.34 11.76c0 2.07.54 4.1 1.57 5.89L.24 24l6.5-1.7a11.72 11.72 0 0 0 5.35 1.29h.01c6.47 0 11.75-5.27 11.75-11.75a11.67 11.67 0 0 0-3.33-8.37ZM12.1 21.6c-1.74 0-3.45-.47-4.95-1.35l-.36-.21-3.86 1.01 1.03-3.76-.24-.39a9.78 9.78 0 0 1-1.49-5.14c0-5.43 4.43-9.85 9.87-9.85a9.78 9.78 0 0 1 6.99 2.9 9.8 9.8 0 0 1 2.88 7.02c0 5.44-4.43 9.87-9.87 9.87Zm5.41-7.4c-.3-.15-1.75-.86-2.02-.96-.27-.1-.46-.15-.66.15-.19.3-.76.96-.93 1.16-.17.2-.35.22-.65.07-.3-.15-1.25-.46-2.38-1.47a8.88 8.88 0 0 1-1.65-2.06c-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.66-1.58-.91-2.16-.24-.57-.49-.49-.67-.5h-.57c-.2 0-.52.07-.79.37s-1.04 1.02-1.04 2.48 1.06 2.87 1.2 3.06c.15.2 2.07 3.16 5.02 4.43.7.3 1.25.48 1.68.61.7.22 1.33.19 1.83.11.56-.08 1.75-.72 2-1.42.25-.7.25-1.3.17-1.42-.08-.12-.27-.2-.57-.35Z"/></svg> Сделал(а) скриншот — открыть WhatsApp</a>
+        <button class="restart" id="restart-btn" type="button">Пройти игру ещё раз</button>
+      </div>
+      <p class="result-disclaimer">Скидка действует на обучение в Qazline. Возможность её применения и условия уточняйте у менеджера.</p>
+    </section>
+  </main>
+  <footer class="foot">Qazline · Қазақша сөйлейік!</footer>
+</div>
+<script>
+(function(){
+  'use strict';
+  const PRICE_PER_COIN = 500;
+  const WHATSAPP_NUMBER = '77082397128'; // Номер взят из опубликованного мини-урока Qazline.
+  const STORAGE_KEY = 'qazline-miniquiz-coins-v1';
+  const stages = [
+    {name:'Знакомство',label:'Первые фразы'},
+    {name:'Заходим в кафе',label:'Вежливые просьбы'},
+    {name:'В магазине',label:'Покупки и цены'},
+    {name:'По городу',label:'Такси и дорога'},
+    {name:'Разговор без страха',label:'Жизненные диалоги'}
+  ];
+  // Все 20 ситуаций рассчитаны на новичков. Примеры и объяснения проверяются методистом до коммерческого запуска.
+  const questions = [
+    {emoji:'👋',place:'На улице',context:'Вы встречаете нового знакомого. Он улыбается и говорит:',speech:'Сәлем!',prompt:'Как ответите на приветствие?',options:['Рақмет!','Сәлем!','Жоқ','Сау бол!'],correct:1,hint:'В ответ на «Привет!» можно сказать то же самое.',explain:'«Сәлем!» — дружеское «Привет!». Можно просто ответить так же.'},
+    {emoji:'🙂',place:'Первая встреча',context:'Знакомый интересуется, как у вас дела:',speech:'Қалың қалай? · Как дела?',prompt:'Какой ответ подойдёт?',options:['Сау бол!','Менің атым Дана','Жақсы, рақмет!','Қайда?'],correct:2,hint:'«Жақсы» означает «хорошо», а «рақмет» — «спасибо».',explain:'«Жақсы, рақмет!» — «Хорошо, спасибо!». Очень полезный ответ на каждый день.'},
+    {emoji:'🤝',place:'Давайте знакомиться',context:'Собеседник спрашивает ваше имя:',speech:'Атың кім? · Как тебя зовут?',prompt:'Что скажете, если вас зовут Дана?',options:['Менің атым Дана.','Мен Астанадамын.','Маған шай керек.','Бұл кітап.'],correct:0,hint:'«Менің атым» — «Меня зовут».',explain:'«Менің атым Дана» — «Меня зовут Дана». Подставьте своё имя — фраза готова.'},
+    {emoji:'🙌',place:'До встречи!',context:'Вы уходите после приятного разговора.',speech:'Пора попрощаться 👋',prompt:'Что скажете другу на казахском?',options:['Қайырлы таң!','Кешіріңіз!','Сәлем!','Сау бол!'],correct:3,hint:'«Сәлем» говорят при встрече, а «Сау бол» — на прощание.',explain:'«Сау бол!» — «Пока!». Вежливый вариант — «Сау болыңыз!».'},
+
+    {emoji:'☕',place:'Кофейня',context:'Бариста предлагает вам чай и спрашивает:',speech:'Шай ішесіз бе? · Будете чай?',prompt:'Как согласиться?',options:['Менің атым Руслан.','Иә, ішемін!','Жоқ, бармаймын.','Сау болыңыз!'],correct:1,hint:'«Иә» — «да». «Ішемін» — «буду пить».',explain:'«Иә, ішемін!» — «Да, буду!». «Шай» — чай, «кофе» по-казахски тоже «кофе».'},
+    {emoji:'🥐',place:'У кассы',context:'Бариста принёс заказ. Вам всё понравилось.',speech:'Ваш кофе готов!',prompt:'Что скажете в знак благодарности?',options:['Қайда?','Жоқ!','Рақмет!','Қанша?'],correct:2,hint:'Это одно из самых знакомых казахских слов.',explain:'«Рақмет!» — «Спасибо!». Коротко, просто и всегда к месту.'},
+    {emoji:'🥤',place:'Ещё один заказ',context:'Вы хотите попросить у бариста стакан воды.',speech:'Как попросить вежливо?',prompt:'Выберите подходящую фразу:',options:['Маған су беріңізші.','Су қайда?','Мен су емеспін.','Бұл кітап қанша?'],correct:0,hint:'«Су» — вода, «беріңізші» — вежливое «дайте, пожалуйста».',explain:'«Маған су беріңізші» — «Дайте мне воды, пожалуйста». Так можно попросить и другие вещи.'},
+    {emoji:'🧁',place:'Всё заказали',context:'Бариста спрашивает, нужно ли что-то ещё:',speech:'Тағы бірдеңе керек пе? · Что-нибудь ещё?',prompt:'Вы больше ничего не хотите. Что ответите?',options:['Иә, көп!','Мен үйдемін.','Сәлеметсіз бе!','Жоқ, рақмет!'],correct:3,hint:'«Жоқ» — «нет». Добавьте «спасибо».',explain:'«Жоқ, рақмет!» — «Нет, спасибо!». Это вежливый и естественный ответ.'},
+
+    {emoji:'📚',place:'Книжный магазин',context:'Вам понравилась книга. Вы хотите узнать её цену.',speech:'📖 Эта книга выглядит интересно!',prompt:'Как спросить: «Сколько стоит эта книга?»',options:['Бұл кітап қайда?','Бұл кітап қанша тұрады?','Бұл кітап кімнің?','Бұл кітап жақсы ма?'],correct:1,hint:'«Бұл кітап» — «эта книга», а «қанша тұрады?» — «сколько стоит?».',explain:'«Бұл кітап қанша тұрады?» — «Сколько стоит эта книга?». «Қанша тұрады?» пригодится в любом магазине.'},
+    {emoji:'💳',place:'Узнаём цену',context:'Продавец отвечает на ваш вопрос о цене:',speech:'Екі мың теңге.',prompt:'Сколько стоит покупка?',options:['200 ₸','20 000 ₸','2 000 ₸','12 000 ₸'],correct:2,hint:'«Екі» — два, «мың» — тысяча.',explain:'«Екі мың теңге» — две тысячи тенге. Вы уже умеете понимать цены!' },
+    {emoji:'🎟️',place:'У билетной кассы',context:'Вы идёте в кино с другом. Нужно купить два билета.',speech:'Два билета, пожалуйста 🎬',prompt:'Как попросите два билета?',options:['Екі билет беріңізші.','Бір билет беріңізші.','Билет қайда?','Мен билет емеспін.'],correct:0,hint:'«Екі» — два, «беріңізші» — «дайте, пожалуйста».',explain:'«Екі билет беріңізші» — «Два билета, пожалуйста». «Бір» — один, «екі» — два.'},
+    {emoji:'🛍️',place:'На кассе магазина',context:'Продавец спрашивает, хотите ли вы что-то ещё:',speech:'Тағы не керек? · Что ещё нужно?',prompt:'Как сказать, что больше ничего не нужно?',options:['Маған су керек.','Сіз қайдасыз?','Мен бүгін бос емеспін.','Болды, рақмет!'],correct:3,hint:'«Болды» в этой ситуации означает «Всё, достаточно».',explain:'«Болды, рақмет!» — «Всё, спасибо!». В магазине это очень удобная фраза.'},
+
+    {emoji:'🚕',place:'В такси',context:'Вы приехали и хотите выйти прямо здесь.',speech:'🚕 Вот здесь удобно!',prompt:'Как попросить водителя остановиться?',options:['Сіз қайда барасыз?','Осы жерде тоқтаңызшы.','Мен кітап оқимын.','Бұл қанша тұрады?'],correct:1,hint:'«Осы жерде» — «в этом месте», «тоқтаңызшы» — «остановитесь, пожалуйста».',explain:'«Осы жерде тоқтаңызшы» — «Остановитесь здесь, пожалуйста». В такси пригодится постоянно.'},
+    {emoji:'🛫',place:'Едем в аэропорт',context:'Водитель задаёт вопрос:',speech:'Қайда барасыз? · Куда едете?',prompt:'Как коротко ответить: «В аэропорт»?',options:['Рақмет!','Сағат үш.','Әуежайға.','Жақсымын.'],correct:2,hint:'«Әуежай» — аэропорт. Окончание «-ға» показывает направление.',explain:'«Әуежайға» — «В аэропорт». Короткий ответ тоже может быть полноценным.'},
+    {emoji:'🏥',place:'Нужна помощь',context:'Вы ищете аптеку в незнакомом районе.',speech:'Пора спросить дорогу 🗺️',prompt:'Как спросить: «Где аптека?»',options:['Дәріхана қайда?','Дәріхана қанша тұрады?','Дәріхана нешеде?','Дәріхана кім?'],correct:0,hint:'«Дәріхана» — аптека, «қайда?» — «где?».',explain:'«Дәріхана қайда?» — «Где аптека?». Замените слово — и сможете найти что угодно.'},
+    {emoji:'🕒',place:'Возле остановки',context:'Кто-то спрашивает время:',speech:'Қазір сағат неше? · Который час?',prompt:'Как ответить: «Три часа»?',options:['Мен келдім.','Үш кітап.','Екі мың теңге.','Сағат үш.'],correct:3,hint:'«Үш» — три. Начните со слова «сағат».',explain:'«Сағат үш» — «Три часа». Вы узнали ещё одно полезное число!' },
+
+    {emoji:'📱',place:'Переписка с другом',context:'На телефон приходит сообщение:',speech:'Бүгін боссың ба? · Сегодня свободен?',prompt:'Как ответить: «Да, я свободен»?',options:['Мен кітап оқимын.','Иә, боспын!','Сау болыңыз.','Менің атым Айгүл.'],correct:1,hint:'«Иә» — «да», «боспын» — «я свободен».',explain:'«Иә, боспын!» — «Да, я свободен!». Теперь можно договариваться о встрече.'},
+    {emoji:'🌆',place:'Планы на вечер',context:'Друг предлагает встретиться:',speech:'Кешке кездесеміз бе? · Встретимся вечером?',prompt:'Как согласиться на встречу?',options:['Мен автобуспен барамын.','Сағат неше?','Иә, кездесеміз!','Жоқ, бұл кітап.'],correct:2,hint:'«Кездесеміз» — «встретимся». Добавьте «да».',explain:'«Иә, кездесеміз!» — «Да, встретимся!». Вы поддержали разговор на казахском.'},
+    {emoji:'💳',place:'Покупка в магазине',context:'Теперь вы хотите узнать, можно ли расплатиться картой.',speech:'💳 Можно оплатить картой?',prompt:'Как это спросить на казахском?',options:['Картамен төлеуге бола ма?','Бұл кітап қанша тұрады?','Сіз қайда барасыз?','Кешке кездесеміз бе?'],correct:0,hint:'«Картамен» — «картой», «төлеуге бола ма?» — «можно оплатить?».',explain:'«Картамен төлеуге бола ма?» — «Можно оплатить картой?». Суперполезная фраза для покупок.'},
+    {emoji:'🏆',place:'Финальный диалог',context:'Вы пришли за книгой. Хотите поздороваться, узнать цену и поблагодарить.',speech:'Финальная миссия 📚',prompt:'Какой вариант звучит правильно и вежливо?',options:['Сау бол! Менің атым кітап. Жоқ!','Сәлем! Әуежайға. Бес минут.','Рақмет! Сіз неше жастасыз? Иә!','Сәлеметсіз бе! Бұл кітап қанша тұрады? Рақмет!'],correct:3,hint:'Нужны три части: «Здравствуйте» + «Сколько стоит эта книга?» + «Спасибо».',explain:'Отлично! «Сәлеметсіз бе!» — здравствуйте, «Бұл кітап қанша тұрады?» — сколько стоит эта книга, «Рақмет!» — спасибо.'}
+  ];
+  const $ = id => document.getElementById(id);
+  const money = n => new Intl.NumberFormat('ru-RU').format(n) + ' ₸';
+  const coinText = n => { const rem = n % 10, tens = n % 100; return n + ' ' + (tens >= 11 && tens <= 14 ? 'монет' : rem === 1 ? 'монета' : rem >= 2 && rem <= 4 ? 'монеты' : 'монет'); };
+  const state = {index:0, coins:0, attempts:0, tried:[], hint:false, resolved:false, finished:false, started:false};
+  function persist(){ try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}catch(e){} }
+  function restore(){try{const previous=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');if(!previous||!previous.started)return; if(!Number.isInteger(previous.index)||previous.index<0||previous.index>20||!Number.isInteger(previous.coins)||previous.coins<0||previous.coins>20||typeof previous.finished!=='boolean')return;Object.assign(state,previous,{tried:Array.isArray(previous.tried)?previous.tried.filter(Number.isInteger):[]});if(state.finished){showResult();}else{showQuiz();}}catch(e){} }
+  function setScreen(name){['intro','quiz','result'].forEach(s=>$(s+'-screen').classList.toggle('hidden',s!==name));}
+  function updateScore(){ $('coin-top').textContent=coinText(state.coins)+' · '+money(state.coins*PRICE_PER_COIN); }
+  function showQuiz(){state.started=true;setScreen('quiz');renderQuestion();persist();}
+  function stageOf(index){return Math.min(4,Math.floor(index/4));}
+  function renderStages(){const current=stageOf(state.index);$('stage-list').innerHTML=stages.map((s,i)=>'<div class="journey-step '+(i<current?'done':i===current?'active':'')+'"><span class="journey-number">'+(i<current?'✓':i+1)+'</span><span><strong>'+s.name+'</strong><small>'+s.label+'</small></span></div>').join('');}
+  function renderQuestion(){const q=questions[state.index];if(!q){showResult();return;}setScreen('quiz');updateScore();renderStages();$('question-counter').textContent='ВОПРОС '+(state.index+1)+' / 20';$('stage-counter').textContent='Этап '+(stageOf(state.index)+1)+' из 5';$('progress-fill').style.width=(state.index/20*100)+'%';$('scene-label').textContent=q.place;$('scene-icon').textContent=q.emoji;$('scene-context').textContent=q.context;$('scene-speech').textContent=q.speech;$('question-title').textContent=q.prompt;$('choices').innerHTML='';q.options.forEach((answer,i)=>{const b=document.createElement('button');b.type='button';b.className='choice';b.dataset.answer=i;b.innerHTML='<span class="letter">'+String.fromCharCode(65+i)+'</span><span class="choice-copy"></span>';b.querySelector('.choice-copy').textContent=answer;b.addEventListener('click',()=>choose(i,b));$('choices').appendChild(b);});$('hint-box').textContent=q.hint;$('hint-box').classList.toggle('hidden',!state.hint);$('hint-btn').classList.toggle('hidden',state.resolved);$('hint-btn').textContent=state.hint?'💡 Скрыть подсказку':'💡 Нужна подсказка?';$('attempt-note').textContent=state.attempts===1&&!state.resolved?'Осталась 1 попытка':'Выберите один вариант';$('feedback').innerHTML='';$('next-btn').classList.toggle('hidden',!state.resolved);$('next-btn').textContent=state.index===19?'Забрать награду':'Продолжить';$('earned-note').innerHTML='За верный ответ <b>+500 ₸</b>';if(state.resolved){renderResolved();}else if(state.attempts===1){renderRetry();}}
+  function markAnswers(){const q=questions[state.index];$('choices').querySelectorAll('.choice').forEach(b=>{const id=Number(b.dataset.answer);const isCorrect=id===q.correct;const isWrong=state.tried.includes(id)&&!isCorrect;b.classList.toggle('correct',state.resolved&&isCorrect);b.classList.toggle('wrong',isWrong);b.disabled=state.resolved||state.tried.includes(id);});}
+  function feedback(kind,heading,body){const panel=document.createElement('div');panel.className='feedback '+kind;const strong=document.createElement('strong');strong.textContent=heading;const explanation=document.createElement('span');explanation.textContent=body;panel.append(strong,explanation);$('feedback').replaceChildren(panel);}
+  function renderRetry(){markAnswers();feedback('try','Почти! Давайте ещё раз 💪','У вас есть ещё одна попытка. Подсказка уже открыта.');$('hint-box').classList.remove('hidden');$('hint-btn').textContent='💡 Скрыть подсказку';$('attempt-note').textContent='Осталась 1 попытка';}
+  function renderResolved(){const q=questions[state.index];markAnswers();$('hint-btn').classList.add('hidden');$('next-btn').classList.remove('hidden');$('earned-note').innerHTML=state.tried[state.tried.length-1]===q.correct?'<b>+500 ₸</b> в копилку!':'Правильный ответ подсвечен зелёным';const success=state.tried[state.tried.length-1]===q.correct;feedback(success?'':'no',success?'Правильно! +1 монета 🪙':'Ничего страшного — вы учитесь!',q.explain);$('attempt-note').textContent=success?'Монета заработана':'Впереди ещё вопросы';}
+  function burst(){if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;const rect=$('coin-top').getBoundingClientRect();const el=document.createElement('div');el.className='coin-burst';el.textContent='+500 ₸';el.style.left=Math.max(8,rect.left+rect.width/2-38)+'px';el.style.top=Math.max(68,rect.top+15)+'px';$('ql-game').appendChild(el);setTimeout(()=>el.remove(),1100);}
+  function choose(id){if(state.resolved||state.tried.includes(id))return;const q=questions[state.index];state.tried.push(id);state.attempts++;if(id===q.correct){state.coins++;state.resolved=true;burst();updateScore();renderResolved();}else if(state.attempts===1){state.hint=true;renderRetry();}else{state.resolved=true;renderResolved();}persist();}
+  function next(){if(!state.resolved)return;if(state.index===19){state.finished=true;showResult();persist();return;}state.index++;state.attempts=0;state.tried=[];state.hint=false;state.resolved=false;renderQuestion();persist();const top=$('quiz-screen').getBoundingClientRect().top+window.scrollY-8;window.scrollTo({top,behavior:'smooth'});}
+  function showResult(){state.finished=true;setScreen('result');$('result-coins').textContent=state.coins;$('result-discount').textContent=money(state.coins*PRICE_PER_COIN);const message='Здравствуйте! Я прошёл(ла) интерактивную игру Qazline «Собери монеты» и набрал(а) '+coinText(state.coins)+'. Моя скидка — '+money(state.coins*PRICE_PER_COIN)+'. Прикрепляю скриншот результата. Подскажите, как воспользоваться скидкой на обучение?';$('whatsapp-link').href='https://wa.me/'+WHATSAPP_NUMBER+'?text='+encodeURIComponent(message);window.scrollTo({top:0,behavior:'instant'});}
+  $('start-btn').addEventListener('click',()=>{showQuiz();});
+  $('next-btn').addEventListener('click',next);
+  $('hint-btn').addEventListener('click',()=>{state.hint=!state.hint;$('hint-box').classList.toggle('hidden',!state.hint);$('hint-btn').textContent=state.hint?'💡 Скрыть подсказку':'💡 Нужна подсказка?';persist();});
+  $('restart-btn').addEventListener('click',()=>{Object.assign(state,{index:0,coins:0,attempts:0,tried:[],hint:false,resolved:false,finished:false,started:true});showQuiz();window.scrollTo({top:0,behavior:'smooth'});});
+  document.addEventListener('keydown',e=>{if($('quiz-screen').classList.contains('hidden')||e.altKey||e.ctrlKey||e.metaKey||e.repeat)return;const i=Number(e.key)-1;if(i>=0&&i<4&&!state.resolved){const b=$('choices').querySelector('[data-answer="'+i+'"]');if(b&&!b.disabled)b.click();}else if(e.key==='Enter'&&state.resolved&&document.activeElement.tagName!=='BUTTON')next();});
+  restore();
+})();
+</script>
+</body>
+</html>
