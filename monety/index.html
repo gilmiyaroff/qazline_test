@@ -274,6 +274,16 @@
       #ql-game .scene-copy { padding:9px 12px 10px; }
       #ql-game .scene .question-title { margin-top:5px; font-size:17px; }
     }
+    /* Короткие названия мест не нужны: сама ситуация сообщает контекст. */
+    #ql-game .scene-label { display:none!important; }
+    #ql-game .scene-copy p { font-size:clamp(16px,1.7vw,19px); line-height:1.42; font-weight:600; }
+    /* Обратная связь поверх иллюстрации не меняет высоту карточки и положение кнопки. */
+    #ql-game .scene #feedback { position:absolute; z-index:4; top:12px; left:12px; right:12px; pointer-events:none; }
+    #ql-game .scene #feedback .feedback { max-width:520px; margin:0; box-shadow:0 8px 24px #11163838; pointer-events:auto; }
+    @media(max-width:640px) {
+      #ql-game .scene-copy p { font-size:15px; line-height:1.38; }
+      #ql-game .scene #feedback { top:8px; left:8px; right:8px; }
+    }
     @media(prefers-reduced-motion:reduce) { #ql-game *, #ql-game *::before, #ql-game *::after{transition:none!important;animation:none!important;scroll-behavior:auto!important;} #ql-game .flying-coins{display:none!important;} }
   </style>
 </head>
@@ -324,10 +334,10 @@
           </div>
           <div class="scene">
             <div class="scene-flex"><div class="scene-icon" id="scene-icon" aria-hidden="true"><img class="scene-image" id="scene-image" alt="" width="640" height="640" decoding="async"><span class="scene-emoji" id="scene-emoji"></span></div><div class="scene-copy"><div class="scene-label" id="scene-label"></div><p id="scene-context"></p><div class="speech" id="scene-speech"></div><h2 class="question-title" id="question-title"></h2></div></div>
+            <div id="feedback" aria-live="polite"></div>
           </div>
           <div class="question-body">
             <div class="choices" id="choices" role="group" aria-label="Варианты ответа"></div>
-            <div id="feedback" aria-live="polite"></div>
             <div class="question-actions"><div class="earned" id="earned-note">С первой попытки <b>+100 монет</b></div><button class="btn hidden" id="next-btn" type="button">Продолжить</button></div>
           </div>
         </div>
@@ -401,7 +411,7 @@
   ];
   // Все 20 ситуаций рассчитаны на новичков. Примеры и объяснения проверяются методистом до коммерческого запуска.
   const questions = [
-    {emoji:'👋',place:'На улице',context:'Вы встречаете нового знакомого. Он улыбается и говорит:',speech:'Сәлем!',prompt:'Как ответите на приветствие?',options:['Рақмет!','Сәлем!','Қайырлы түн!','Сау бол!'],correct:1,explain:'«Сәлем!» — дружеское «Привет!». Можно просто ответить так же.'},
+    {emoji:'👋',place:'На улице',context:'Вы встречаете знакомого. Он улыбается и говорит:',speech:'Сәлем!',prompt:'Как ответите на приветствие?',options:['Рақмет!','Сәлем!','Қайырлы түн!','Сау бол!'],correct:1,explain:'«Сәлем!» — дружеское «Привет!». Можно просто ответить так же.'},
     {emoji:'🙂',place:'Первая встреча',context:'Знакомый интересуется, как у вас дела:',speech:'Қалың қалай? · Как дела?',prompt:'Какой ответ подойдёт?',options:['Сау бол!','Менің атым Дана.','Жақсы, рақмет!','Мен Астанада тұрамын.'],correct:2,explain:'«Жақсы, рақмет!» — «Хорошо, спасибо!». Очень полезный ответ на каждый день.'},
     {emoji:'🤝',place:'Давайте знакомиться',context:'Собеседник спрашивает ваше имя:',speech:'Атың кім? · Как тебя зовут?',prompt:'Что скажете, если вас зовут Дана?',options:['Менің атым Дана.','Мен Астанада тұрамын.','Мен Алматыдан келдім.','Мен студентпін.'],correct:0,explain:'«Менің атым Дана» — «Меня зовут Дана». Подставьте своё имя — фраза готова.'},
     {emoji:'🙌',place:'До встречи!',context:'Вы уходите после приятного разговора.',speech:'',prompt:'Как попрощаетесь с другом на казахском?',options:['Қайырлы таң!','Кешіріңіз!','Сәлем!','Сау бол!'],correct:3,explain:'«Сау бол!» — «Пока!». Вежливый вариант — «Сау болыңыз!».'},
