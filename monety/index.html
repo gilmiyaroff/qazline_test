@@ -246,6 +246,19 @@
       #ql-game .intro .button-line .btn { min-height:46px; }
       #ql-game .intro .smallprint { font-size:10.5px; }
     }
+    /* Иллюстрации к 20 ситуациям: полноценный кадр на десктопе, компактный на телефоне. */
+    #ql-game .scene-icon { width:172px; height:172px; overflow:hidden; position:relative; padding:0; border-radius:16px; border:2px solid #ffffff42; background:#ffffff1a; box-shadow:0 8px 22px #10153833; }
+    #ql-game .scene-image { width:100%; height:100%; display:block; object-fit:cover; }
+    #ql-game .scene-emoji { display:none; }
+    #ql-game .scene-icon.fallback .scene-image { display:none; }
+    #ql-game .scene-icon.fallback .scene-emoji { position:absolute; inset:0; display:grid; place-items:center; font-size:44px; }
+    @media(max-width:640px) {
+      #ql-game .scene-flex { align-items:flex-start; }
+      #ql-game .scene-icon { width:clamp(79px,23vw,100px); height:clamp(79px,23vw,100px); border-radius:10px; }
+    }
+    @media(max-width:640px) and (max-height:720px) {
+      #ql-game .scene-icon { width:74px; height:74px; }
+    }
     @media(prefers-reduced-motion:reduce) { #ql-game *, #ql-game *::before, #ql-game *::after{transition:none!important;animation:none!important;scroll-behavior:auto!important;} #ql-game .flying-coins{display:none!important;} }
   </style>
 </head>
@@ -298,7 +311,7 @@
           </div>
           <div class="scene">
             <div class="scene-label" id="scene-label"></div>
-            <div class="scene-flex"><div class="scene-icon" id="scene-icon" aria-hidden="true"></div><div class="scene-copy"><p id="scene-context"></p><div class="speech" id="scene-speech"></div><h2 class="question-title" id="question-title"></h2></div></div>
+            <div class="scene-flex"><div class="scene-icon" id="scene-icon" aria-hidden="true"><img class="scene-image" id="scene-image" alt="" width="640" height="640" decoding="async"><span class="scene-emoji" id="scene-emoji"></span></div><div class="scene-copy"><p id="scene-context"></p><div class="speech" id="scene-speech"></div><h2 class="question-title" id="question-title"></h2></div></div>
           </div>
           <div class="question-body">
             <div class="choices" id="choices" role="group" aria-label="Варианты ответа"></div>
@@ -343,6 +356,31 @@
   const SECOND_TRY_COINS = 50;
   const MAX_DISCOUNT = 10000;
   const WHATSAPP_NUMBER = '77082397128'; // Номер взят из опубликованного мини-урока Qazline.
+  // Относительные пути работают в GitHub Pages и на локальном сервере; абсолютные — в HTML-вставке Tilda.
+  const IMAGE_ROOT = /(^|\.)github\.io$/.test(location.hostname) || /^(localhost|127\.0\.0\.1)$/.test(location.hostname)
+    ? 'images/' : 'https://gilmiyaroff.github.io/qazline_test/monety/images/';
+  const IMAGE_FILES = [
+    'qazline_01_privetstvie.webp',
+    'qazline_02_kak_dela.webp',
+    'qazline_03_menya_zovut_dana.webp',
+    'qazline_04_do_vstrechi.webp',
+    'qazline_05_chay_v_kofeyne.webp',
+    'qazline_06_spasibo_za_zakaz.webp',
+    'qazline_07_prosim_vody.webp',
+    'qazline_08_bolshe_nichego.webp',
+    'qazline_09_skolko_stoit_kniga.webp',
+    'qazline_10_tsena_dve_tysyachi.webp',
+    'qazline_11_dva_bileta_v_kino.webp',
+    'qazline_12_bolshe_nichego_v_magazine.webp',
+    'qazline_13_ostanovite_taksi_zdes.webp',
+    'qazline_14_edem_v_aeroport.webp',
+    'qazline_15_gde_apteka.webp',
+    'qazline_16_kotoryy_chas.webp',
+    'qazline_17_segodnya_svoboden.webp',
+    'qazline_18_vstretimsya_vecherom.webp',
+    'qazline_19_oplata_kartoy.webp',
+    'qazline_20_finalnyy_dialog_o_knige.webp'
+  ];
   // Новая версия хранилища: предыдущие результаты нельзя достоверно пересчитать
   // (раньше и первая, и вторая попытки приносили по одной монете).
   const STORAGE_KEY = 'qazline-miniquiz-coins-v2';
@@ -403,7 +441,12 @@
     $('stage-counter').textContent='Этап '+(stageOf(state.index)+1)+' из 5';
     $('progress-fill').style.width=(state.index/20*100)+'%';
     $('scene-label').textContent=q.place;
-    $('scene-icon').textContent=q.emoji;
+    $('scene-emoji').textContent=q.emoji;
+    $('scene-icon').classList.remove('fallback');
+    const sceneImage=$('scene-image');
+    sceneImage.onerror=()=>{ $('scene-icon').classList.add('fallback'); };
+    sceneImage.src=IMAGE_ROOT+IMAGE_FILES[state.index];
+    if(state.index<IMAGE_FILES.length-1){const preload=new Image();preload.src=IMAGE_ROOT+IMAGE_FILES[state.index+1];}
     $('scene-context').textContent=q.context;
     $('scene-speech').textContent=q.speech;
     $('scene-speech').classList.toggle('hidden',!q.speech);
