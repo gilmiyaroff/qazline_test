@@ -184,10 +184,25 @@
       #ql-game .feedback.expanded span { display:block; margin-top:5px; }
       #ql-game .feedback-details { display:inline; }
       #ql-game .feedback.try { display:none; }
-      #ql-game .question-actions { position:sticky; bottom:0; z-index:2; padding-top:7px; background:#fff; }
+      #ql-game .question-actions { position:sticky; bottom:env(safe-area-inset-bottom, 0px); z-index:2; padding-top:7px; background:#fff; }
       #ql-game .question-actions .earned { font-size:12px; }
       #ql-game .question-actions .btn { min-width:143px; min-height:43px; padding:9px 13px; font-size:14px; }
       #ql-game .question-actions .btn.hidden { display:inline-flex!important; pointer-events:none; }
+    }
+    @media(max-width:640px) and (max-height:720px) {
+      #ql-game.playing .top { height:42px; }
+      #ql-game.playing .brand img { width:86px; }
+      #ql-game .game-top { min-height:31px; margin-bottom:3px; }
+      #ql-game .question-head { padding-top:7px; }
+      #ql-game .scene { margin-top:6px; padding:8px 10px; }
+      #ql-game .scene-label { display:none; }
+      #ql-game .scene-flex { margin-top:0; }
+      #ql-game .scene-icon { width:34px; height:34px; font-size:20px; }
+      #ql-game .question-body { padding:9px 10px; }
+      #ql-game .question-title { font-size:18px; margin-bottom:7px; }
+      #ql-game .choices { gap:5px; }
+      #ql-game .choice { min-height:44px; padding:7px 9px; }
+      #ql-game .question-actions .btn { min-height:40px; }
     }
     @media(prefers-reduced-motion:reduce) { #ql-game *, #ql-game *::before, #ql-game *::after{transition:none!important;animation:none!important;scroll-behavior:auto!important;} }
   </style>
