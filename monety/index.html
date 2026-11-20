@@ -113,7 +113,9 @@
     #ql-game .feedback.try { border-color:#f9d5b4; background:#fff7ee; color:#935020; }
     #ql-game .feedback.no { border-color:#eed2ca; background:#fff3ee; color:#945344; }
     #ql-game .feedback-details { display:none; border:0; background:transparent; color:inherit; text-decoration:underline; font-size:12px; font-weight:800; padding:3px 0 3px 8px; }
-    #ql-game .question-actions { display:flex; align-items:center; justify-content:space-between; gap:15px; padding-top:16px; }
+    #ql-game .question-actions { display:flex; align-items:center; gap:12px; padding-top:16px; }
+    #ql-game .question-actions .back-btn { min-height:48px; min-width:112px; padding:10px 17px; font-size:14px; }
+    #ql-game .question-actions .earned { margin-right:auto; }
     #ql-game .question-actions .earned { font-size:13px; font-weight:750; color:#8d91a7; }
     #ql-game .question-actions .earned b { color:var(--orange); }
     #ql-game .coin-burst { pointer-events:none; position:fixed; z-index:99; color:var(--orange); font-weight:900; font:700 26px var(--font-display); animation:coin-pop .95s ease-out forwards; text-shadow:0 2px 12px #ffcfaa; }
@@ -160,7 +162,6 @@
       #ql-game .play { padding:0 0 10px; }
       #ql-game .game-top { gap:6px; margin-bottom:6px; min-height:35px; }
       #ql-game .game-heading { gap:6px; }
-      #ql-game .back-btn { min-height:34px; padding:7px 8px; border-radius:9px; font-size:11px; }
       #ql-game .mobile-question-counter { font-size:12px; }
       #ql-game .game-title .desktop-label { display:none; }
       #ql-game .mobile-question-counter { display:inline; font-size:14px; }
@@ -189,9 +190,9 @@
       #ql-game .feedback.expanded span { display:block; margin-top:5px; }
       #ql-game .feedback-details { display:inline; }
       #ql-game .feedback.try { display:none; }
-      #ql-game .question-actions { position:sticky; bottom:env(safe-area-inset-bottom, 0px); z-index:2; padding-top:7px; background:#fff; }
-      #ql-game .question-actions .earned { font-size:12px; }
-      #ql-game .question-actions .btn { min-width:143px; min-height:43px; padding:9px 13px; font-size:14px; }
+      #ql-game .question-actions { position:sticky; bottom:env(safe-area-inset-bottom, 0px); z-index:2; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:8px; padding-top:7px; background:#fff; }
+      #ql-game .question-actions .earned { grid-column:1/-1; font-size:12px; }
+      #ql-game .question-actions .back-btn, #ql-game .question-actions .btn { width:100%; min-width:0; min-height:43px; padding:9px 10px; font-size:14px; margin:0; }
       #ql-game .question-actions .btn.hidden { display:inline-flex!important; pointer-events:none; }
     }
     @media(max-width:640px) and (max-height:720px) {
@@ -326,7 +327,7 @@
 
     <section class="container play hidden" id="quiz-screen" aria-label="Вопросы">
       <div class="game-top">
-        <div class="game-heading"><button class="back-btn" id="back-btn" type="button">← Главная</button><div class="game-title"><span class="desktop-label">QAZLINE <span style="font-weight:500;color:#9399ac">/ Игра на скидку</span></span><span class="mobile-question-counter" id="mobile-question-counter">ВОПРОС 1 / 20</span></div></div>
+        <div class="game-heading"><div class="game-title"><span class="desktop-label">QAZLINE <span style="font-weight:500;color:#9399ac">/ Игра на скидку</span></span><span class="mobile-question-counter" id="mobile-question-counter">ВОПРОС 1 / 20</span></div></div>
         <div class="score-box" aria-live="polite"><img class="mini-coin" src="https://gilmiyaroff.github.io/qazline_test/monety/assets/qazline-gold-coin.webp" alt=""><span class="score-desktop" id="coin-top">0 монет</span><span class="score-mobile" id="coin-top-mobile">0 монет</span></div>
       </div>
       <div class="game-wrap">
@@ -346,7 +347,7 @@
           </div>
           <div class="question-body">
             <div class="choices" id="choices" role="group" aria-label="Варианты ответа"></div>
-            <div class="question-actions"><div class="earned" id="earned-note">С первой попытки <b>+100 монет</b></div><button class="btn hidden" id="next-btn" type="button">Продолжить</button></div>
+            <div class="question-actions"><div class="earned" id="earned-note">С первой попытки <b>+100 монет</b></div><button class="back-btn" id="back-btn" type="button">← Главная</button><button class="btn hidden" id="next-btn" type="button">Продолжить</button></div>
           </div>
         </div>
       </div>
