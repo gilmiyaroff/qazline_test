@@ -68,6 +68,9 @@
     #ql-game .big-coin { position:relative; z-index:1; align-self:center; width:min(305px,80%); aspect-ratio:1; margin:auto 0; transform:rotate(-8deg); }
     #ql-game .coin-art { display:block; width:100%; height:100%; object-fit:contain; filter:drop-shadow(0 12px 12px rgba(133,82,26,.28)); }
     #ql-game .foot { text-align:center; color:#8c91a3; font-size:12px; padding:18px 0 30px; }
+    #ql-game .test-reset-wrap { display:flex; justify-content:center; padding:28px 16px 38px; }
+    #ql-game .test-reset-btn { border:1px dashed #b9bdce; background:rgba(255,255,255,.78); color:#666d87; border-radius:14px; padding:13px 22px; font:600 13px 'Inter',sans-serif; cursor:pointer; transition:background .2s,color .2s; }
+    #ql-game .test-reset-btn:hover { background:#fff; color:#303b6b; }
     #ql-game .hidden { display:none!important; }
     #ql-game .play { padding:18px 0 46px; }
     #ql-game .game-top { display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:22px; }
@@ -400,6 +403,7 @@
       <p class="result-disclaimer">Скидка действует на обучение в Qazline. Возможность её применения и условия уточняйте у менеджера.</p>
     </section>
   </main>
+  <div class="test-reset-wrap"><button class="test-reset-btn" id="test-reset-btn" type="button">↻ Начать тест заново · тестовый режим</button></div>
   <footer class="foot">Qazline · Қазақша сөйлейік!</footer>
 </div>
 <script>
@@ -665,6 +669,11 @@
   $('review-btn').addEventListener('click',reviewAnswers);
   $('back-btn').addEventListener('click',back);
   $('next-btn').addEventListener('click',next);
+  $('test-reset-btn').addEventListener('click',()=>{
+    if(state.started&&!window.confirm('Начать тест заново? Все ответы, монеты и сохранённый прогресс будут сброшены.'))return;
+    try{localStorage.removeItem(STORAGE_KEY);}catch(e){}
+    window.location.reload();
+  });
   document.addEventListener('keydown',e=>{if($('quiz-screen').classList.contains('hidden')||e.altKey||e.ctrlKey||e.metaKey||e.repeat)return;const i=Number(e.key)-1;if(i>=0&&i<4&&!state.resolved){const b=$('choices').querySelector('[data-answer="'+i+'"]');if(b&&!b.disabled)b.click();}else if(e.key==='Enter'&&state.resolved&&document.activeElement.tagName!=='BUTTON')next();});
   // Монетки появляются по одной, редко и только на первом экране.
   function spawnFlyingCoin(){
