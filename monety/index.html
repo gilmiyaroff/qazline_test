@@ -127,7 +127,16 @@
     #ql-game .feedback strong { display:block; margin-bottom:4px; font-size:16px; }
     #ql-game .feedback.try { border-color:#f9d5b4; background:#fff7ee; color:#935020; }
     #ql-game .feedback.no { border-color:#eed2ca; background:#fff3ee; color:#945344; }
-    #ql-game .feedback-details { display:none; border:0; background:transparent; color:inherit; text-decoration:underline; font-size:12px; font-weight:800; padding:3px 0 3px 8px; }
+    #ql-game .feedback-details { display:inline; border:0; background:transparent; color:inherit; text-decoration:underline; font-size:12px; font-weight:800; padding:3px 0 3px 8px; }
+    #ql-game .answer-translations { display:none; gap:7px; margin-top:12px; padding-top:11px; border-top:1px solid currentColor; }
+    #ql-game .feedback.expanded .answer-translations { display:grid; }
+    #ql-game .translation-heading { font-size:13px; font-weight:900; }
+    #ql-game .translation-row { display:grid; grid-template-columns:25px minmax(0,1fr); gap:8px; align-items:start; color:var(--navy-dark); border-radius:9px; background:#ffffffbb; padding:7px 8px; line-height:1.35; }
+    #ql-game .translation-letter { display:grid; place-items:center; width:24px; height:24px; border-radius:7px; background:#e9ebf3; color:var(--navy); font-size:11px; font-weight:900; }
+    #ql-game .translation-row.correct { background:#d9f3e5; }
+    #ql-game .translation-row.correct .translation-letter { background:#228c58; color:#fff; }
+    #ql-game .translation-original { font-weight:800; font-size:12px; }
+    #ql-game .translation-meaning { margin-top:2px; font-size:12px; font-weight:500; }
     #ql-game .question-actions { display:flex; align-items:center; gap:12px; padding-top:16px; }
     #ql-game .question-actions .back-btn { min-height:48px; min-width:112px; padding:10px 17px; font-size:14px; }
     #ql-game .question-actions .earned { margin-right:auto; }
@@ -206,8 +215,8 @@
       #ql-game .choice .letter { width:27px; height:27px; }
       #ql-game .feedback { margin-top:7px; padding:7px 10px; font-size:12px; }
       #ql-game .feedback strong { display:inline; margin:0; font-size:13px; }
-      #ql-game .feedback span { display:none; }
-      #ql-game .feedback.expanded span { display:block; margin-top:5px; }
+      #ql-game .feedback > span { display:none; }
+      #ql-game .feedback.expanded > span { display:block; margin-top:5px; }
       #ql-game .feedback-details { display:inline; }
       #ql-game .feedback.try { display:none; }
       #ql-game .question-actions { position:sticky; bottom:env(safe-area-inset-bottom, 0px); z-index:2; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:8px; padding-top:7px; background:#fff; }
@@ -309,6 +318,8 @@
     /* Обратная связь поверх иллюстрации не меняет высоту карточки и положение кнопки. */
     #ql-game .scene #feedback { position:absolute; z-index:4; top:12px; left:12px; right:12px; pointer-events:none; }
     #ql-game .scene #feedback .feedback { max-width:520px; margin:0; box-shadow:0 8px 24px #11163838; pointer-events:auto; }
+    #ql-game .scene #feedback.expanded { position:relative; top:auto; left:auto; right:auto; margin-top:9px; }
+    #ql-game .scene #feedback.expanded .feedback { max-width:none; box-shadow:none; }
     @media(max-width:640px) {
       #ql-game .scene-copy p { font-size:15px; line-height:1.38; }
       #ql-game .scene #feedback { top:8px; left:8px; right:8px; }
@@ -467,6 +478,29 @@
     {emoji:'💳',place:'Покупка в магазине',context:'Вы стоите у кассы магазина.',speech:'',prompt:'Как спросить, можно ли оплатить картой?',options:['Картамен төлеуге бола ма?','Қолма-қол төлеуге бола ма?','Картамен төлеймін.','Төлемді қалай жасаймын?'],correct:0,explain:'«Картамен төлеуге бола ма?» — «Можно оплатить картой?». Суперполезная фраза для покупок.'},
     {emoji:'🏆',place:'Финальный диалог',context:'Вы общаетесь с продавцом в книжном магазине.',speech:'',prompt:'Какой диалог поможет узнать стоимость книги?',options:['Сәлеметсіз бе! Бұл кітапты көре аламын ба? Рақмет!','Сәлеметсіз бе! Бұл кітап бар ма? Рақмет!','Сәлеметсіз бе! Бұл кітап қайда тұр? Рақмет!','Сәлеметсіз бе! Бұл кітап қанша тұрады? Рақмет!'],correct:3,explain:'Отлично! «Сәлеметсіз бе!» — здравствуйте, «Бұл кітап қанша тұрады?» — сколько стоит эта книга, «Рақмет!» — спасибо.'}
   ];
+  // Переводы в порядке исходного options, а не перемешанных букв на экране.
+  const OPTION_TRANSLATIONS = [
+    ['Спасибо!','Привет!','Доброй ночи!','Пока!'],
+    ['Пока!','Меня зовут Дана.','Хорошо, спасибо!','Я живу в Астане.'],
+    ['Меня зовут Дана.','Я живу в Астане.','Я приехал(а) из Алматы.','Я студент(ка).'],
+    ['Доброе утро!','Извините!','Привет!','Пока!'],
+    ['Нет, я не пью чай.','Да, буду пить!','Мне нужен кофе.','Я пью воду.'],
+    ['До свидания!','Извините!','Спасибо!','Здравствуйте!'],
+    ['Дайте мне воды, пожалуйста.','Есть вода?','Сколько стоит вода?','Дайте мне чай, пожалуйста.'],
+    ['Ещё один кофе, пожалуйста.','Дайте мне десерт, пожалуйста.','Да, возьму ещё чай.','Нет, спасибо!'],
+    ['Где эта книга?','Сколько стоит эта книга?','Есть ли эта книга?','Эта книга хорошая?'],
+    ['Двести тенге.','Двадцать тысяч тенге.','Две тысячи тенге.','Двенадцать тысяч тенге.'],
+    ['Два билета, пожалуйста.','Один билет, пожалуйста.','Сколько стоят два билета?','Есть ли два билета?'],
+    ['Дайте мне пакет, пожалуйста.','Возьму ещё один хлеб.','Есть вода?','Всё, спасибо!'],
+    ['Поверните направо, пожалуйста.','Остановитесь здесь, пожалуйста.','Поверните налево, пожалуйста.','Езжайте прямо, пожалуйста.'],
+    ['Домой.','На вокзал.','В аэропорт.','В школу.'],
+    ['Где аптека?','Аптека открыта?','Во сколько открывается аптека?','Это аптека?'],
+    ['Два часа сорок минут (2:40).','Четыре часа двадцать минут (4:20).','Три часа пятнадцать минут (3:15).','Три часа двадцать минут (3:20).'],
+    ['Сегодня у меня много работы.','Да, я свободен (свободна)!','Сегодня у меня нет времени.','Завтра я буду свободен (свободна).'],
+    ['Нет, сегодня я занят(а).','Встретимся завтра?','Да, встретимся!','Вечером буду дома.'],
+    ['Можно оплатить картой?','Можно оплатить наличными?','Я оплачу картой.','Как мне оплатить?'],
+    ['Здравствуйте! Можно посмотреть эту книгу? Спасибо!','Здравствуйте! Эта книга есть в наличии? Спасибо!','Здравствуйте! Где находится эта книга? Спасибо!','Здравствуйте! Сколько стоит эта книга? Спасибо!']
+  ];
   // Порядок вариантов на экране (индексы исходных options).
   // За 20 вопросов правильный вариант: A — 4 раза, B — 5, C — 5, D — 6.
   // Порядок фиксирован, чтобы ответы не менялись при повторной попытке и перезагрузке.
@@ -575,17 +609,37 @@
       markAnswers();
       $('next-btn').classList.remove('hidden');$('next-btn').disabled=false;
       $('earned-note').textContent='Вопрос уже пройден';
-      feedback('','Результат сохранён','Монеты за этот вопрос уже учтены. Повторно отвечать не нужно.');
+      feedback('','Результат сохранён','Монеты за этот вопрос уже учтены. Повторно отвечать не нужно.',true);
     }else if(state.resolved){renderResolved();}else if(state.attempts===1){renderRetry();}
   }
   function markAnswers(){const q=questions[state.index];$('choices').querySelectorAll('.choice').forEach(b=>{const id=Number(b.dataset.answer);const isCorrect=id===q.correct;const isWrong=state.tried.includes(id)&&!isCorrect;b.classList.toggle('correct',state.resolved&&isCorrect);b.classList.toggle('wrong',isWrong);b.disabled=state.resolved||state.tried.includes(id);});}
-  function feedback(kind,heading,body){
+  function feedback(kind,heading,body,showTranslations=false){
     const panel=document.createElement('div');panel.className='feedback '+kind;
     const strong=document.createElement('strong');strong.textContent=heading;
     const explanation=document.createElement('span');explanation.textContent=body;
     const details=document.createElement('button');details.type='button';details.className='feedback-details';details.textContent='Почему?';
-    details.addEventListener('click',()=>{const open=panel.classList.toggle('expanded');details.textContent=open?'Скрыть':'Почему?';});
-    panel.append(strong,explanation,details);$('feedback').replaceChildren(panel);
+    details.setAttribute('aria-expanded','false');
+    panel.append(strong,explanation,details);
+    if(showTranslations){
+      const translations=document.createElement('div');translations.className='answer-translations';
+      const title=document.createElement('div');title.className='translation-heading';title.textContent='Все варианты с переводом';translations.appendChild(title);
+      const q=questions[state.index];
+      ANSWER_ORDERS[state.index].forEach((originalIndex,position)=>{
+        const row=document.createElement('div');row.className='translation-row'+(originalIndex===q.correct?' correct':'');
+        const letter=document.createElement('div');letter.className='translation-letter';letter.textContent=String.fromCharCode(65+position);
+        const words=document.createElement('div');
+        const original=document.createElement('div');original.className='translation-original';original.textContent=q.options[originalIndex];
+        const meaning=document.createElement('div');meaning.className='translation-meaning';meaning.textContent=OPTION_TRANSLATIONS[state.index][originalIndex];
+        words.append(original,meaning);row.append(letter,words);translations.appendChild(row);
+      });
+      panel.appendChild(translations);
+    }
+    details.addEventListener('click',()=>{
+      const open=panel.classList.toggle('expanded');$('feedback').classList.toggle('expanded',open);
+      details.textContent=open?'Скрыть':'Почему?';details.setAttribute('aria-expanded',String(open));
+      if(open)requestAnimationFrame(()=>panel.scrollIntoView({behavior:'smooth',block:'start'}));
+    });
+    $('feedback').classList.remove('expanded');$('feedback').replaceChildren(panel);
   }
   function renderRetry(){markAnswers();feedback('try','Почти! Попробуйте ещё раз 💪','Осталась одна попытка. За правильный ответ получите 50 монет.');$('earned-note').innerHTML='Ещё одна попытка: <b>+50 монет</b>';}
   function renderResolved(){
@@ -594,7 +648,7 @@
     const success=state.tried[state.tried.length-1]===q.correct;
     const reward=success?rewardFor(state.attempts):0;
     $('earned-note').innerHTML=success?'<b>+'+reward+' монет</b> в копилку!':'<b>0 монет</b> · идём дальше';
-    feedback(success?'':'no',success?'Правильно! +'+reward+' монет':'Ничего страшного — вы учитесь!',q.explain);
+    feedback(success?'':'no',success?'Правильно! +'+reward+' монет':'Ничего страшного — вы учитесь!',q.explain,true);
   }
   function burst(reward){if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;const target=window.matchMedia('(max-width: 640px)').matches?$('coin-header'):$('coin-top');const rect=target.getBoundingClientRect();const el=document.createElement('div');el.className='coin-burst';el.innerHTML='+'+reward+' <span class="gold-coin" aria-hidden="true"></span>';el.style.left=Math.max(8,rect.left+rect.width/2-38)+'px';el.style.top=Math.max(68,rect.top+15)+'px';$('ql-game').appendChild(el);setTimeout(()=>el.remove(),1100);}
   function choose(id){if(state.resolved||state.tried.includes(id))return;const q=questions[state.index];state.tried.push(id);state.attempts++;if(id===q.correct){const reward=rewardFor(state.attempts);state.coins+=reward;state.resolved=true;burst(reward);updateScore();renderResolved();}else if(state.attempts===1){renderRetry();}else{state.resolved=true;renderResolved();}persist();}
