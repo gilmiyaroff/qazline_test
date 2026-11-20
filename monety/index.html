@@ -25,6 +25,7 @@
     #ql-game .brand { display:flex; align-items:center; gap:13px; min-width:0; }
     #ql-game .brand img { width:177px; height:auto; display:block; mix-blend-mode:multiply; }
     #ql-game .tag { color:var(--navy); border:1px solid #d5d9eb; background:#fff; border-radius:999px; padding:8px 13px; font-size:12px; font-weight:800; white-space:nowrap; letter-spacing:.035em; }
+    #ql-game .mobile-header-status { display:none; }
     #ql-game .tiny-kicker { color:var(--orange); font-size:12px; letter-spacing:.13em; font-weight:900; text-transform:uppercase; }
     #ql-game .display { font-family:var(--font-display); font-weight:600; letter-spacing:-.018em; line-height:1.08; text-transform:uppercase; }
     #ql-game .btn { display:inline-flex; align-items:center; justify-content:center; gap:9px; min-height:56px; padding:15px 24px; border-radius:14px; border:0; background:var(--orange); color:#fff; font-weight:850; font-size:16px; text-align:center; box-shadow:0 9px 24px rgba(239,99,14,.22); transition:transform .15s,background .15s,box-shadow .15s; }
@@ -156,8 +157,13 @@
     @media(max-width:640px) { #ql-game .container{width:calc(100% - 28px)} #ql-game .top{height:78px} #ql-game .brand img{width:144px} #ql-game .tag{font-size:10px;padding:7px 10px} #ql-game .intro{display:flex;flex-direction:column;align-items:stretch;padding:34px 0 50px;gap:28px} #ql-game .hero h1{font-size:clamp(44px,10.2vw,62px);margin:13px 0 15px} #ql-game .intro-lead{font-size:16px;margin-bottom:19px} #ql-game .facts{margin-bottom:22px} #ql-game .fact{font-size:12px;padding:8px 10px} #ql-game .button-line .btn{width:100%} #ql-game .hero-art{min-height:290px;padding:18px;border-radius:24px} #ql-game .big-coin{width:165px;border-width:8px;position:absolute;left:calc(50% - 82px);top:63px} #ql-game .big-coin:before{inset:10px} #ql-game .coin-content b{font-size:33px} #ql-game .coin-content small{font-size:10px} #ql-game .art-bottom{align-self:flex-end;width:51%} #ql-game .art-card{padding:9px;border-radius:11px} #ql-game .art-card .emoji{font-size:21px} #ql-game .art-card strong{font-size:11px} #ql-game .art-card small{font-size:10px} #ql-game .play{padding-top:8px} #ql-game .game-top{margin-bottom:14px} #ql-game .game-title{font-size:14px} #ql-game .score-box{font-size:13px;padding:8px 11px} #ql-game .question-panel{border-radius:21px} #ql-game .question-head{padding:20px 18px 0} #ql-game .scene{margin:19px 15px 0;padding:20px 18px;min-height:190px;border-radius:16px} #ql-game .scene-flex{gap:12px;margin-top:13px} #ql-game .scene-icon{width:50px;height:50px;font-size:28px;border-radius:12px} #ql-game .scene-copy p{font-size:13px} #ql-game .speech{font-size:17px;padding:9px 11px} #ql-game .question-body{padding:19px 15px 20px} #ql-game .question-title{font-size:22px;margin-bottom:15px} #ql-game .choices{grid-template-columns:1fr;gap:9px} #ql-game .choice{min-height:56px;padding:11px 12px;font-size:14px} #ql-game .choice .letter{width:28px;height:28px} #ql-game .question-actions .btn{padding-inline:18px;min-height:50px} #ql-game .attempt-note{font-size:11px} #ql-game .result{width:calc(100% - 26px);margin-top:6px} #ql-game .result-top .display{font-size:34px} #ql-game .result-top p{font-size:13px} #ql-game .certificate{padding:23px 16px;border-radius:20px} #ql-game .certificate-logo{width:145px;margin-bottom:14px} #ql-game .congrats{font-size:31px} #ql-game .reward-block{margin:19px auto 15px;padding:19px 10px 16px} #ql-game .coins-number{font-size:46px} #ql-game .discount{font-size:56px} #ql-game .result-instruction{font-size:14px} #ql-game .screenshot-note{font-size:11px} }
     /* Компактный игровой экран: весь вопрос и кнопка ответа помещаются на телефоне. */
     @media(max-width:640px) {
-      #ql-game.playing .top { height:50px; }
-      #ql-game.playing .brand img { width:96px; }
+      #ql-game.playing .top { height:52px; gap:8px; }
+      #ql-game.playing .brand img { width:94px; }
+      #ql-game.playing .mobile-header-status { display:flex; align-items:center; justify-content:flex-end; gap:7px; min-width:0; margin-left:auto; }
+      #ql-game.playing .header-question { color:var(--navy); font-size:11px; font-weight:900; white-space:nowrap; }
+      #ql-game.playing .header-score { display:flex; align-items:center; gap:4px; border:1px solid #e4e5ee; border-radius:10px; padding:5px 6px; background:#fff; color:var(--navy); font-size:11px; font-weight:900; white-space:nowrap; }
+      #ql-game.playing .header-score img { width:22px; height:22px; object-fit:contain; }
+      #ql-game.playing .game-top { display:none; }
       #ql-game.playing .tag, #ql-game.playing .foot { display:none; }
       #ql-game .play { padding:0 0 10px; }
       #ql-game .game-top { gap:6px; margin-bottom:6px; min-height:35px; }
@@ -196,7 +202,7 @@
       #ql-game .question-actions .btn.hidden { display:inline-flex!important; pointer-events:none; }
     }
     @media(max-width:640px) and (max-height:720px) {
-      #ql-game.playing .top { height:42px; }
+      #ql-game.playing .top { height:45px; }
       #ql-game.playing .brand img { width:86px; }
       #ql-game .game-top { min-height:31px; margin-bottom:3px; }
       #ql-game .question-head { padding-top:7px; }
@@ -302,6 +308,7 @@
   <div class="container">
     <header class="top">
       <a href="https://www.qazline.kz/" class="brand" aria-label="Qazline — главная"><img src="https://gilmiyaroff.github.io/qazline_test/assets/qazline-logo.png" alt="Qazline" width="177" height="95"></a>
+      <div class="mobile-header-status" aria-live="polite"><span class="header-question" id="mobile-header-counter">ВОПРОС 1 / 20</span><span class="header-score"><img src="https://gilmiyaroff.github.io/qazline_test/monety/assets/qazline-gold-coin.webp" alt=""><span id="coin-header">0 монет</span></span></div>
       <div class="tag">МИНИ-ИГРА · QAZLINE</div>
     </header>
   </div>
@@ -508,7 +515,7 @@
     }catch(e){}
   }
   function setScreen(name){['intro','quiz','result'].forEach(s=>$(s+'-screen').classList.toggle('hidden',s!==name));$('ql-game').classList.toggle('playing',name==='quiz');$('ql-game').classList.toggle('intro-active',name==='intro');}
-  function updateScore(){ $('coin-top').textContent=coinText(state.coins);$('coin-top-mobile').textContent=coinText(state.coins); }
+  function updateScore(){ $('coin-top').textContent=coinText(state.coins);$('coin-top-mobile').textContent=coinText(state.coins);$('coin-header').textContent=coinText(state.coins); }
   function showIntro(){state.screen='intro';setScreen('intro');$('start-btn').textContent=state.finished?'Посмотреть награду':state.started?'Продолжить игру':'Начать игру';persist();window.scrollTo({top:0,behavior:'instant'});}
   function showQuiz(resume=true){
     if(resume&&state.started){saveQuestion();state.index=state.highestIndex;loadQuestion(state.index);}
@@ -522,6 +529,7 @@
     const progressText='ВОПРОС '+(state.index+1)+' / 20';
     $('question-counter').textContent=progressText;
     $('mobile-question-counter').textContent=progressText;
+    $('mobile-header-counter').textContent=progressText;
     $('back-btn').textContent=state.index===0?'← Главная':'← Назад';
     $('stage-counter').textContent='Этап '+(stageOf(state.index)+1)+' из 5';
     $('progress-fill').style.width=(state.index/20*100)+'%';
@@ -574,7 +582,7 @@
     $('earned-note').innerHTML=success?'<b>+'+reward+' монет</b> в копилку!':'<b>0 монет</b> · идём дальше';
     feedback(success?'':'no',success?'Правильно! +'+reward+' монет':'Ничего страшного — вы учитесь!',q.explain);
   }
-  function burst(reward){if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;const rect=$('coin-top').getBoundingClientRect();const el=document.createElement('div');el.className='coin-burst';el.innerHTML='+'+reward+' <span class="gold-coin" aria-hidden="true"></span>';el.style.left=Math.max(8,rect.left+rect.width/2-38)+'px';el.style.top=Math.max(68,rect.top+15)+'px';$('ql-game').appendChild(el);setTimeout(()=>el.remove(),1100);}
+  function burst(reward){if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;const target=window.matchMedia('(max-width: 640px)').matches?$('coin-header'):$('coin-top');const rect=target.getBoundingClientRect();const el=document.createElement('div');el.className='coin-burst';el.innerHTML='+'+reward+' <span class="gold-coin" aria-hidden="true"></span>';el.style.left=Math.max(8,rect.left+rect.width/2-38)+'px';el.style.top=Math.max(68,rect.top+15)+'px';$('ql-game').appendChild(el);setTimeout(()=>el.remove(),1100);}
   function choose(id){if(state.resolved||state.tried.includes(id))return;const q=questions[state.index];state.tried.push(id);state.attempts++;if(id===q.correct){const reward=rewardFor(state.attempts);state.coins+=reward;state.resolved=true;burst(reward);updateScore();renderResolved();}else if(state.attempts===1){renderRetry();}else{state.resolved=true;renderResolved();}persist();}
   function scrollToQuestion(){const top=$('quiz-screen').getBoundingClientRect().top+window.scrollY-8;window.scrollTo({top,behavior:'smooth'});}
   function next(){
